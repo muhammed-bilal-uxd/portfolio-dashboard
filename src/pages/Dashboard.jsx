@@ -428,7 +428,9 @@ export default function Dashboard() {
             {activeChart.title}
           </h3>
         ) : null}
-        <div style={{ height: 460 }}>{renderChart(activeChart)}</div>
+        <div style={{ height: 460, maxHeight: "80vh" }}>
+          {renderChart(activeChart)}
+        </div>
       </Modal>
     </div>
   );

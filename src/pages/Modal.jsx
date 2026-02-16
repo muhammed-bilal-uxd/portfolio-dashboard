@@ -42,8 +42,10 @@ const closeBtnStyle = {
   right: "15px",
   border: "none",
   background: "transparent",
-  fontSize: "20px",
+  fontSize: "25px",
   cursor: "pointer",
+  padding: 0,
+  outline: "none",
 };
 
 export default Modal;
