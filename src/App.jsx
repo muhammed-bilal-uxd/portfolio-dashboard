@@ -1,11 +1,12 @@
-
-import './App.css'
-import Dashboard from './pages/Dashboard'
+import "./App.css";
+import Dashboard from "./pages/Dashboard";
+import LayoutApp from "./pages/layout";
 
 function App() {
   return (
-    <Dashboard />
-  )
+    // <Dashboard />
+    <LayoutApp />
+  );
 }
 
-export default App
+export default App;
