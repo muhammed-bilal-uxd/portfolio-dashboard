@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import "./layout.css";
+import Dashboard from "./Dashboard";
 
 export default function OrbitLayout() {
   const [mode, setMode] = useState("dark"); // "dark" | "light"
@@ -340,7 +341,9 @@ export default function OrbitLayout() {
         <section
           className="ol-content"
           style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
-        />
+        >
+          <Dashboard />
+        </section>
       </main>
     </div>
   );
