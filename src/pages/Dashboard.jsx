@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import Modal from "./Modal";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -45,6 +46,10 @@ import "./Dashboard.css";
 export default function Dashboard() {
   const [darkMode, setDarkMode] = useState(false);
 
+  // ✅ one modal for all charts
+  const [modalOpen, setModalOpen] = useState(false);
+  const [activeChart, setActiveChart] = useState(null); // { type, title, data, options }
+
   // 🎨 Theme colors
   const theme = useMemo(() => {
     return darkMode
@@ -72,7 +77,7 @@ export default function Dashboard() {
         position: "bottom",
         labels: { color: theme.text },
       },
-      title: { display: false, text: title },
+      title: { display: !!title, text: title, color: theme.text },
     },
     scales: {
       x: {
@@ -189,6 +194,57 @@ export default function Dashboard() {
     minHeight: 260,
     display: "flex",
     flexDirection: "column",
+    cursor: "pointer",
+  };
+
+  // ✅ open modal with any chart config
+  const openChartModal = ({ type, title, data, options }) => {
+    setActiveChart({ type, title, data, options });
+    setModalOpen(true);
+  };
+
+  // ✅ render correct chart in modal
+  const renderChart = (chart) => {
+    if (!chart) return null;
+
+    const commonStyle = { height: 420 }; // bigger in modal
+
+    switch (chart.type) {
+      case "line":
+        return (
+          <Line data={chart.data} options={chart.options} style={commonStyle} />
+        );
+      case "bar":
+        return (
+          <Bar data={chart.data} options={chart.options} style={commonStyle} />
+        );
+      case "pie":
+        return <Pie data={chart.data} />;
+      case "doughnut":
+        return <Doughnut data={chart.data} />;
+      case "radar":
+        return <Radar data={chart.data} />;
+      case "polar":
+        return <PolarArea data={chart.data} />;
+      case "bubble":
+        return (
+          <Bubble
+            data={chart.data}
+            options={chart.options}
+            style={commonStyle}
+          />
+        );
+      case "scatter":
+        return (
+          <Scatter
+            data={chart.data}
+            options={chart.options}
+            style={commonStyle}
+          />
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -231,42 +287,149 @@ export default function Dashboard() {
 
       {/* Grid */}
       <div className="grid-container">
-        <div className="grid-item" style={cardStyle}>
+        <div
+          className="grid-item"
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "line",
+              title: "Visits (Weekly)",
+              data: lineData,
+              options: baseOptions("Visits (Weekly)"),
+            })
+          }
+        >
           <Line data={lineData} options={baseOptions()} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "bar",
+              title: "Orders (Weekly)",
+              data: barData,
+              options: baseOptions("Orders (Weekly)"),
+            })
+          }
+        >
           <Bar data={barData} options={baseOptions()} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "pie",
+              title: "Traffic Split",
+              data: pieData,
+              options: null,
+            })
+          }
+        >
           <Pie data={pieData} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "radar",
+              title: "Performance Score",
+              data: radarData,
+              options: null,
+            })
+          }
+        >
           <Radar data={radarData} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "polar",
+              title: "Category Spread",
+              data: polarData,
+              options: null,
+            })
+          }
+        >
           <PolarArea data={polarData} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "bubble",
+              title: "Campaigns",
+              data: bubbleData,
+              options: baseOptions("Campaigns"),
+            })
+          }
+        >
           <Bubble data={bubbleData} options={baseOptions()} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "scatter",
+              title: "Spend vs Conversion",
+              data: scatterData,
+              options: baseOptions("Spend vs Conversion"),
+            })
+          }
+        >
           <Scatter data={scatterData} options={baseOptions()} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "doughnut",
+              title: "Traffic Split (Doughnut)",
+              data: pieData,
+              options: null,
+            })
+          }
+        >
           <Doughnut data={pieData} />
         </div>
 
-        <div style={cardStyle}>
+        <div
+          style={cardStyle}
+          onClick={() =>
+            openChartModal({
+              type: "bar",
+              title: "Orders (Copy)",
+              data: barData,
+              options: baseOptions("Orders (Copy)"),
+            })
+          }
+        >
           <Bar data={barData} options={baseOptions()} />
         </div>
       </div>
+
+      {/* ✅ One modal for all charts */}
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setActiveChart(null);
+        }}
+      >
+        {activeChart?.title ? (
+          <h3 style={{ margin: "0 0 12px", color: theme.text }}>
+            {activeChart.title}
+          </h3>
+        ) : null}
+        <div style={{ height: 460 }}>{renderChart(activeChart)}</div>
+      </Modal>
     </div>
   );
 }
