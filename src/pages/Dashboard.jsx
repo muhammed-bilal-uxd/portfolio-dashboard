@@ -59,6 +59,7 @@ export default function Dashboard() {
           text: "#ffffff",
           subText: "#94a3b8",
           grid: "rgba(255,255,255,0.1)",
+          modelBg: "rgb(30, 41, 59)",
         }
       : {
           bg: "#f8fafc",
@@ -66,6 +67,7 @@ export default function Dashboard() {
           text: "#0f172a",
           subText: "#64748b",
           grid: "rgba(0,0,0,0.08)",
+          modelBg: "#fff",
         };
   }, [darkMode]);
 
@@ -417,6 +419,7 @@ export default function Dashboard() {
 
       {/* ✅ One modal for all charts */}
       <Modal
+        theme={theme}
         isOpen={modalOpen}
         onClose={() => {
           setModalOpen(false);

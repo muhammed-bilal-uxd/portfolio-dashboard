@@ -1,12 +1,15 @@
 import React from "react";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children, theme }) => {
   if (!isOpen) return null;
 
   return (
     <div style={overlayStyle}>
-      <div style={modalStyle}>
-        <button style={closeBtnStyle} onClick={onClose}>
+      <div style={{ ...modalStyle, background: theme.modelBg }}>
+        <button
+          style={{ ...closeBtnStyle, color: theme.text }}
+          onClick={onClose}
+        >
           ×
         </button>
         {children}
@@ -29,7 +32,6 @@ const overlayStyle = {
 };
 
 const modalStyle = {
-  background: "#fff",
   padding: "20px",
   borderRadius: "8px",
   width: "400px",
