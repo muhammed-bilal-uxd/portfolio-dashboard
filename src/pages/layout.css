@@ -48,10 +48,16 @@ body {
 }
 
 .ol-sidebarHeader {
-  display: none; /* enabled in tablet/mobile for drawer */
+  display: flex; /* enabled in tablet/mobile for drawer */
   align-items: center;
   justify-content: space-between;
   padding-bottom: 10px;
+}
+
+.ol-sidebarContent {
+  display: flex;
+  flex-direction: column;
+  height: 550px;
 }
 
 .ol-close {
@@ -59,7 +65,7 @@ body {
   border-radius: 10px;
   height: 38px;
   width: 38px;
-  display: grid;
+  display: none;
   place-items: center;
   cursor: pointer;
 }
@@ -340,6 +346,10 @@ button:focus {
 
   .ol-sidebarHeader {
     display: flex;
+  }
+
+  .ol-close {
+    display: grid;
   }
 }
 

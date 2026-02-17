@@ -117,162 +117,167 @@ export default function OrbitLayout() {
         className={`ol-sidebar ${sidebarOpen ? "isOpen" : ""}`}
         style={{ background: theme.panelBg, borderColor: theme.stroke }}
       >
-        <div className="ol-sidebarHeader">
-          <div className="ol-brand">
-            <div className="ol-brandIcon" style={{ borderColor: theme.stroke }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M10.5 13.5L13.5 10.5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M7 17a4 4 0 0 1 0-6l2-2a4 4 0 0 1 6 0"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M17 7a4 4 0 0 1 0 6l-2 2a4 4 0 0 1-6 0"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+        <div className="ol-sidebarContent">
+          <div className="ol-sidebarHeader">
+            <div className="ol-brand">
+              <div
+                className="ol-brandIcon"
+                style={{ borderColor: theme.stroke }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M10.5 13.5L13.5 10.5"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M7 17a4 4 0 0 1 0-6l2-2a4 4 0 0 1 6 0"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M17 7a4 4 0 0 1 0 6l-2 2a4 4 0 0 1-6 0"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+              <div className="ol-brandName">ORBIT</div>
             </div>
-            <div className="ol-brandName">ORBIT</div>
-          </div>
 
-          <button
-            className="ol-close"
-            onClick={() => setSidebarOpen(false)}
-            style={{
-              background: theme.chipBg,
-              borderColor: theme.stroke,
-              color: theme.text,
-              padding: 0,
-            }}
-            aria-label="Close menu"
-            type="button"
-          >
-            ✕
-          </button>
-        </div>
-
-        <nav className="ol-nav">
-          <NavItem
-            label="Dashboard"
-            icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            }
-          />
-          <NavItem
-            label="Projects"
-            hasCaret
-            icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M4 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            }
-          />
-          <NavItem
-            label="Employees"
-            icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M22 21v-2a4 4 0 0 0-3-3.87"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M16 3.13a4 4 0 0 1 0 7.75"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            }
-          />
-          <NavItem
-            label="Calender"
-            icon={
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M7 3v2M17 3v2M4 7h16M6 5h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            }
-          />
-        </nav>
-
-        <div className="ol-sidebarBottom">
-          <div
-            className="ol-themeToggle"
-            style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
-          >
             <button
-              className="ol-pill"
+              className="ol-close"
+              onClick={() => setSidebarOpen(false)}
               style={{
-                background: mode === "light" ? theme.activeBg : "transparent",
+                background: theme.chipBg,
+                borderColor: theme.stroke,
                 color: theme.text,
+                padding: 0,
               }}
-              onClick={() => setMode("light")}
+              aria-label="Close menu"
               type="button"
             >
-              ☼ <span>Light</span>
-            </button>
-            <button
-              className="ol-pill"
-              style={{
-                background: mode === "dark" ? theme.activeBg : "transparent",
-                color: theme.text,
-              }}
-              onClick={() => setMode("dark")}
-              type="button"
-            >
-              🌙 <span>Dark</span>
+              ✕
             </button>
           </div>
 
-          <button
-            className="ol-settings"
-            style={{ color: theme.text }}
-            onClick={() => setActive("Settings")}
-            type="button"
-          >
-            <span className="ol-navIcon" style={{ color: theme.muted }}>
-              ⚙️
-            </span>
-            <span className="ol-navLabel">Settings</span>
-          </button>
+          <nav className="ol-nav">
+            <NavItem
+              label="Dashboard"
+              icon={
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              }
+            />
+            <NavItem
+              label="Projects"
+              hasCaret
+              icon={
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M4 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              }
+            />
+            <NavItem
+              label="Employees"
+              icon={
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M22 21v-2a4 4 0 0 0-3-3.87"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M16 3.13a4 4 0 0 1 0 7.75"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              }
+            />
+            <NavItem
+              label="Calender"
+              icon={
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 3v2M17 3v2M4 7h16M6 5h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              }
+            />
+          </nav>
+
+          <div className="ol-sidebarBottom">
+            <div
+              className="ol-themeToggle"
+              style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
+            >
+              <button
+                className="ol-pill"
+                style={{
+                  background: mode === "light" ? theme.activeBg : "transparent",
+                  color: theme.text,
+                }}
+                onClick={() => setMode("light")}
+                type="button"
+              >
+                ☼ <span>Light</span>
+              </button>
+              <button
+                className="ol-pill"
+                style={{
+                  background: mode === "dark" ? theme.activeBg : "transparent",
+                  color: theme.text,
+                }}
+                onClick={() => setMode("dark")}
+                type="button"
+              >
+                🌙 <span>Dark</span>
+              </button>
+            </div>
+
+            <button
+              className="ol-settings"
+              style={{ color: theme.text }}
+              onClick={() => setActive("Settings")}
+              type="button"
+            >
+              <span className="ol-navIcon" style={{ color: theme.muted }}>
+                ⚙️
+              </span>
+              <span className="ol-navLabel">Settings</span>
+            </button>
+          </div>
         </div>
       </aside>
 
