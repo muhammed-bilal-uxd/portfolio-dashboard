@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import Modal from "./Modal";
+import { useTheme } from "./ThemeContext";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -44,32 +45,13 @@ ChartJS.register(
 import "./Dashboard.css";
 
 export default function Dashboard() {
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme: themeArray, theme: darkMode, toggleTheme } = useTheme();
+  const theme = themeArray;
+  const isDark = darkMode === "dark";
 
   // ✅ one modal for all charts
   const [modalOpen, setModalOpen] = useState(false);
   const [activeChart, setActiveChart] = useState(null); // { type, title, data, options }
-
-  // 🎨 Theme colors
-  const theme = useMemo(() => {
-    return darkMode
-      ? {
-          bg: "#0f172a",
-          card: "#1e293b",
-          text: "#ffffff",
-          subText: "#94a3b8",
-          grid: "rgba(255,255,255,0.1)",
-          modelBg: "rgb(30, 41, 59)",
-        }
-      : {
-          bg: "#f8fafc",
-          card: "#ffffff",
-          text: "#0f172a",
-          subText: "#64748b",
-          grid: "rgba(0,0,0,0.08)",
-          modelBg: "#fff",
-        };
-  }, [darkMode]);
 
   const baseOptions = (title) => ({
     responsive: true,
@@ -190,7 +172,7 @@ export default function Dashboard() {
     background: theme.card,
     borderRadius: 16,
     padding: 16,
-    boxShadow: darkMode
+    boxShadow: isDark
       ? "0 4px 20px rgba(0,0,0,0.4)"
       : "0 4px 20px rgba(0,0,0,0.08)",
     minHeight: 260,
@@ -269,20 +251,20 @@ export default function Dashboard() {
       >
         <h1 style={{ color: theme.text }}>Dashboard</h1>
 
-        <button
-          onClick={() => setDarkMode(!darkMode)}
+        {/* <button
+          onClick={toggleTheme}
           style={{
             padding: "8px 16px",
             borderRadius: 8,
             border: "none",
             cursor: "pointer",
             fontWeight: 600,
-            background: darkMode ? "#facc15" : "#1e293b",
-            color: darkMode ? "#000" : "#fff",
+            background: isDark ? "#facc15" : "#1e293b",
+            color: isDark ? "#000" : "#fff",
           }}
         >
-          {darkMode ? "🌞 Day Mode" : "🌙 Night Mode"}
-        </button>
+          {isDark ? "🌞 Day Mode" : "🌙 Night Mode"}
+        </button> */}
       </div>
 
       <DeliveryCards />
@@ -419,7 +401,6 @@ export default function Dashboard() {
 
       {/* ✅ One modal for all charts */}
       <Modal
-        theme={theme}
         isOpen={modalOpen}
         onClose={() => {
           setModalOpen(false);

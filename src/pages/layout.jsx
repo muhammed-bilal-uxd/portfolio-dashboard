@@ -1,26 +1,21 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import "./layout.css";
 import Dashboard from "./Dashboard";
+import { useTheme } from "./ThemeContext";
 
 export default function OrbitLayout() {
-  const [mode, setMode] = useState("dark"); // "dark" | "light"
+  const { theme: mode, toggleTheme, themeArray } = useTheme();
+  const theme = themeArray;
   const [active, setActive] = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const theme = useMemo(() => {
-    const isDark = mode === "dark";
-    return {
-      appBg: isDark ? "#121212" : "#f4f5f7",
-      panelBg: isDark ? "#1b1b1b" : "#ffffff",
-      panel2Bg: isDark ? "#232323" : "#f3f4f6",
-      stroke: isDark ? "rgba(255,255,255,.08)" : "rgba(0,0,0,.08)",
-      text: isDark ? "#e9e9e9" : "#111827",
-      muted: isDark ? "rgba(255,255,255,.65)" : "rgba(17,24,39,.65)",
-      chipBg: isDark ? "#2a2a2a" : "#eef0f3",
-      activeBg: isDark ? "#2c2c2c" : "#e7e9ee",
-      overlay: isDark ? "rgba(0,0,0,.55)" : "rgba(0,0,0,.35)",
-    };
-  }, [mode]);
+  const setMode = (modeOrFn) => {
+    if (typeof modeOrFn === "function") {
+      toggleTheme();
+    } else if ((modeOrFn === "light" && mode === "dark") || (modeOrFn === "dark" && mode === "light")) {
+      toggleTheme();
+    }
+  };
 
   const NavItem = ({ label, icon, hasCaret }) => {
     const isActive = active === label;

@@ -1,13 +1,15 @@
 import React from "react";
+import { useTheme } from "./ThemeContext";
 
-const Modal = ({ isOpen, onClose, children, theme }) => {
+const Modal = ({ isOpen, onClose, children }) => {
+  const { themeArray } = useTheme();
   if (!isOpen) return null;
 
   return (
     <div style={overlayStyle}>
-      <div style={{ ...modalStyle, background: theme.modelBg }}>
+      <div style={{ ...modalStyle, background: themeArray.modelBg }}>
         <button
-          style={{ ...closeBtnStyle, color: theme.text }}
+          style={{ ...closeBtnStyle, color: themeArray.text }}
           onClick={onClose}
         >
           ×
