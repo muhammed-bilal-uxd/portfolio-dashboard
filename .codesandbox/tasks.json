@@ -3,7 +3,7 @@
   "setupTasks": [
     {
       "name": "Installing Dependencies",
-      "command": "npm install"
+      "command": "cd frontend && npm install"
     }
   ],
 
@@ -11,7 +11,7 @@
   "tasks": {
     "dev": {
       "name": "dev",
-      "command": "npm run dev",
+      "command": "cd frontend && npm run dev",
       "runAtStart": true,
       "preview": {
         "port": 5173
@@ -19,15 +19,15 @@
     },
     "build": {
       "name": "build",
-      "command": "npm run build"
+      "command": "cd frontend && npm run build"
     },
     "lint": {
       "name": "lint",
-      "command": "npm run lint"
+      "command": "cd frontend && npm run lint"
     },
     "preview": {
       "name": "preview",
-      "command": "npm run preview"
+      "command": "cd frontend && npm run preview"
     }
   }
 }
