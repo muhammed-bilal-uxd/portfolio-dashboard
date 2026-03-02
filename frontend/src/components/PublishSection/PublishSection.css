@@ -1,0 +1,25 @@
+.publish-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 4px;
+  border-radius: 12px;
+  font-family: Arial, sans-serif;
+}
+
+.publish-header-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.publish-button {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4em 0.6em;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./layout.css";
-import Dashboard from "./Dashboard";
-import { useTheme } from "./ThemeContext";
-import PublishPanel from "./Publish-panel";
+import Dashboard from "../Dashboard/Dashboard";
+import { useTheme } from "../ThemeContext/ThemeContext";
+import PublishSection from "../../components/PublishSection/PublishSection";
 
 export default function OrbitLayout() {
   const { theme: mode, toggleTheme, themeArray } = useTheme();
@@ -343,14 +343,8 @@ export default function OrbitLayout() {
         </header>
         <section className="ol-main-content">
           <section className="ol-publish-content">
-            <div
-              className="ol-publish-content-inner"
-              style={{
-                minHeight: "100vh",
-                transition: "0.3s",
-              }}
-            >
-              <PublishPanel />
+            <div className="ol-publish-content-inner">
+              <PublishSection />
             </div>
           </section>
           <section

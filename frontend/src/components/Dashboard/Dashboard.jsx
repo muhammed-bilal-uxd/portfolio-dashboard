@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
-import { useTheme } from "./ThemeContext";
+import { useTheme } from "../../pages/ThemeContext/ThemeContext";
+import Modal from "../Modal/Modal";
+import DeliveryCards from "../DeliveryCards/DeliveryCards";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,7 +27,8 @@ import {
   Bubble,
   Scatter,
 } from "react-chartjs-2";
-import DeliveryCards from "./Delivery-cards";
+
+import "./Dashboard.css";
 
 ChartJS.register(
   CategoryScale,
@@ -42,14 +44,10 @@ ChartJS.register(
   Filler,
 );
 
-import "./Dashboard.css";
-
 export default function Dashboard() {
-  const { theme: themeArray, theme: darkMode, toggleTheme } = useTheme();
+  const { theme: themeArray } = useTheme();
   const theme = themeArray;
-  const isDark = darkMode === "dark";
 
-  // ✅ one modal for all charts
   const [modalOpen, setModalOpen] = useState(false);
   const [activeChart, setActiveChart] = useState(null); // { type, title, data, options }
 
@@ -168,40 +166,19 @@ export default function Dashboard() {
     ],
   };
 
-  const cardStyle = {
-    background: theme.card,
-    borderRadius: 16,
-    padding: 16,
-    boxShadow: isDark
-      ? "0 4px 20px rgba(0,0,0,0.4)"
-      : "0 4px 20px rgba(0,0,0,0.08)",
-    minHeight: 260,
-    display: "flex",
-    flexDirection: "column",
-    cursor: "pointer",
-  };
-
-  // ✅ open modal with any chart config
   const openChartModal = ({ type, title, data, options }) => {
     setActiveChart({ type, title, data, options });
     setModalOpen(true);
   };
 
-  // ✅ render correct chart in modal
   const renderChart = (chart) => {
     if (!chart) return null;
 
-    const commonStyle = { height: 420 }; // bigger in modal
-
     switch (chart.type) {
       case "line":
-        return (
-          <Line data={chart.data} options={chart.options} style={commonStyle} />
-        );
+        return <Line data={chart.data} options={chart.options} />;
       case "bar":
-        return (
-          <Bar data={chart.data} options={chart.options} style={commonStyle} />
-        );
+        return <Bar data={chart.data} options={chart.options} />;
       case "pie":
         return <Pie data={chart.data} />;
       case "doughnut":
@@ -211,69 +188,25 @@ export default function Dashboard() {
       case "polar":
         return <PolarArea data={chart.data} />;
       case "bubble":
-        return (
-          <Bubble
-            data={chart.data}
-            options={chart.options}
-            style={commonStyle}
-          />
-        );
+        return <Bubble data={chart.data} options={chart.options} />;
       case "scatter":
-        return (
-          <Scatter
-            data={chart.data}
-            options={chart.options}
-            style={commonStyle}
-          />
-        );
+        return <Scatter data={chart.data} options={chart.options} />;
       default:
         return null;
     }
   };
 
   return (
-    <div
-      style={{
-        background: theme.bg,
-        minHeight: "100vh",
-        padding: 24,
-        transition: "0.3s",
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 20,
-        }}
-      >
-        <h1 style={{ color: theme.text }}>Dashboard</h1>
-
-        {/* <button
-          onClick={toggleTheme}
-          style={{
-            padding: "8px 16px",
-            borderRadius: 8,
-            border: "none",
-            cursor: "pointer",
-            fontWeight: 600,
-            background: isDark ? "#facc15" : "#1e293b",
-            color: isDark ? "#000" : "#fff",
-          }}
-        >
-          {isDark ? "🌞 Day Mode" : "🌙 Night Mode"}
-        </button> */}
+    <div className="dashboard-root">
+      <div className="dashboard-header">
+        <h1 className="dashboard-title">Dashboard</h1>
       </div>
 
       <DeliveryCards />
 
-      {/* Grid */}
       <div className="grid-container">
         <div
-          className="grid-item"
-          style={cardStyle}
+          className="grid-item chart-card"
           onClick={() =>
             openChartModal({
               type: "line",
@@ -287,7 +220,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "bar",
@@ -301,7 +234,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "pie",
@@ -315,7 +248,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "radar",
@@ -329,7 +262,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "polar",
@@ -343,7 +276,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "bubble",
@@ -357,7 +290,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "scatter",
@@ -371,7 +304,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "doughnut",
@@ -385,7 +318,7 @@ export default function Dashboard() {
         </div>
 
         <div
-          style={cardStyle}
+          className="chart-card"
           onClick={() =>
             openChartModal({
               type: "bar",
@@ -399,7 +332,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ✅ One modal for all charts */}
       <Modal
         isOpen={modalOpen}
         onClose={() => {
@@ -408,14 +340,11 @@ export default function Dashboard() {
         }}
       >
         {activeChart?.title ? (
-          <h3 style={{ margin: "0 0 12px", color: theme.text }}>
-            {activeChart.title}
-          </h3>
+          <h3 className="modal-chart-title">{activeChart.title}</h3>
         ) : null}
-        <div style={{ height: 460, maxHeight: "80vh" }}>
-          {renderChart(activeChart)}
-        </div>
+        <div className="modal-chart-container">{renderChart(activeChart)}</div>
       </Modal>
     </div>
   );
 }
+

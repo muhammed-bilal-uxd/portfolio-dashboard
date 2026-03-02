@@ -1,7 +1,7 @@
 import "./App.css";
-import Dashboard from "./pages/Dashboard";
-import LayoutApp from "./pages/layout";
-import { ThemeProvider } from "./pages/ThemeContext";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import LayoutApp from "./pages/layout/layout";
+import { ThemeProvider } from "./pages/ThemeContext/ThemeContext";
 
 function App() {
   return (
