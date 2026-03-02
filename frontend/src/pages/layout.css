@@ -275,6 +275,12 @@ button:focus {
   outline: none;
 }
 
+.ol-main-content {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 16px;
+}
+
 /* =========================
    TABLET + MOBILE (Drawer)
    ========================= */

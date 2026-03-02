@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./layout.css";
 import Dashboard from "./Dashboard";
 import { useTheme } from "./ThemeContext";
+import PublishPanel from "./Publish-panel";
 
 export default function OrbitLayout() {
   const { theme: mode, toggleTheme, themeArray } = useTheme();
@@ -12,7 +13,10 @@ export default function OrbitLayout() {
   const setMode = (modeOrFn) => {
     if (typeof modeOrFn === "function") {
       toggleTheme();
-    } else if ((modeOrFn === "light" && mode === "dark") || (modeOrFn === "dark" && mode === "light")) {
+    } else if (
+      (modeOrFn === "light" && mode === "dark") ||
+      (modeOrFn === "dark" && mode === "light")
+    ) {
       toggleTheme();
     }
   };
@@ -337,12 +341,24 @@ export default function OrbitLayout() {
             </div>
           </div>
         </header>
-
-        <section
-          className="ol-content"
-          style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
-        >
-          <Dashboard />
+        <section className="ol-main-content">
+          <section className="ol-publish-content">
+            <div
+              className="ol-publish-content-inner"
+              style={{
+                minHeight: "100vh",
+                transition: "0.3s",
+              }}
+            >
+              <PublishPanel />
+            </div>
+          </section>
+          <section
+            className="ol-content"
+            style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
+          >
+            <Dashboard />
+          </section>
         </section>
       </main>
     </div>
