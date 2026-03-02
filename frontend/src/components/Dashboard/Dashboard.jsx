@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 import DeliveryCards from "../DeliveryCards/DeliveryCards";
@@ -44,12 +44,42 @@ ChartJS.register(
   Filler,
 );
 
-export default function Dashboard() {
+export default function Dashboard({ onGamesLoaded }) {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
 
   const [modalOpen, setModalOpen] = useState(false);
   const [activeChart, setActiveChart] = useState(null); // { type, title, data, options }
+
+  useEffect(() => {
+    let canceled = false;
+
+    const fetchGames = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/games?q=face");
+
+        if (!response.ok) {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!canceled && onGamesLoaded) {
+          onGamesLoaded(Array.isArray(data) ? data : []);
+        }
+      } catch {
+        if (!canceled && onGamesLoaded) {
+          onGamesLoaded([]);
+        }
+      }
+    };
+
+    fetchGames();
+
+    return () => {
+      canceled = true;
+    };
+  }, [onGamesLoaded]);
 
   const baseOptions = (title) => ({
     responsive: true,
@@ -347,4 +377,3 @@ export default function Dashboard() {
     </div>
   );
 }
-

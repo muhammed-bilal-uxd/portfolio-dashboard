@@ -9,6 +9,7 @@ export default function OrbitLayout() {
   const theme = themeArray;
   const [active, setActive] = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [games, setGames] = useState([]);
 
   const setMode = (modeOrFn) => {
     if (typeof modeOrFn === "function") {
@@ -344,14 +345,14 @@ export default function OrbitLayout() {
         <section className="ol-main-content">
           <section className="ol-publish-content">
             <div className="ol-publish-content-inner">
-              <PublishSection />
+              <PublishSection games={games} />
             </div>
           </section>
           <section
             className="ol-content"
             style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
           >
-            <Dashboard />
+            <Dashboard onGamesLoaded={setGames} />
           </section>
         </section>
       </main>
