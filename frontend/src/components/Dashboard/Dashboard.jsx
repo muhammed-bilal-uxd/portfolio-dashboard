@@ -30,6 +30,8 @@ import {
 
 import "./Dashboard.css";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -56,7 +58,7 @@ export default function Dashboard({ onGamesLoaded }) {
 
     const fetchGames = async () => {
       try {
-        const response = await fetch("http://localhost:4000/games?q=face");
+        const response = await fetch(VITE_API_URL + "/games?q=face");
 
         if (!response.ok) {
           throw new Error(`Request failed with status ${response.status}`);
