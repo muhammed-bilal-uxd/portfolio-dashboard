@@ -1,0 +1,58 @@
+.vizGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.vizCard {
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  position: relative;
+  transition: 0.15s ease;
+  color: var(--text);
+}
+
+.vizCard:hover {
+  border-color: var(--stroke2);
+  transform: translateY(-1px);
+}
+
+.vizCard.selected {
+  border-color: rgba(233, 233, 239, 0.45);
+  box-shadow: 0 0 0 3px rgba(233, 233, 239, 0.08);
+}
+
+.vizIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 18px;
+}
+
+.vizTitle {
+  font-weight: 900;
+  font-size: 13px;
+}
+.vizDesc {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.vizCorner {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: 0.7;
+}
