@@ -35,6 +35,39 @@ export default function SourcesPanel({
     handleClosePopup();
   };
 
+  const handleGetAllData = async () => {
+    const sources = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]");
+
+    if (!Array.isArray(sources) || sources.length === 0) {
+      console.warn("No WooCommerce sources saved in sessionStorage.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/woocommerce/all`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(sources[0]),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch WooCommerce data (status ${response.status})`,
+        );
+      }
+
+      const data = await response.json();
+      console.log("WooCommerce data", data);
+    } catch (error) {
+      console.error("Error fetching WooCommerce data", error);
+    }
+  };
+
   return (
     <aside className="panel">
       <div className="panelTitleRow">
@@ -111,6 +144,10 @@ export default function SourcesPanel({
           </div>
         </div>
       )}
+
+      <button type="button" className="btn" onClick={handleGetAllData}>
+        Get all data
+      </button>
 
       <div className="searchBox">
         <div className="searchIcon">🔎</div>
