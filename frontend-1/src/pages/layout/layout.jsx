@@ -343,11 +343,11 @@ export default function OrbitLayout() {
           </div>
         </header>
         <section className="ol-main-content">
-          <section className="ol-publish-content">
+          {/* <section className="ol-publish-content">
             <div className="ol-publish-content-inner">
               <PublishSection games={games} />
             </div>
-          </section>
+          </section> */}
           <section
             className="ol-content"
             style={{ background: theme.panel2Bg, borderColor: theme.stroke }}

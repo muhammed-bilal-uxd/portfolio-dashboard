@@ -28,7 +28,7 @@ export default function SourcesPanel({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const entry = { websiteUrl, consumerKey, consumerSecret };
+    const entry = { url: websiteUrl, consumerKey, consumerSecret };
     const existing = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "[]");
     existing.push(entry);
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(existing));

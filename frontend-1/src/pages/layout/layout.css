@@ -277,7 +277,8 @@ button:focus {
 
 .ol-main-content {
   display: grid;
-  grid-template-columns: 170px 1fr;
+  grid-template-columns: 1fr;
+  /* grid-template-columns: 170px 1fr; */
   gap: 16px;
 }
 
