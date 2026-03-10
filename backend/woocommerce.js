@@ -3,6 +3,15 @@ const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
 
 const router = express.Router();
 
+const { WEBSITE_URL, CONSUMER_KEY, CONSUMER_SECRET } = process.env;
+
+const woocommerceApi = new WooCommerceRestApi({
+  url: WEBSITE_URL,
+  consumerKey: CONSUMER_KEY,
+  consumerSecret: CONSUMER_SECRET,
+  version: "wc/v3",
+});
+
 function validateWooCredentials(body) {
   const { url, consumerKey, consumerSecret } = body || {};
 
@@ -62,10 +71,55 @@ async function getAllData(api) {
   }
 }
 
-router.post("/all", async (req, res) => {
+async function getAllProducts() {
+  const response = await woocommerceApi.get("products", {
+    per_page: null,
+  });
+  return response.data;
+}
+
+async function getAllCategories() {
+  const response = await woocommerceApi.get("products/categories", {
+    per_page: 100,
+  });
+  return response.data;
+}
+
+router.get("/all", async (req, res) => {
+  try {
+    const data = await getAllProducts();
+    res.json({
+      status: res.status,
+      data: data,
+    });
+  } catch (error) {
+    const status = error.response?.status || 500;
+    res.status(status).json({
+      message: "Failed to fetch WooCommerce data",
+      error: error.response?.data || error.message,
+    });
+  }
+});
+
+router.get("/categories", async (req, res) => {
+  try {
+    const data = await getAllCategories();
+    res.json({
+      status: res.status,
+      data: data,
+    });
+  } catch (error) {
+    const status = error.response?.status || 500;
+    res.status(status).json({
+      message: "Failed to fetch WooCommerce categories",
+      error: error.response?.data || error.message,
+    });
+  }
+});
+
+router.post("/all-data", async (req, res) => {
   console.log(req.body);
   try {
-    const creds = validateWooCredentials(req.body);
     const api = createWooApi(creds);
     const data = await getAllData(api);
     res.json(data);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 import DeliveryCards from "../DeliveryCards/DeliveryCards";
@@ -30,7 +30,7 @@ import {
 
 import "./Dashboard.css";
 
-const VITE_API_URL = import.meta.env.VITE_API_URL
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 ChartJS.register(
   CategoryScale,
@@ -46,42 +46,107 @@ ChartJS.register(
   Filler,
 );
 
-export default function Dashboard({ onGamesLoaded }) {
+export default function Dashboard() {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
 
   const [modalOpen, setModalOpen] = useState(false);
   const [activeChart, setActiveChart] = useState(null); // { type, title, data, options }
+  const [products, setProducts] = useState([]);
+  const [productsKeys, setProductsKeys] = useState([]);
+  const [categories, setCategory] = useState([]);
+  const [checkboxSelected, setCheckboxSelected] = useState([]);
+  const [baseDataKeys, setBaseDataKeys] = useState([]);
+
+  const inputSubmitUrl = useRef(null);
 
   useEffect(() => {
-    let canceled = false;
+    getAllProducts();
+    // getAllCategories();
+  }, []);
 
-    const fetchGames = async () => {
-      try {
-        const response = await fetch(VITE_API_URL + "/games?q=face");
+  const getAllProducts = async () => {
+    try {
+      const data = await fetch(VITE_API_URL + "/woocommerce/all");
 
-        if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (!canceled && onGamesLoaded) {
-          onGamesLoaded(Array.isArray(data) ? data : []);
-        }
-      } catch {
-        if (!canceled && onGamesLoaded) {
-          onGamesLoaded([]);
-        }
+      if (!data.ok) {
+        throw new Error(`Request failed with status ${products.status}`);
       }
-    };
 
-    fetchGames();
+      const res = await data.json();
 
-    return () => {
-      canceled = true;
-    };
-  }, [onGamesLoaded]);
+      console.log("data", res);
+      setProducts(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.log(err);
+      setProducts([]);
+    }
+  };
+
+  const getAllCategories = async () => {
+    try {
+      const categories = await fetch(VITE_API_URL + "/woocommerce/categories");
+
+      if (!categories.ok) {
+        throw new Error(`Request failed with status ${categories.status}`);
+      }
+
+      const res = await categories.json();
+
+      console.log("categories", res);
+      setCategory(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const singleProductKeys = useMemo(() => {
+    if (!products || products.length === 0) return [];
+
+    const singleProduct = products[0];
+    const keys = [];
+
+    for (const [key, value] of Object.entries(singleProduct)) {
+      keys.push(key);
+    }
+
+    // setProductsKeys(keys);
+
+    return keys;
+  }, [products]);
+
+  const handleCheckboxChange = (key) => {
+    setCheckboxSelected(
+      (prev) =>
+        prev.includes(key)
+          ? prev.filter((item) => item !== key) // remove
+          : [...prev, key], // add
+    );
+  };
+
+  const categoryProductCount = useMemo(() => {
+    const catList = {};
+    const catLabels = [];
+    const catValues = [];
+
+    products.forEach((product) => {
+      (product?.categories || []).forEach((category) => {
+        const categoryName = category?.name;
+        if (!categoryName) return;
+
+        catList[categoryName] = (catList[categoryName] || 0) + 1;
+      });
+    });
+
+    console.log("catlist", catList);
+
+    for (const [key, value] of Object.entries(catList)) {
+      catLabels.push(key);
+      catValues.push(value);
+    }
+
+    return { catList, catLabels, catValues };
+  }, [products]);
 
   const baseOptions = (title) => ({
     responsive: true,
@@ -122,11 +187,11 @@ export default function Dashboard({ onGamesLoaded }) {
   };
 
   const barData = {
-    labels,
+    labels: [...categoryProductCount.catLabels],
     datasets: [
       {
-        label: "Orders",
-        data: [12, 19, 15, 22, 28, 20, 30],
+        label: "Category",
+        data: [...categoryProductCount.catValues],
         backgroundColor: "#22c55e",
       },
     ],
@@ -228,11 +293,73 @@ export default function Dashboard({ onGamesLoaded }) {
     }
   };
 
+  const handleSubmitUrl = () => {
+    const url = inputSubmitUrl.current.value;
+    try {
+      new URL(url);
+      // valid URL, you can use it here
+      getLinkWithBase(url);
+      console.log("url", url);
+    } catch (e) {
+      alert("Please enter a valid URL.");
+      return;
+    }
+  };
+
+  const getLinkWithBase = async (url) => {
+    try {
+      const data = await fetch(url);
+
+      if (!data.ok) {
+        throw new Error(`Request failed with status ${products.status}`);
+      }
+
+      const res = await data.json();
+
+      if (!res || res.length === 0) return alert("no data from api");
+
+      const singleData = res[0];
+      const keys = [];
+
+      for (const [key, value] of Object.entries(singleData)) {
+        keys.push(key);
+      }
+
+      setBaseDataKeys(keys);
+
+      console.log("data", res);
+      // setProducts(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.log(err);
+      // setProducts([]);
+    }
+  };
+
   return (
     <div className="dashboard-root">
       <div className="dashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
       </div>
+
+      <input type="text" ref={inputSubmitUrl} />
+      <button onClick={() => handleSubmitUrl()}>submit</button>
+
+      {baseDataKeys.map((name) => (
+        <div key={name}>
+          <input
+            type="checkbox"
+            checked={checkboxSelected.includes(name)}
+            onChange={() => handleCheckboxChange(name)}
+          />
+          <span>{name}</span>
+        </div>
+      ))}
+
+      <br />
+
+      <b> {checkboxSelected.join(", ")}</b>
+
+      <br />
 
       <DeliveryCards />
 
