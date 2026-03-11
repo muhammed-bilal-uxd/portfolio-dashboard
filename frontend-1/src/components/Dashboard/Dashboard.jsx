@@ -56,7 +56,10 @@ export default function Dashboard() {
   const [productsKeys, setProductsKeys] = useState([]);
   const [categories, setCategory] = useState([]);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
+  const [selectListItemOne, setSelectListItemOne] = useState("");
+  const [selectListItemTwo, setSelectListItemTwo] = useState("");
   const [baseDataKeys, setBaseDataKeys] = useState([]);
+  const [singleData, setSingleData] = useState({});
 
   const inputSubmitUrl = useRef(null);
 
@@ -114,15 +117,6 @@ export default function Dashboard() {
 
     return keys;
   }, [products]);
-
-  const handleCheckboxChange = (key) => {
-    setCheckboxSelected(
-      (prev) =>
-        prev.includes(key)
-          ? prev.filter((item) => item !== key) // remove
-          : [...prev, key], // add
-    );
-  };
 
   const categoryProductCount = useMemo(() => {
     const catList = {};
@@ -318,7 +312,7 @@ export default function Dashboard() {
 
       if (!res || res.length === 0) return alert("no data from api");
 
-      const singleData = res[0];
+      setSingleData(res[0]);
       const keys = [];
 
       for (const [key, value] of Object.entries(singleData)) {
@@ -344,22 +338,59 @@ export default function Dashboard() {
       <input type="text" ref={inputSubmitUrl} />
       <button onClick={() => handleSubmitUrl()}>submit</button>
 
-      {baseDataKeys.map((name) => (
-        <div key={name}>
-          <input
-            type="checkbox"
-            checked={checkboxSelected.includes(name)}
-            onChange={() => handleCheckboxChange(name)}
-          />
-          <span>{name}</span>
+      {baseDataKeys.length > 0 && (
+        <div className="radio-group-container">
+          <section>
+            <h3>select label</h3>
+            {baseDataKeys.map((name) => (
+              <div
+                key={name}
+                onClick={() => setSelectListItemOne(name)}
+                className="radio-list-item"
+              >
+                <input
+                  type="radio"
+                  checked={selectListItemOne === name}
+                  readOnly
+                />
+                <span>{name}</span>
+                <span>
+                  {selectListItemOne === name && (
+                    <PreviewValue name={name} data={singleData[name]} />
+                  )}
+                </span>
+              </div>
+            ))}
+          </section>
+
+          <section>
+            <h3>select value</h3>
+            {baseDataKeys.map((name) => (
+              <div
+                key={name}
+                onClick={() => setSelectListItemTwo(name)}
+                className="radio-list-item"
+              >
+                <input
+                  type="radio"
+                  checked={selectListItemTwo === name}
+                  readOnly
+                />
+                <span>{name}</span>
+                {selectListItemTwo === name && (
+                  <PreviewValue name={name} data={singleData[name]} />
+                )}
+              </div>
+            ))}
+          </section>
         </div>
-      ))}
+      )}
 
-      <br />
+      {/* <br />
 
-      <b> {checkboxSelected.join(", ")}</b>
+      <b> {selectListItemOne.join(", ")}</b>
 
-      <br />
+      <br /> */}
 
       <DeliveryCards />
 
@@ -505,4 +536,39 @@ export default function Dashboard() {
       </Modal>
     </div>
   );
+}
+
+// const getType = (value) => {
+//   if (Array.isArray(value)) return "array";
+//   if (value === null) return "null";
+//   return typeof value;
+// };
+
+function PreviewValue({ data }) {
+  const getType = (value) => {
+    if (Array.isArray(value)) return "array";
+    if (value === null) return "null";
+    return typeof value;
+  };
+
+  const type = getType(data);
+
+  switch (type) {
+    case "string":
+    case "number":
+    case "boolean":
+      return <>&nbsp; - &nbsp;{String(data)}</>;
+
+    case "object":
+      return <>&nbsp; - &nbsp;Object</>;
+
+    case "array":
+      return <>&nbsp; - &nbsp;Array ({data.length})</>;
+
+    case "null":
+      return <>&nbsp; - &nbsp;Null</>;
+
+    default:
+      return <>&nbsp; - &nbsp;Unknown</>;
+  }
 }

@@ -67,3 +67,11 @@
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
+.radio-group-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.radio-list-item {
+  cursor: pointer;
+}
