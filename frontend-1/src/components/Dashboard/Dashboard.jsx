@@ -46,6 +46,17 @@ ChartJS.register(
   Filler,
 );
 
+const chartList = [
+  { label: "Line Chart", type: "line" },
+  { label: "Bar Chart", type: "bar" },
+  { label: "Pie Chart", type: "pie" },
+  { label: "Doughnut Chart", type: "doughnut" },
+  { label: "Radar Chart", type: "radar" },
+  { label: "Polar Area Chart", type: "polar" },
+  { label: "Bubble Chart", type: "bubble" },
+  { label: "Scatter Chart", type: "scatter" },
+];
+
 export default function Dashboard() {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
@@ -56,10 +67,17 @@ export default function Dashboard() {
   const [productsKeys, setProductsKeys] = useState([]);
   const [categories, setCategory] = useState([]);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
+  const [restApiResponse, setRestApiResponse] = useState([]);
   const [selectListItemOne, setSelectListItemOne] = useState("");
   const [selectListItemTwo, setSelectListItemTwo] = useState("");
   const [baseDataKeys, setBaseDataKeys] = useState([]);
   const [singleData, setSingleData] = useState({});
+  const [apiAllData, setApiAllData] = useState([]);
+  const [selectedChart, setSelectedChart] = useState("line");
+  const [pieDataValues, setPieDataValues] = useState({
+    labels: ["Desktop", "Mobile", "Tablet"],
+    values: [52, 38, 10],
+  });
 
   const inputSubmitUrl = useRef(null);
 
@@ -191,14 +209,23 @@ export default function Dashboard() {
     ],
   };
 
-  const pieData = {
-    labels: ["Desktop", "Mobile", "Tablet"],
-    datasets: [
-      {
-        data: [52, 38, 10],
-        backgroundColor: ["#3b82f6", "#f97316", "#10b981"],
-      },
-    ],
+  const randomColor = () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`;
+
+  // const generateRandomColors =
+
+  const pieData = () => {
+    const bgColors =
+      Array.isArray(pieDataValues.labels) && labels.map(() => randomColor());
+
+    return {
+      labels: pieDataValues.labels,
+      datasets: [
+        {
+          data: [...pieDataValues.values],
+          backgroundColor: [...bgColors],
+        },
+      ],
+    };
   };
 
   const radarData = {
@@ -312,16 +339,15 @@ export default function Dashboard() {
 
       if (!res || res.length === 0) return alert("no data from api");
 
-      setSingleData(res[0]);
-      const keys = [];
-
-      for (const [key, value] of Object.entries(singleData)) {
-        keys.push(key);
-      }
+      const firstItem = res[0];
+      setSingleData(firstItem);
+      setApiAllData(res);
+      const keys = Object.keys(firstItem);
 
       setBaseDataKeys(keys);
 
       console.log("data", res);
+      setRestApiResponse(res);
       // setProducts(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.log(err);
@@ -329,59 +355,226 @@ export default function Dashboard() {
     }
   };
 
+  const isValidGenerateChart = () => {
+    if (typeof selectListItemOne !== "string") {
+      alert("label should be string");
+      return false;
+    }
+
+    if (typeof selectListItemTwo !== "number") {
+      alert("value should be number");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleGenerateChart = () => {
+    if (!isValidGenerateChart) return;
+
+    if (selectedChart === "pie") {
+      console.log("restApiResponse", restApiResponse);
+
+      const modifiedValue = restApiResponse.reduce((acc, item, index) => {
+        const keyValue = item[selectListItemOne];
+
+        if (!acc[keyValue]) acc[keyValue] = 0;
+
+        acc[keyValue]++;
+
+        return acc;
+      }, {});
+
+      console.log("modifiedValue", modifiedValue);
+
+      let data = {
+        labels: [],
+        values: [],
+      };
+
+      Object.entries(modifiedValue).forEach(([key, value]) => {
+        console.log("key:", key);
+        console.log("value:", value);
+
+        data.labels.push(key);
+        data.values.push(value);
+      });
+
+      console.log("data", data);
+
+      setPieDataValues(data);
+    }
+  };
+
+  const getPreviewValue = (data) => {
+    const getType = (value) => {
+      if (Array.isArray(value)) return "array";
+      if (value === null) return "null";
+      return typeof value;
+    };
+
+    const type = getType(data);
+
+    switch (type) {
+      case "string":
+      case "number":
+      case "boolean":
+        return {
+          type,
+          data,
+          label: String(data),
+        };
+
+      case "object":
+        return {
+          type: "object",
+          data,
+          label: "Object",
+        };
+
+      case "array":
+        return {
+          type: "array",
+          data,
+          label: `Array (${data.length})`,
+        };
+
+      case "null":
+        return {
+          type: "null",
+          data: null,
+          label: "Null",
+        };
+
+      default:
+        return {
+          type: "unknown",
+          data,
+          label: "Unknown",
+        };
+    }
+  };
+
+  const checkTypeOfData = (value) => typeof value === "string";
+
   return (
     <div className="dashboard-root">
       <div className="dashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
       </div>
 
-      <input type="text" ref={inputSubmitUrl} />
-      <button onClick={() => handleSubmitUrl()}>submit</button>
-
+      <div style={{ textAlign: "center" }}>
+        <input type="text" ref={inputSubmitUrl} />
+        <button onClick={() => handleSubmitUrl()}>submit</button>
+      </div>
       {baseDataKeys.length > 0 && (
         <div className="radio-group-container">
           <section>
             <h3>select label</h3>
-            {baseDataKeys.map((name) => (
-              <div
-                key={name}
-                onClick={() => setSelectListItemOne(name)}
-                className="radio-list-item"
-              >
-                <input
-                  type="radio"
-                  checked={selectListItemOne === name}
-                  readOnly
-                />
-                <span>{name}</span>
-                <span>
-                  {selectListItemOne === name && (
-                    <PreviewValue name={name} data={singleData[name]} />
-                  )}
-                </span>
-              </div>
-            ))}
+            {baseDataKeys
+              .filter((name) => checkTypeOfData(singleData[name]))
+              .map((name) => (
+                <div
+                  key={name}
+                  onClick={() => setSelectListItemOne(name)}
+                  className="radio-list-item"
+                >
+                  <input
+                    type="radio"
+                    checked={selectListItemOne === name}
+                    readOnly
+                  />
+                  <span>{name}</span>
+                  {/* <span>
+                    {selectListItemOne === name && (
+                      <PreviewValue name={name} data={singleData[name]} />
+                    )}
+                  </span> */}
+                </div>
+              ))}
           </section>
 
           <section>
-            <h3>select value</h3>
-            {baseDataKeys.map((name) => (
-              <div
-                key={name}
-                onClick={() => setSelectListItemTwo(name)}
-                className="radio-list-item"
+            <h3>Preview Data</h3>
+
+            <div>
+              {apiAllData.map((row, index) => {
+                const preview = getPreviewValue(row[selectListItemOne]);
+                const value = preview.data;
+
+                return (
+                  <div key={index}>
+                    {["array", "object"].includes(preview.type) && (
+                      <h5>{preview.label}</h5>
+                    )}
+
+                    {/* ARRAY TABLE */}
+                    {preview.type === "array" &&
+                      Array.isArray(value) &&
+                      value.length > 0 && (
+                        <table border="1">
+                          <thead>
+                            <tr>
+                              {Object.keys(value[0]).map((key) => (
+                                <th key={key}>{key}</th>
+                              ))}
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {value.map((item, i) => (
+                              <tr key={i}>
+                                {Object.values(item).map((val, j) => (
+                                  <td key={j}>{String(val)}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
+
+                    {/* OBJECT TABLE */}
+                    {preview.type === "object" && (
+                      <table border="1">
+                        <tbody>
+                          {Object.entries(value).map(([key, val]) => (
+                            <tr key={key}>
+                              <td>{key}</td>
+                              <td>{String(val)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+
+                    {/* SIMPLE VALUE */}
+                    {["string", "number", "boolean"].includes(preview.type) && (
+                      <p>{String(value)}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          <section>
+            <h3>Select Chart:</h3>
+            <div className="chart-selector">
+              <select
+                value={selectedChart}
+                onChange={(e) => setSelectedChart(e.target.value)}
               >
-                <input
-                  type="radio"
-                  checked={selectListItemTwo === name}
-                  readOnly
-                />
-                <span>{name}</span>
-                {selectListItemTwo === name && (
-                  <PreviewValue name={name} data={singleData[name]} />
-                )}
-              </div>
-            ))}
+                {chartList.map((chart) => (
+                  <option key={chart.type} value={chart.type}>
+                    {chart.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button onClick={() => handleGenerateChart()}>
+              generate chart
+            </button>
           </section>
         </div>
       )}
@@ -429,12 +622,12 @@ export default function Dashboard() {
             openChartModal({
               type: "pie",
               title: "Traffic Split",
-              data: pieData,
+              data: pieData(),
               options: null,
             })
           }
         >
-          <Pie data={pieData} />
+          <Pie data={pieData()} />
         </div>
 
         <div
@@ -499,12 +692,12 @@ export default function Dashboard() {
             openChartModal({
               type: "doughnut",
               title: "Traffic Split (Doughnut)",
-              data: pieData,
+              data: pieData(),
               options: null,
             })
           }
         >
-          <Doughnut data={pieData} />
+          <Doughnut data={pieData()} />
         </div>
 
         <div
@@ -543,32 +736,3 @@ export default function Dashboard() {
 //   if (value === null) return "null";
 //   return typeof value;
 // };
-
-function PreviewValue({ data }) {
-  const getType = (value) => {
-    if (Array.isArray(value)) return "array";
-    if (value === null) return "null";
-    return typeof value;
-  };
-
-  const type = getType(data);
-
-  switch (type) {
-    case "string":
-    case "number":
-    case "boolean":
-      return <>&nbsp; - &nbsp;{String(data)}</>;
-
-    case "object":
-      return <>&nbsp; - &nbsp;Object</>;
-
-    case "array":
-      return <>&nbsp; - &nbsp;Array ({data.length})</>;
-
-    case "null":
-      return <>&nbsp; - &nbsp;Null</>;
-
-    default:
-      return <>&nbsp; - &nbsp;Unknown</>;
-  }
-}
