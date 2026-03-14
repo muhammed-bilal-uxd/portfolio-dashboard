@@ -69,7 +69,8 @@
 
 .radio-group-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 230px));
+  gap: 12px;
 }
 
 .radio-list-item {

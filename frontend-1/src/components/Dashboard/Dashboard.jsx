@@ -455,7 +455,15 @@ export default function Dashboard() {
     }
   };
 
-  const checkTypeOfData = (value) => typeof value === "string";
+  const checkTypeOfData = (value, isLabel) => {
+    // check label
+    if (isLabel) return typeof value === "string";
+
+    //  check value
+    const cleaned = Number(String(value).replace("$", ""));
+
+    return !isNaN(cleaned);
+  };
 
   return (
     <div className="dashboard-root">
@@ -469,10 +477,11 @@ export default function Dashboard() {
       </div>
       {baseDataKeys.length > 0 && (
         <div className="radio-group-container">
+          {/* select label */}
           <section>
             <h3>select label</h3>
             {baseDataKeys
-              .filter((name) => checkTypeOfData(singleData[name]))
+              .filter((name) => checkTypeOfData(singleData[name], true))
               .map((name) => (
                 <div
                   key={name}
@@ -494,8 +503,9 @@ export default function Dashboard() {
               ))}
           </section>
 
+          {/* preview label */}
           <section>
-            <h3>Preview Data</h3>
+            <h3>Preview label</h3>
 
             <div>
               {apiAllData.map((row, index) => {
@@ -557,27 +567,115 @@ export default function Dashboard() {
             </div>
           </section>
 
+          {/* select value */}
           <section>
-            <h3>Select Chart:</h3>
-            <div className="chart-selector">
-              <select
-                value={selectedChart}
-                onChange={(e) => setSelectedChart(e.target.value)}
-              >
-                {chartList.map((chart) => (
-                  <option key={chart.type} value={chart.type}>
-                    {chart.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <h3>select value</h3>
+            {baseDataKeys
+              .filter((name) => checkTypeOfData(singleData[name], false))
+              .map((name) => (
+                <div
+                  key={name}
+                  onClick={() => setSelectListItemTwo(name)}
+                  className="radio-list-item"
+                >
+                  <input
+                    type="radio"
+                    checked={selectListItemTwo === name}
+                    readOnly
+                  />
+                  <span>{name}</span>
+                  {/* <span>
+                    {selectListItemOne === name && (
+                      <PreviewValue name={name} data={singleData[name]} />
+                    )}
+                  </span> */}
+                </div>
+              ))}
+          </section>
 
-            <button onClick={() => handleGenerateChart()}>
-              generate chart
-            </button>
+          {/* preview label */}
+          <section>
+            <h3>Preview value</h3>
+
+            <div>
+              {apiAllData.map((row, index) => {
+                const preview = getPreviewValue(row[selectListItemTwo]);
+                const value = preview.data;
+
+                return (
+                  <div key={index}>
+                    {["array", "object"].includes(preview.type) && (
+                      <h5>{preview.label}</h5>
+                    )}
+
+                    {/* ARRAY TABLE */}
+                    {preview.type === "array" &&
+                      Array.isArray(value) &&
+                      value.length > 0 && (
+                        <table border="1">
+                          <thead>
+                            <tr>
+                              {Object.keys(value[0]).map((key) => (
+                                <th key={key}>{key}</th>
+                              ))}
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {value.map((item, i) => (
+                              <tr key={i}>
+                                {Object.values(item).map((val, j) => (
+                                  <td key={j}>{String(val)}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
+
+                    {/* OBJECT TABLE */}
+                    {preview.type === "object" && (
+                      <table border="1">
+                        <tbody>
+                          {Object.entries(value).map(([key, val]) => (
+                            <tr key={key}>
+                              <td>{key}</td>
+                              <td>{String(val)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+
+                    {/* SIMPLE VALUE */}
+                    {["string", "number", "boolean"].includes(preview.type) && (
+                      <p>{String(value)}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </section>
         </div>
       )}
+
+      <section>
+        <h3>Select Chart:</h3>
+        <div className="chart-selector">
+          <select
+            value={selectedChart}
+            onChange={(e) => setSelectedChart(e.target.value)}
+          >
+            {chartList.map((chart) => (
+              <option key={chart.type} value={chart.type}>
+                {chart.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button onClick={() => handleGenerateChart()}>generate chart</button>
+      </section>
 
       {/* <br />
 
