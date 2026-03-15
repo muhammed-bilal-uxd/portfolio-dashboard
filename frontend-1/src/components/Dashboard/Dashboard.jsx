@@ -74,7 +74,7 @@ export default function Dashboard() {
   const [singleData, setSingleData] = useState({});
   const [apiAllData, setApiAllData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("line");
-  const [pieDataValues, setPieDataValues] = useState({
+  const [dataValues, setDataValues] = useState({
     labels: ["Desktop", "Mobile", "Tablet"],
     values: [52, 38, 10],
   });
@@ -82,7 +82,7 @@ export default function Dashboard() {
   const inputSubmitUrl = useRef(null);
 
   useEffect(() => {
-    getAllProducts();
+    // getAllProducts();
     // getAllCategories();
   }, []);
 
@@ -184,12 +184,14 @@ export default function Dashboard() {
 
   const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+  const randomColor = () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`;
+
   const lineData = {
-    labels,
+    labels: dataValues.labels,
     datasets: [
       {
-        label: "Visits",
-        data: [120, 190, 160, 210, 240, 200, 260],
+        label: selectListItemOne,
+        data: dataValues.values,
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59,130,246,0.2)",
         fill: true,
@@ -199,61 +201,59 @@ export default function Dashboard() {
   };
 
   const barData = {
-    labels: [...categoryProductCount.catLabels],
+    labels: [...dataValues.labels],
     datasets: [
       {
-        label: "Category",
-        data: [...categoryProductCount.catValues],
-        backgroundColor: "#22c55e",
+        label: selectListItemOne || "",
+        data: [...dataValues.values],
+        backgroundColor: randomColor(),
       },
     ],
   };
-
-  const randomColor = () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`;
 
   // const generateRandomColors =
 
   const pieData = () => {
     const bgColors =
-      Array.isArray(pieDataValues.labels) && labels.map(() => randomColor());
+      Array.isArray(dataValues.labels) && labels.map(() => randomColor());
 
     return {
-      labels: pieDataValues.labels,
+      labels: dataValues.labels,
       datasets: [
         {
-          data: [...pieDataValues.values],
+          data: [...dataValues.values],
           backgroundColor: [...bgColors],
         },
       ],
     };
   };
 
-  const radarData = {
-    labels: ["UX", "UI", "Speed", "SEO", "Content", "Support"],
-    datasets: [
-      {
-        label: "Score",
-        data: [78, 82, 74, 69, 80, 76],
-        backgroundColor: "rgba(168,85,247,0.2)",
-        borderColor: "#a855f7",
-      },
-    ],
+  const radarData = () => {
+    return {
+      labels: [...dataValues.labels],
+      datasets: [
+        {
+          label: "Score",
+          data: [...dataValues.values],
+          backgroundColor: "rgba(168,85,247,0.2)",
+          borderColor: "#a855f7",
+        },
+      ],
+    };
   };
 
-  const polarData = {
-    labels: ["A", "B", "C", "D", "E"],
-    datasets: [
-      {
-        data: [11, 16, 7, 14, 10],
-        backgroundColor: [
-          "#3b82f6",
-          "#22c55e",
-          "#f97316",
-          "#a855f7",
-          "#ef4444",
-        ],
-      },
-    ],
+  const polarData = () => {
+    const colors = dataValues.labels.map(() => randomColor());
+
+    return {
+      labels: [...dataValues.labels],
+      datasets: [
+        {
+          data: [...dataValues.values],
+          backgroundColor: [...colors],
+        },
+      ],
+    };
   };
 
   const bubbleData = {
@@ -370,40 +370,28 @@ export default function Dashboard() {
   };
 
   const handleGenerateChart = () => {
-    if (!isValidGenerateChart) return;
+    // if (!isValidGenerateChart) return;
 
-    if (selectedChart === "pie") {
-      console.log("restApiResponse", restApiResponse);
+    console.log("restApiResponse", restApiResponse);
 
-      const modifiedValue = restApiResponse.reduce((acc, item, index) => {
-        const keyValue = item[selectListItemOne];
+    const data = restApiResponse.reduce(
+      (acc, item) => {
+        const modifiedLabel = item[selectListItemOne]?.replace("&amp;", "");
 
-        if (!acc[keyValue]) acc[keyValue] = 0;
-
-        acc[keyValue]++;
+        acc.labels.push(modifiedLabel);
+        acc.values.push(item[selectListItemTwo]);
 
         return acc;
-      }, {});
-
-      console.log("modifiedValue", modifiedValue);
-
-      let data = {
+      },
+      {
         labels: [],
         values: [],
-      };
+      },
+    );
 
-      Object.entries(modifiedValue).forEach(([key, value]) => {
-        console.log("key:", key);
-        console.log("value:", value);
+    console.log("data", data);
 
-        data.labels.push(key);
-        data.values.push(value);
-      });
-
-      console.log("data", data);
-
-      setPieDataValues(data);
-    }
+    setDataValues(data);
   };
 
   const getPreviewValue = (data) => {
@@ -683,7 +671,7 @@ export default function Dashboard() {
 
       <br /> */}
 
-      <DeliveryCards />
+      {/* <DeliveryCards /> */}
 
       <div className="grid-container">
         <div
@@ -734,12 +722,12 @@ export default function Dashboard() {
             openChartModal({
               type: "radar",
               title: "Performance Score",
-              data: radarData,
+              data: radarData(),
               options: null,
             })
           }
         >
-          <Radar data={radarData} />
+          <Radar data={radarData()} />
         </div>
 
         <div
@@ -748,12 +736,12 @@ export default function Dashboard() {
             openChartModal({
               type: "polar",
               title: "Category Spread",
-              data: polarData,
+              data: polarData(),
               options: null,
             })
           }
         >
-          <PolarArea data={polarData} />
+          <PolarArea data={polarData()} />
         </div>
 
         <div
@@ -796,20 +784,6 @@ export default function Dashboard() {
           }
         >
           <Doughnut data={pieData()} />
-        </div>
-
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "bar",
-              title: "Orders (Copy)",
-              data: barData,
-              options: baseOptions("Orders (Copy)"),
-            })
-          }
-        >
-          <Bar data={barData} options={baseOptions()} />
         </div>
       </div>
 
