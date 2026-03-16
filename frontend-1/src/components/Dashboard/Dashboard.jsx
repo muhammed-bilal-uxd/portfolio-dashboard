@@ -75,7 +75,7 @@ export default function Dashboard() {
   const [baseDataKeys, setBaseDataKeys] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [apiAllData, setApiAllData] = useState([]);
-  const [selectedChart, setSelectedChart] = useState("");
+  const [selectedChart, setSelectedChart] = useState("cards");
   const [dataValues, setDataValues] = useState({
     labels: ["Desktop", "Mobile", "Tablet"],
     values: [52, 38, 10],
