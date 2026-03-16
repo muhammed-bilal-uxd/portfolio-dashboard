@@ -47,6 +47,7 @@ ChartJS.register(
 );
 
 const chartList = [
+  { label: "Cards", type: "cards" },
   { label: "Line Chart", type: "line" },
   { label: "Bar Chart", type: "bar" },
   { label: "Pie Chart", type: "pie" },
@@ -66,6 +67,7 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [productsKeys, setProductsKeys] = useState([]);
   const [categories, setCategory] = useState([]);
+  const [showCheckbox, setShowCheckbox] = useState(false);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
   const [restApiResponse, setRestApiResponse] = useState([]);
   const [selectListItemOne, setSelectListItemOne] = useState("");
@@ -73,7 +75,7 @@ export default function Dashboard() {
   const [baseDataKeys, setBaseDataKeys] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [apiAllData, setApiAllData] = useState([]);
-  const [selectedChart, setSelectedChart] = useState("line");
+  const [selectedChart, setSelectedChart] = useState("");
   const [dataValues, setDataValues] = useState({
     labels: ["Desktop", "Mobile", "Tablet"],
     values: [52, 38, 10],
@@ -85,6 +87,23 @@ export default function Dashboard() {
     // getAllProducts();
     // getAllCategories();
   }, []);
+
+  const onClickCheckbox = (value) => {
+    let selectedItems = [];
+    const isExistValue = checkboxSelected.includes(String(value));
+
+    if (isExistValue) {
+      selectedItems = [
+        ...checkboxSelected.filter((c) => {
+          return c !== String(value);
+        }),
+      ];
+    } else {
+      selectedItems = [...checkboxSelected, String(value)];
+    }
+
+    setCheckboxSelected(selectedItems);
+  };
 
   const getAllProducts = async () => {
     try {
@@ -455,214 +474,282 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-root">
+      {/* tittle */}
       <div className="dashboard-header">
         <h1 className="dashboard-title">Dashboard</h1>
       </div>
 
-      <div style={{ textAlign: "center" }}>
-        <input type="text" ref={inputSubmitUrl} />
-        <button onClick={() => handleSubmitUrl()}>submit</button>
-      </div>
-      {baseDataKeys.length > 0 && (
-        <div className="radio-group-container">
-          {/* select label */}
-          <section>
-            <h3>select label</h3>
-            {baseDataKeys
-              .filter((name) => checkTypeOfData(singleData[name], true))
-              .map((name) => (
-                <div
-                  key={name}
-                  onClick={() => setSelectListItemOne(name)}
-                  className="radio-list-item"
-                >
-                  <input
-                    type="radio"
-                    checked={selectListItemOne === name}
-                    readOnly
-                  />
-                  <span>{name}</span>
-                  {/* <span>
-                    {selectListItemOne === name && (
-                      <PreviewValue name={name} data={singleData[name]} />
-                    )}
-                  </span> */}
-                </div>
-              ))}
-          </section>
+      {/* api call input */}
+      <section className="section-container">
+        <b className="step-name">step : 1</b>
 
-          {/* preview label */}
-          <section>
-            <h3>Preview label</h3>
-
-            <div>
-              {apiAllData.map((row, index) => {
-                const preview = getPreviewValue(row[selectListItemOne]);
-                const value = preview.data;
-
-                return (
-                  <div key={index}>
-                    {["array", "object"].includes(preview.type) && (
-                      <h5>{preview.label}</h5>
-                    )}
-
-                    {/* ARRAY TABLE */}
-                    {preview.type === "array" &&
-                      Array.isArray(value) &&
-                      value.length > 0 && (
-                        <table border="1">
-                          <thead>
-                            <tr>
-                              {Object.keys(value[0]).map((key) => (
-                                <th key={key}>{key}</th>
-                              ))}
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {value.map((item, i) => (
-                              <tr key={i}>
-                                {Object.values(item).map((val, j) => (
-                                  <td key={j}>{String(val)}</td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-
-                    {/* OBJECT TABLE */}
-                    {preview.type === "object" && (
-                      <table border="1">
-                        <tbody>
-                          {Object.entries(value).map(([key, val]) => (
-                            <tr key={key}>
-                              <td>{key}</td>
-                              <td>{String(val)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    )}
-
-                    {/* SIMPLE VALUE */}
-                    {["string", "number", "boolean"].includes(preview.type) && (
-                      <p>{String(value)}</p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* select value */}
-          <section>
-            <h3>select value</h3>
-            {baseDataKeys
-              .filter((name) => checkTypeOfData(singleData[name], false))
-              .map((name) => (
-                <div
-                  key={name}
-                  onClick={() => setSelectListItemTwo(name)}
-                  className="radio-list-item"
-                >
-                  <input
-                    type="radio"
-                    checked={selectListItemTwo === name}
-                    readOnly
-                  />
-                  <span>{name}</span>
-                  {/* <span>
-                    {selectListItemOne === name && (
-                      <PreviewValue name={name} data={singleData[name]} />
-                    )}
-                  </span> */}
-                </div>
-              ))}
-          </section>
-
-          {/* preview label */}
-          <section>
-            <h3>Preview value</h3>
-
-            <div>
-              {apiAllData.map((row, index) => {
-                const preview = getPreviewValue(row[selectListItemTwo]);
-                const value = preview.data;
-
-                return (
-                  <div key={index}>
-                    {["array", "object"].includes(preview.type) && (
-                      <h5>{preview.label}</h5>
-                    )}
-
-                    {/* ARRAY TABLE */}
-                    {preview.type === "array" &&
-                      Array.isArray(value) &&
-                      value.length > 0 && (
-                        <table border="1">
-                          <thead>
-                            <tr>
-                              {Object.keys(value[0]).map((key) => (
-                                <th key={key}>{key}</th>
-                              ))}
-                            </tr>
-                          </thead>
-
-                          <tbody>
-                            {value.map((item, i) => (
-                              <tr key={i}>
-                                {Object.values(item).map((val, j) => (
-                                  <td key={j}>{String(val)}</td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-
-                    {/* OBJECT TABLE */}
-                    {preview.type === "object" && (
-                      <table border="1">
-                        <tbody>
-                          {Object.entries(value).map(([key, val]) => (
-                            <tr key={key}>
-                              <td>{key}</td>
-                              <td>{String(val)}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    )}
-
-                    {/* SIMPLE VALUE */}
-                    {["string", "number", "boolean"].includes(preview.type) && (
-                      <p>{String(value)}</p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+        <h3>Paste rest data Url:</h3>
+        <div
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+            gap: 5,
+          }}
+        >
+          <input type="text" ref={inputSubmitUrl} placeholder="URL here..." />
         </div>
-      )}
+      </section>
 
-      <section>
-        <h3>Select Chart:</h3>
-        <div className="chart-selector">
-          <select
-            value={selectedChart}
-            onChange={(e) => setSelectedChart(e.target.value)}
-          >
-            {chartList.map((chart) => (
-              <option key={chart.type} value={chart.type}>
-                {chart.label}
-              </option>
-            ))}
-          </select>
+      {/* select chart type */}
+      <section className="section-container">
+        <b className="step-name">step : 2</b>
+        <h3>Select chart:</h3>
+        <div
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+            gap: 5,
+          }}
+        >
+          <div className="chart-selector">
+            <select
+              value={selectedChart}
+              onChange={(e) => {
+                setSelectedChart(e.target.value);
+                setCheckboxSelected([]);
+              }}
+            >
+              <option disabled>Select Option</option>
+              {chartList.map((chart) => (
+                <option key={chart.type} value={chart.type}>
+                  {chart.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+      </section>
 
-        <button onClick={() => handleGenerateChart()}>generate chart</button>
+      {/* generate data preview */}
+      <section className="section-container">
+        <b className="step-name">step : 3</b>
+
+        <br />
+        <br />
+        <button disabled="" onClick={() => handleSubmitUrl()}>
+          preview data
+        </button>
+
+        <h3>Select options:</h3>
+
+        <div>
+          {baseDataKeys.length > 0 && (
+            <div className="radio-group-container">
+              {/* select label */}
+              <section>
+                <h3>select label</h3>
+                {baseDataKeys
+                  .filter((name) => checkTypeOfData(singleData[name], true))
+                  .map((name) => (
+                    <div
+                      key={name}
+                      onClick={() => setSelectListItemOne(name)}
+                      className="radio-list-item"
+                    >
+                      <input
+                        type="radio"
+                        checked={selectListItemOne === name}
+                        readOnly
+                      />
+                      <span>{name}</span>
+                      {/* <span>
+                      {selectListItemOne === name && (
+                        <PreviewValue name={name} data={singleData[name]} />
+                      )}
+                    </span> */}
+                    </div>
+                  ))}
+              </section>
+
+              {/* preview label */}
+              <section>
+                <h3>Preview label</h3>
+
+                <div>
+                  {apiAllData.map((row, index) => {
+                    const preview = getPreviewValue(row[selectListItemOne]);
+                    const value = preview.data;
+
+                    return (
+                      <div key={index}>
+                        {["array", "object"].includes(preview.type) && (
+                          <h5>{preview.label}</h5>
+                        )}
+
+                        {/* ARRAY TABLE */}
+                        {preview.type === "array" &&
+                          Array.isArray(value) &&
+                          value.length > 0 && (
+                            <table border="1">
+                              <thead>
+                                <tr>
+                                  {Object.keys(value[0]).map((key) => (
+                                    <th key={key}>{key}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {value.map((item, i) => (
+                                  <tr key={i}>
+                                    {Object.values(item).map((val, j) => (
+                                      <td key={j}>{String(val)}</td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          )}
+
+                        {/* OBJECT TABLE */}
+                        {preview.type === "object" && (
+                          <table border="1">
+                            <tbody>
+                              {Object.entries(value).map(([key, val]) => (
+                                <tr key={key}>
+                                  <td>{key}</td>
+                                  <td>{String(val)}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
+
+                        {/* SIMPLE VALUE */}
+                        {["string", "number", "boolean"].includes(
+                          preview.type,
+                        ) && (
+                          <>
+                            {!(selectedChart === "cards") ? (
+                              <p>{String(value)}</p>
+                            ) : (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 5,
+                                }}
+                                onClick={() => onClickCheckbox(String(value))}
+                              >
+                                <input
+                                  type="checkbox"
+                                  readOnly
+                                  checked={checkboxSelected.includes(
+                                    String(value),
+                                  )}
+                                />
+                                <span>{String(value)}</span>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+
+              {/* select value */}
+              <section>
+                <h3>select value</h3>
+                {baseDataKeys
+                  .filter((name) => checkTypeOfData(singleData[name], false))
+                  .map((name) => (
+                    <div
+                      key={name}
+                      onClick={() => setSelectListItemTwo(name)}
+                      className="radio-list-item"
+                    >
+                      <input
+                        type="radio"
+                        checked={selectListItemTwo === name}
+                        readOnly
+                      />
+                      <span>{name}</span>
+                      {/* <span>
+                      {selectListItemOne === name && (
+                        <PreviewValue name={name} data={singleData[name]} />
+                      )}
+                    </span> */}
+                    </div>
+                  ))}
+              </section>
+
+              {/* preview label */}
+              <section>
+                <h3>Preview value</h3>
+
+                <div>
+                  {apiAllData.map((row, index) => {
+                    const preview = getPreviewValue(row[selectListItemTwo]);
+                    const value = preview.data;
+
+                    return (
+                      <div key={index}>
+                        {["array", "object"].includes(preview.type) && (
+                          <h5>{preview.label}</h5>
+                        )}
+
+                        {/* ARRAY TABLE */}
+                        {preview.type === "array" &&
+                          Array.isArray(value) &&
+                          value.length > 0 && (
+                            <table border="1">
+                              <thead>
+                                <tr>
+                                  {Object.keys(value[0]).map((key) => (
+                                    <th key={key}>{key}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {value.map((item, i) => (
+                                  <tr key={i}>
+                                    {Object.values(item).map((val, j) => (
+                                      <td key={j}>{String(val)}</td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          )}
+
+                        {/* OBJECT TABLE */}
+                        {preview.type === "object" && (
+                          <table border="1">
+                            <tbody>
+                              {Object.entries(value).map(([key, val]) => (
+                                <tr key={key}>
+                                  <td>{key}</td>
+                                  <td>{String(val)}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
+
+                        {/* SIMPLE VALUE */}
+                        {["string", "number", "boolean"].includes(
+                          preview.type,
+                        ) && <p>{String(value)}</p>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
+          )}
+
+          {baseDataKeys.length === 0 && <>no data to preview</>}
+        </div>
       </section>
 
       {/* <br />
@@ -673,132 +760,146 @@ export default function Dashboard() {
 
       {/* <DeliveryCards /> */}
 
-      <div className="grid-container">
-        <div
-          className="grid-item chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "line",
-              title: "Visits (Weekly)",
-              data: lineData,
-              options: baseOptions("Visits (Weekly)"),
-            })
-          }
-        >
-          <Line data={lineData} options={baseOptions()} />
+      {/* chart list */}
+      <section className="section-container">
+        <b className="step-name">step : 4</b>
+        <br />
+        <br />
+
+        <div>
+          <button onClick={() => handleGenerateChart()}>generate chart</button>
+        </div>
+        <br />
+
+        <div className="grid-container">
+          <div
+            className="grid-item chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "line",
+                title: "Visits (Weekly)",
+                data: lineData,
+                options: baseOptions("Visits (Weekly)"),
+              })
+            }
+          >
+            <Line data={lineData} options={baseOptions()} />
+          </div>
+
+          <div
+            className="chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "bar",
+                title: "Orders (Weekly)",
+                data: barData,
+                options: baseOptions("Orders (Weekly)"),
+              })
+            }
+          >
+            <Bar data={barData} options={baseOptions()} />
+          </div>
+
+          <div
+            className="chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "pie",
+                title: "Traffic Split",
+                data: pieData(),
+                options: null,
+              })
+            }
+          >
+            <Pie data={pieData()} />
+          </div>
+
+          <div
+            className="chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "radar",
+                title: "Performance Score",
+                data: radarData(),
+                options: null,
+              })
+            }
+          >
+            <Radar data={radarData()} />
+          </div>
+
+          <div
+            className="chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "polar",
+                title: "Category Spread",
+                data: polarData(),
+                options: null,
+              })
+            }
+          >
+            <PolarArea data={polarData()} />
+          </div>
+
+          <div
+            className="chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "bubble",
+                title: "Campaigns",
+                data: bubbleData,
+                options: baseOptions("Campaigns"),
+              })
+            }
+          >
+            <Bubble data={bubbleData} options={baseOptions()} />
+          </div>
+
+          <div
+            className="chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "scatter",
+                title: "Spend vs Conversion",
+                data: scatterData,
+                options: baseOptions("Spend vs Conversion"),
+              })
+            }
+          >
+            <Scatter data={scatterData} options={baseOptions()} />
+          </div>
+
+          <div
+            className="chart-card"
+            onClick={() =>
+              openChartModal({
+                type: "doughnut",
+                title: "Traffic Split (Doughnut)",
+                data: pieData(),
+                options: null,
+              })
+            }
+          >
+            <Doughnut data={pieData()} />
+          </div>
         </div>
 
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "bar",
-              title: "Orders (Weekly)",
-              data: barData,
-              options: baseOptions("Orders (Weekly)"),
-            })
-          }
+        <Modal
+          isOpen={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setActiveChart(null);
+          }}
         >
-          <Bar data={barData} options={baseOptions()} />
-        </div>
-
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "pie",
-              title: "Traffic Split",
-              data: pieData(),
-              options: null,
-            })
-          }
-        >
-          <Pie data={pieData()} />
-        </div>
-
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "radar",
-              title: "Performance Score",
-              data: radarData(),
-              options: null,
-            })
-          }
-        >
-          <Radar data={radarData()} />
-        </div>
-
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "polar",
-              title: "Category Spread",
-              data: polarData(),
-              options: null,
-            })
-          }
-        >
-          <PolarArea data={polarData()} />
-        </div>
-
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "bubble",
-              title: "Campaigns",
-              data: bubbleData,
-              options: baseOptions("Campaigns"),
-            })
-          }
-        >
-          <Bubble data={bubbleData} options={baseOptions()} />
-        </div>
-
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "scatter",
-              title: "Spend vs Conversion",
-              data: scatterData,
-              options: baseOptions("Spend vs Conversion"),
-            })
-          }
-        >
-          <Scatter data={scatterData} options={baseOptions()} />
-        </div>
-
-        <div
-          className="chart-card"
-          onClick={() =>
-            openChartModal({
-              type: "doughnut",
-              title: "Traffic Split (Doughnut)",
-              data: pieData(),
-              options: null,
-            })
-          }
-        >
-          <Doughnut data={pieData()} />
-        </div>
-      </div>
-
-      <Modal
-        isOpen={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-          setActiveChart(null);
-        }}
-      >
-        {activeChart?.title ? (
-          <h3 className="modal-chart-title">{activeChart.title}</h3>
-        ) : null}
-        <div className="modal-chart-container">{renderChart(activeChart)}</div>
-      </Modal>
+          {activeChart?.title ? (
+            <h3 className="modal-chart-title">{activeChart.title}</h3>
+          ) : null}
+          <div className="modal-chart-container">
+            {renderChart(activeChart)}
+          </div>
+        </Modal>
+      </section>
     </div>
   );
 }
