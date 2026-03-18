@@ -47,7 +47,7 @@ ChartJS.register(
 );
 
 const chartList = [
-  { label: "Cards", type: "cards" },
+  { label: "Card", type: "card" },
   { label: "Line Chart", type: "line" },
   { label: "Bar Chart", type: "bar" },
   { label: "Pie Chart", type: "pie" },
@@ -75,13 +75,14 @@ export default function Dashboard() {
   const [baseDataKeys, setBaseDataKeys] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [apiAllData, setApiAllData] = useState([]);
-  const [selectedChart, setSelectedChart] = useState("cards");
+  const [selectedChart, setSelectedChart] = useState("card");
   const [dataValues, setDataValues] = useState({
     labels: ["Desktop", "Mobile", "Tablet"],
     values: [52, 38, 10],
   });
 
   const inputSubmitUrl = useRef(null);
+  const [configName, setConfigName] = useState("");
 
   useEffect(() => {
     // getAllProducts();
@@ -388,7 +389,7 @@ export default function Dashboard() {
     return true;
   };
 
-  const handleGenerateChart = () => {
+  const handleAddNewChart = () => {
     // if (!isValidGenerateChart) return;
 
     console.log("restApiResponse", restApiResponse);
@@ -570,7 +571,7 @@ export default function Dashboard() {
 
               {/* preview label */}
               <section>
-                <h3>Preview label</h3>
+                <h3>view data label</h3>
 
                 <div>
                   {apiAllData.map((row, index) => {
@@ -627,7 +628,7 @@ export default function Dashboard() {
                           preview.type,
                         ) && (
                           <>
-                            {!(selectedChart === "cards") ? (
+                            {!(selectedChart === "card") ? (
                               <p>{String(value)}</p>
                             ) : (
                               <div
@@ -684,7 +685,7 @@ export default function Dashboard() {
 
               {/* preview label */}
               <section>
-                <h3>Preview value</h3>
+                <h3>value view data</h3>
 
                 <div>
                   {apiAllData.map((row, index) => {
@@ -760,14 +761,37 @@ export default function Dashboard() {
 
       {/* <DeliveryCards /> */}
 
-      {/* chart list */}
       <section className="section-container">
         <b className="step-name">step : 4</b>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <h3>Enter your new {selectedChart} name:</h3>
+          <input
+            type="text"
+            placeholder="Enter name"
+            value={configName}
+            onChange={(e) => setConfigName(e.target.value)}
+          />
+        </div>
+      </section>
+
+      {/* chart list */}
+      <section className="section-container">
+        <b className="step-name">step : 5</b>
         <br />
         <br />
 
         <div>
-          <button onClick={() => handleGenerateChart()}>generate chart</button>
+          <button onClick={() => handleAddNewChart()}>
+            add new {selectedChart}
+          </button>
         </div>
         <br />
 
