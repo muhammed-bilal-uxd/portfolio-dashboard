@@ -69,6 +69,7 @@ export default function Dashboard() {
   const [categories, setCategory] = useState([]);
   const [showCheckbox, setShowCheckbox] = useState(false);
   const [checkboxSelected, setCheckboxSelected] = useState([]);
+  const [viewDataLabel, setViewDataLabel] = useState("");
   const [restApiResponse, setRestApiResponse] = useState([]);
   const [selectListItemOne, setSelectListItemOne] = useState("");
   const [selectListItemTwo, setSelectListItemTwo] = useState("");
@@ -82,12 +83,28 @@ export default function Dashboard() {
   });
 
   const inputSubmitUrl = useRef(null);
-  const [configName, setConfigName] = useState("");
+  const [newConfigName, setNewConfigName] = useState("");
 
   useEffect(() => {
-    // getAllProducts();
-    // getAllCategories();
-  }, []);
+    if (!singleData || !baseDataKeys.length) return;
+
+    const filterLabels = baseDataKeys.filter((name) =>
+      checkTypeOfData(singleData[name], true),
+    );
+
+    const filterValues = baseDataKeys.filter((name) =>
+      checkTypeOfData(singleData[name], false),
+    );
+
+    if (filterLabels[0]) {
+      setSelectListItemOne(filterLabels[0]);
+      setViewDataLabel(singleData[filterLabels[0]]);
+    }
+
+    if (filterValues[0]) {
+      setSelectListItemTwo(filterValues[0]);
+    }
+  }, [singleData, baseDataKeys]);
 
   const onClickCheckbox = (value) => {
     let selectedItems = [];
@@ -376,22 +393,30 @@ export default function Dashboard() {
   };
 
   const isValidGenerateChart = () => {
-    if (typeof selectListItemOne !== "string") {
-      alert("label should be string");
+    if (selectListItemOne === "") {
+      alert("label missing");
       return false;
     }
 
-    if (typeof selectListItemTwo !== "number") {
-      alert("value should be number");
+    if (selectListItemTwo === "") {
+      alert("value missing");
+      return false;
+    }
+
+    if (viewDataLabel === "") {
+      alert("value data label missing");
+      return false;
+    }
+
+    if (newConfigName === "") {
+      alert(selectedChart + " name missing");
       return false;
     }
 
     return true;
   };
 
-  const handleAddNewChart = () => {
-    // if (!isValidGenerateChart) return;
-
+  const addChart = () => {
     console.log("restApiResponse", restApiResponse);
 
     const data = restApiResponse.reduce(
@@ -412,6 +437,12 @@ export default function Dashboard() {
     console.log("data", data);
 
     setDataValues(data);
+  };
+
+  const handleAddNewChart = () => {
+    if (!isValidGenerateChart()) return;
+
+    addChart();
   };
 
   const getPreviewValue = (data) => {
@@ -634,17 +665,15 @@ export default function Dashboard() {
                               <div
                                 style={{
                                   display: "flex",
-                                  alignItems: "center",
+                                  alignItems: "flex-start",
                                   gap: 5,
                                 }}
-                                onClick={() => onClickCheckbox(String(value))}
+                                onClick={() => setViewDataLabel(value)}
                               >
                                 <input
-                                  type="checkbox"
+                                  type="radio"
                                   readOnly
-                                  checked={checkboxSelected.includes(
-                                    String(value),
-                                  )}
+                                  checked={value === viewDataLabel}
                                 />
                                 <span>{String(value)}</span>
                               </div>
@@ -776,8 +805,8 @@ export default function Dashboard() {
           <input
             type="text"
             placeholder="Enter name"
-            value={configName}
-            onChange={(e) => setConfigName(e.target.value)}
+            value={newConfigName}
+            onChange={(e) => setNewConfigName(e.target.value)}
           />
         </div>
       </section>
