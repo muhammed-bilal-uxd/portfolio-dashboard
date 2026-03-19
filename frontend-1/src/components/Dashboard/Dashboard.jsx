@@ -2,68 +2,27 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 import DeliveryCards from "../DeliveryCards/DeliveryCards";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
-  RadialLinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from "chart.js";
-
-import {
-  Line,
-  Bar,
-  Pie,
-  Doughnut,
-  Radar,
-  PolarArea,
-  Bubble,
-  Scatter,
-} from "react-chartjs-2";
-
-import "./Dashboard.css";
+import ChartModel from "../chart/Chart";
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
-  RadialLinearScale,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-);
-
 const chartList = [
-  { label: "Card", type: "card" },
-  { label: "Line Chart", type: "line" },
-  { label: "Bar Chart", type: "bar" },
-  { label: "Pie Chart", type: "pie" },
-  { label: "Doughnut Chart", type: "doughnut" },
-  { label: "Radar Chart", type: "radar" },
-  { label: "Polar Area Chart", type: "polar" },
-  { label: "Bubble Chart", type: "bubble" },
-  { label: "Scatter Chart", type: "scatter" },
+  { label: "Card", type: "card", active: true },
+  { label: "Line Chart", type: "line", active: true },
+  { label: "Bar Chart", type: "bar", active: true },
+  { label: "Pie Chart", type: "pie", active: true },
+  { label: "Doughnut Chart", type: "doughnut", active: true },
+  { label: "Radar Chart", type: "radar", active: true },
+  { label: "Polar Area Chart", type: "polar", active: true },
+  { label: "Bubble Chart", type: "bubble", active: false },
+  { label: "Scatter Chart", type: "scatter", active: false },
 ];
 
 export default function Dashboard() {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [activeChart, setActiveChart] = useState(null); // { type, title, data, options }
+  // { type, title, data, options }
   const [products, setProducts] = useState([]);
   const [productsKeys, setProductsKeys] = useState([]);
   const [categories, setCategory] = useState([]);
@@ -73,17 +32,15 @@ export default function Dashboard() {
   const [restApiResponse, setRestApiResponse] = useState([]);
   const [selectListItemOne, setSelectListItemOne] = useState("");
   const [selectListItemTwo, setSelectListItemTwo] = useState("");
+  const [selectListItemOneIndex, setSelectListItemOneIndex] = useState(0);
   const [baseDataKeys, setBaseDataKeys] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [apiAllData, setApiAllData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("card");
-  const [dataValues, setDataValues] = useState({
-    labels: ["Desktop", "Mobile", "Tablet"],
-    values: [52, 38, 10],
-  });
 
   const inputSubmitUrl = useRef(null);
   const [newConfigName, setNewConfigName] = useState("");
+  const [configList, setConfigList] = useState([]);
 
   useEffect(() => {
     if (!singleData || !baseDataKeys.length) return;
@@ -98,6 +55,7 @@ export default function Dashboard() {
 
     if (filterLabels[0]) {
       setSelectListItemOne(filterLabels[0]);
+      setSelectListItemOneIndex(0);
       setViewDataLabel(singleData[filterLabels[0]]);
     }
 
@@ -197,160 +155,6 @@ export default function Dashboard() {
     return { catList, catLabels, catValues };
   }, [products]);
 
-  const baseOptions = (title) => ({
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "bottom",
-        labels: { color: theme.text },
-      },
-      title: { display: !!title, text: title, color: theme.text },
-    },
-    scales: {
-      x: {
-        ticks: { color: theme.text },
-        grid: { color: theme.grid },
-      },
-      y: {
-        ticks: { color: theme.text },
-        grid: { color: theme.grid },
-      },
-    },
-  });
-
-  const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  const randomColor = () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`;
-
-  const lineData = {
-    labels: dataValues.labels,
-    datasets: [
-      {
-        label: selectListItemOne,
-        data: dataValues.values,
-        borderColor: "#3b82f6",
-        backgroundColor: "rgba(59,130,246,0.2)",
-        fill: true,
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const barData = {
-    labels: [...dataValues.labels],
-    datasets: [
-      {
-        label: selectListItemOne || "",
-        data: [...dataValues.values],
-        backgroundColor: randomColor(),
-      },
-    ],
-  };
-
-  // const generateRandomColors =
-
-  const pieData = () => {
-    const bgColors =
-      Array.isArray(dataValues.labels) && labels.map(() => randomColor());
-
-    return {
-      labels: dataValues.labels,
-      datasets: [
-        {
-          data: [...dataValues.values],
-          backgroundColor: [...bgColors],
-        },
-      ],
-    };
-  };
-
-  const radarData = () => {
-    return {
-      labels: [...dataValues.labels],
-      datasets: [
-        {
-          label: "Score",
-          data: [...dataValues.values],
-          backgroundColor: "rgba(168,85,247,0.2)",
-          borderColor: "#a855f7",
-        },
-      ],
-    };
-  };
-
-  const polarData = () => {
-    const colors = dataValues.labels.map(() => randomColor());
-
-    return {
-      labels: [...dataValues.labels],
-      datasets: [
-        {
-          data: [...dataValues.values],
-          backgroundColor: [...colors],
-        },
-      ],
-    };
-  };
-
-  const bubbleData = {
-    datasets: [
-      {
-        label: "Campaigns",
-        data: [
-          { x: 5, y: 12, r: 10 },
-          { x: 9, y: 7, r: 14 },
-          { x: 13, y: 16, r: 9 },
-        ],
-        backgroundColor: "#06b6d4",
-      },
-    ],
-  };
-
-  const scatterData = {
-    datasets: [
-      {
-        label: "Spend vs Conversion",
-        data: [
-          { x: 200, y: 2.1 },
-          { x: 400, y: 2.9 },
-          { x: 650, y: 3.4 },
-        ],
-        borderColor: "#f43f5e",
-      },
-    ],
-  };
-
-  const openChartModal = ({ type, title, data, options }) => {
-    setActiveChart({ type, title, data, options });
-    setModalOpen(true);
-  };
-
-  const renderChart = (chart) => {
-    if (!chart) return null;
-
-    switch (chart.type) {
-      case "line":
-        return <Line data={chart.data} options={chart.options} />;
-      case "bar":
-        return <Bar data={chart.data} options={chart.options} />;
-      case "pie":
-        return <Pie data={chart.data} />;
-      case "doughnut":
-        return <Doughnut data={chart.data} />;
-      case "radar":
-        return <Radar data={chart.data} />;
-      case "polar":
-        return <PolarArea data={chart.data} />;
-      case "bubble":
-        return <Bubble data={chart.data} options={chart.options} />;
-      case "scatter":
-        return <Scatter data={chart.data} options={chart.options} />;
-      default:
-        return null;
-    }
-  };
-
   const handleSubmitUrl = () => {
     const url = inputSubmitUrl.current.value;
     try {
@@ -416,7 +220,7 @@ export default function Dashboard() {
     return true;
   };
 
-  const addChart = () => {
+  const getChartData = () => {
     console.log("restApiResponse", restApiResponse);
 
     const data = restApiResponse.reduce(
@@ -436,13 +240,30 @@ export default function Dashboard() {
 
     console.log("data", data);
 
-    setDataValues(data);
+    // setDataValues(data);
+    return data;
   };
 
   const handleAddNewChart = () => {
     if (!isValidGenerateChart()) return;
 
-    addChart();
+    const viewDataValue = getPreviewValue(
+      apiAllData[selectListItemOneIndex][selectListItemTwo],
+    ).data;
+
+    const newConfig = {
+      inputSubmitUrl: inputSubmitUrl.current.value,
+      selectedChart: selectedChart,
+      selectListItemOne: selectListItemOne,
+      selectListItemTwo: selectListItemTwo,
+      viewDataLabel: viewDataLabel,
+      viewDataValue: viewDataValue,
+      newConfigName: newConfigName,
+      dataValues: getChartData(),
+    };
+
+    setConfigList([...configList, newConfig]);
+    // addChart();
   };
 
   const getPreviewValue = (data) => {
@@ -550,7 +371,11 @@ export default function Dashboard() {
             >
               <option disabled>Select Option</option>
               {chartList.map((chart) => (
-                <option key={chart.type} value={chart.type}>
+                <option
+                  key={chart.type}
+                  value={chart.type}
+                  disabled={!chart.active}
+                >
                   {chart.label}
                 </option>
               ))}
@@ -582,7 +407,9 @@ export default function Dashboard() {
                   .map((name) => (
                     <div
                       key={name}
-                      onClick={() => setSelectListItemOne(name)}
+                      onClick={() => {
+                        setSelectListItemOne(name);
+                      }}
                       className="radio-list-item"
                     >
                       <input
@@ -668,7 +495,10 @@ export default function Dashboard() {
                                   alignItems: "flex-start",
                                   gap: 5,
                                 }}
-                                onClick={() => setViewDataLabel(value)}
+                                onClick={() => {
+                                  setViewDataLabel(value);
+                                  setSelectListItemOneIndex(index);
+                                }}
                               >
                                 <input
                                   type="radio"
@@ -819,139 +649,25 @@ export default function Dashboard() {
 
         <div>
           <button onClick={() => handleAddNewChart()}>
-            add new {selectedChart}
+            add new{" "}
+            {selectedChart === "card" ? "card" : `${selectedChart} chart`}
           </button>
         </div>
         <br />
 
-        <div className="grid-container">
-          <div
-            className="grid-item chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "line",
-                title: "Visits (Weekly)",
-                data: lineData,
-                options: baseOptions("Visits (Weekly)"),
-              })
-            }
-          >
-            <Line data={lineData} options={baseOptions()} />
-          </div>
-
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "bar",
-                title: "Orders (Weekly)",
-                data: barData,
-                options: baseOptions("Orders (Weekly)"),
-              })
-            }
-          >
-            <Bar data={barData} options={baseOptions()} />
-          </div>
-
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "pie",
-                title: "Traffic Split",
-                data: pieData(),
-                options: null,
-              })
-            }
-          >
-            <Pie data={pieData()} />
-          </div>
-
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "radar",
-                title: "Performance Score",
-                data: radarData(),
-                options: null,
-              })
-            }
-          >
-            <Radar data={radarData()} />
-          </div>
-
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "polar",
-                title: "Category Spread",
-                data: polarData(),
-                options: null,
-              })
-            }
-          >
-            <PolarArea data={polarData()} />
-          </div>
-
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "bubble",
-                title: "Campaigns",
-                data: bubbleData,
-                options: baseOptions("Campaigns"),
-              })
-            }
-          >
-            <Bubble data={bubbleData} options={baseOptions()} />
-          </div>
-
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "scatter",
-                title: "Spend vs Conversion",
-                data: scatterData,
-                options: baseOptions("Spend vs Conversion"),
-              })
-            }
-          >
-            <Scatter data={scatterData} options={baseOptions()} />
-          </div>
-
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "doughnut",
-                title: "Traffic Split (Doughnut)",
-                data: pieData(),
-                options: null,
-              })
-            }
-          >
-            <Doughnut data={pieData()} />
-          </div>
-        </div>
-
-        <Modal
-          isOpen={modalOpen}
-          onClose={() => {
-            setModalOpen(false);
-            setActiveChart(null);
+        <div
+          style={{
+            display: "flex",
+            // alignItems: "center",
+            // justifyContent: "center",
+            flexDirection: "column-reverse",
+            gap: 50,
           }}
         >
-          {activeChart?.title ? (
-            <h3 className="modal-chart-title">{activeChart.title}</h3>
-          ) : null}
-          <div className="modal-chart-container">
-            {renderChart(activeChart)}
-          </div>
-        </Modal>
+          {configList.map((data, index) => (
+            <ChartModel key={index} chartData={data}></ChartModel>
+          ))}
+        </div>
       </section>
     </div>
   );
