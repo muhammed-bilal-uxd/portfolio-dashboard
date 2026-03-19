@@ -24,7 +24,7 @@ import {
   Scatter,
 } from "react-chartjs-2";
 
-import "./Chart.css";
+import "./ChartModel.css";
 import { useMemo, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";

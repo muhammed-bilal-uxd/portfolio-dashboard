@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 import DeliveryCards from "../DeliveryCards/DeliveryCards";
-import ChartModel from "../chart/Chart";
+import ChartModel from "../ChartModel/ChartModel";
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
