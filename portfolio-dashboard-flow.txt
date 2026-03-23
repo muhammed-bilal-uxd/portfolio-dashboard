@@ -1,0 +1,29 @@
+flow 1
+	> api url link -> get web data -> store in state management
+	> select chart -> show data from state management -> select label -> select value -> chart name
+	> add chart/ cart (generate visualization)
+	> show in dashboard (latest chart first)
+	
+flow 2 A
+	> api url link -> get web data from source -> store in DB
+	> select chart type -> show data from DB -> select label -> select value -> chart name -> save all in db using chart name
+	> add chart/ cart (generate visualization)
+	> show in dashboard (latest chart first)
+	
+flow 2 B
+	> create project -> get project name -> add to project list
+	> select project -> go to page -> enter api url link (root) -> get web data from source -> store in DB with name = domain name + endpoint (source name)
+	> select source name -> select chart type -> show data from DB (corresponding source name) -> select label -> select value -> chart name -> save all in db using chart name
+	> add chart/ cart (generate visualization)
+	> show in dashboard (latest chart first)
+	
+===========
+
+https://woooys.in
+
+/wp-json/wc/v3/products/categories
+
+?consumer_key=ck_f6285f8fcead477b244ed7415862c03e5082a322&consumer_secret=cs_9e27f57441db1cb3613abf13808e9b2c3a559630
+	
+	
+	
