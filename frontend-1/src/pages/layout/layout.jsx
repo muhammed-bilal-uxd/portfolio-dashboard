@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./layout.css";
-import Dashboard from "../Dashboard/Dashboard";
+import DashboardPage from "../DashboardPage/DashboardPage";
 import { useTheme } from "../ThemeContext/ThemeContext";
 import PublishSection from "../../components/PublishSection/PublishSection";
 
@@ -352,7 +352,7 @@ export default function OrbitLayout() {
             className="ol-content"
             style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
           >
-            <Dashboard onGamesLoaded={setGames} />
+            <DashboardPage onGamesLoaded={setGames} />
           </section>
         </section>
       </main>
