@@ -1,8 +1,29 @@
+// react
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
 import "./layout.css";
-import DashboardPage from "../DashboardPage/DashboardPage";
 import { useTheme } from "../ThemeContext/ThemeContext";
-import PublishSection from "../../components/PublishSection/PublishSection";
+// import PublishSection from "../../components/PublishSection/PublishSection";
+
+// pages
+import DashboardPage from "../DashboardPage/DashboardPage";
+import ProjectPage from "../ProjectPage/ProjectPage";
+
+const navLinks = [
+  {
+    label: "project",
+    link: "",
+    icon: "",
+    hasCaret: false,
+  },
+  {
+    label: "dashboard",
+    link: "dashboard",
+    icon: "",
+    hasCaret: true,
+  },
+];
 
 export default function OrbitLayout() {
   const { theme: mode, toggleTheme, themeArray } = useTheme();
@@ -22,22 +43,9 @@ export default function OrbitLayout() {
     }
   };
 
-  const NavItem = ({ label, icon, hasCaret }) => {
-    const isActive = active === label;
-
+  const NavItem = ({ label, icon, hasCaret, link, isActive }) => {
     return (
-      <button
-        type="button"
-        className={`ol-navItem ${isActive ? "isActive" : ""}`}
-        style={{
-          color: theme.text,
-          background: isActive ? theme.activeBg : "transparent",
-        }}
-        onClick={() => {
-          setActive(label);
-          setSidebarOpen(false);
-        }}
-      >
+      <Link to={link}>
         <span
           className="ol-navIcon"
           style={{ color: isActive ? theme.text : theme.muted }}
@@ -50,7 +58,7 @@ export default function OrbitLayout() {
             ▾
           </span>
         ) : null}
-      </button>
+      </Link>
     );
   };
 
@@ -165,76 +173,44 @@ export default function OrbitLayout() {
           </div>
 
           <nav className="ol-nav">
-            <NavItem
-              label="Dashboard"
-              icon={
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              }
-            />
-            <NavItem
-              label="Projects"
-              hasCaret
-              icon={
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M4 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              }
-            />
-            <NavItem
-              label="Employees"
-              icon={
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M22 21v-2a4 4 0 0 0-3-3.87"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M16 3.13a4 4 0 0 1 0 7.75"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              }
-            />
-            <NavItem
-              label="Calender"
-              icon={
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M7 3v2M17 3v2M4 7h16M6 5h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              }
-            />
+            {navLinks.map((nav, index) => {
+              return (
+                <>
+                  {/* <NavItem
+                  key={index}
+                  link={nav.link}
+                  isActive={nav.link === active}
+                  label={nav.label}
+                  icon={nav.icon}
+                  hasCaret={nav.hasCaret}
+                  onClick={setActive(nav.link)}
+                /> */}
+                  <Link
+                    key={index}
+                    to={nav.link}
+                    onClick={() => setActive(nav.link)}
+                  >
+                    <div
+                      style={{
+                        color: nav.link === active ? theme.text : theme.muted,
+                      }}
+                      className={`ol-navItem ${nav.link === active ? "active" : ""}`}
+                    >
+                      <span className="ol-navIcon">{nav.icon}</span>
+                      <span className="ol-navLabel">{nav.label}</span>
+                      {nav.hasCaret ? (
+                        <span
+                          className="ol-caret"
+                          style={{ color: theme.muted }}
+                        >
+                          ▾
+                        </span>
+                      ) : null}
+                    </div>
+                  </Link>
+                </>
+              );
+            })}
           </nav>
 
           <div className="ol-sidebarBottom">
@@ -352,7 +328,10 @@ export default function OrbitLayout() {
             className="ol-content"
             style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
           >
-            <DashboardPage onGamesLoaded={setGames} />
+            <Routes>
+              <Route path="/" element={<ProjectPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+            </Routes>
           </section>
         </section>
       </main>
