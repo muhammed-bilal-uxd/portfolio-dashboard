@@ -609,7 +609,6 @@ export default function Dashboard() {
         <h3>Select chart:</h3>
         <div
           style={{
-            justifyContent: "center",
             alignItems: "center",
             display: "flex",
             gap: 5,
@@ -881,7 +880,6 @@ export default function Dashboard() {
           style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
             flexDirection: "column",
           }}
         >
@@ -891,15 +889,11 @@ export default function Dashboard() {
             placeholder="Enter name"
             value={newConfigName}
             onChange={(e) => setNewConfigName(e.target.value)}
+            style={{
+              maxWidth: 200,
+            }}
           />
         </div>
-      </section>
-
-      {/* chart list */}
-      <section className="section-container">
-        <b className="step-name">step : 5</b>
-        <br />
-        <br />
 
         <div>
           <button onClick={() => handleAddNewChart()}>
