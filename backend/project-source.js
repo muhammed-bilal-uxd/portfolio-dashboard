@@ -1,0 +1,66 @@
+const express = require("express");
+const router = express.Router();
+const { ProjectSource } = require("./mongodb");
+const mongoose = require("mongoose");
+
+// get all
+router.get("/", async (req, res) => {
+  const projects = await ProjectSource.find();
+  res.json(projects);
+});
+
+// get one
+router.get("/:projectId", async (req, res) => {
+  const { projectId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+    return res.status(400).json({ message: "Invalid projectId" });
+  }
+
+  const sources = await ProjectSource.find({ projectId })
+    .populate("projectId")
+    .sort({ createdAt: -1 });
+
+  res.json(sources);
+});
+
+// create
+router.post("/", async (req, res) => {
+  // try {
+  const payload = req.body;
+  // console.log("payload", payload);
+
+  const projectSource = new ProjectSource(payload);
+  const saved = await projectSource.save();
+  res.json(saved);
+  // } catch (err) {
+  //   console.error("POST /project-source failed:", err);
+  //   res.status(500).json({
+  //     message: err?.message || "Internal server error",
+  //   });
+  // }
+});
+
+// update
+router.put("/:id", async (req, res) => {
+  const updated = await ProjectSource.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+    },
+  );
+  res.json(updated);
+});
+
+// delete
+router.delete("/:id", async (req, res) => {
+  try {
+    await new ProjectSource.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted successfully" });
+  } catch (err) {
+    res.json({ message: err.message });
+  }
+});
+
+module.exports = router;

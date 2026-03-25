@@ -1,15 +1,22 @@
 import React from "react";
 import "./Modal.css";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children, title }) => {
   if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="modal-close" onClick={onClose}>
-          ×
-        </button>
+        <div style={{ display: "flex", paddingBottom: "10px" }}>
+          <div
+            style={{ flex: 1, textTransform: "capitalize", fontWeight: "bold" }}
+          >
+            {title || "no title"}
+          </div>
+          <button className="modal-close" onClick={onClose}>
+            ×
+          </button>
+        </div>
         {children}
       </div>
     </div>
@@ -17,4 +24,3 @@ const Modal = ({ isOpen, onClose, children }) => {
 };
 
 export default Modal;
-

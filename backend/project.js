@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Project = require("./mongodb");
+const { Project } = require("./mongodb");
 
 // get all
 router.get("/", async (req, res) => {
@@ -16,8 +16,12 @@ router.get("/:id", async (req, res) => {
 
 // create
 router.post("/", async (req, res) => {
-  const project = new Project(req.body);
+  const payload = req.body;
+  console.log("payload", payload);
+
+  const project = new Project(payload);
   const saved = await project.save();
+
   res.json(saved);
 });
 

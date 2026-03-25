@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 const wooCommerceRouter = require("./woocommerce");
 const projectRouter = require("./project");
 const projectDetailsRouter = require("./project-detail");
+const projectSourceRouter = require("./project-source");
 
 // app
 const app = express();
@@ -46,7 +47,8 @@ app.get("/health", (req, res) => {
 
 app.use("/woocommerce", wooCommerceRouter);
 app.use("/projects", projectRouter);
-app.use("/projects-details", projectDetailsRouter);
+app.use("/project-detail", projectDetailsRouter);
+app.use("/project-source", projectSourceRouter);
 
 mongoose
   .connect(MONGO_URI)

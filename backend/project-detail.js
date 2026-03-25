@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const ProjectDetail = require("./mongodb");
+const { ProjectDetail } = require("./mongodb");
 
 // get all
 router.get("/", async (req, res) => {

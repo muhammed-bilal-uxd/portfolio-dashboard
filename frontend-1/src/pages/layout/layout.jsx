@@ -17,12 +17,18 @@ const navLinks = [
     icon: "",
     hasCaret: false,
   },
-  {
-    label: "dashboard",
-    link: "dashboard",
-    icon: "",
-    hasCaret: true,
-  },
+  // {
+  //   label: "dashboard",
+  //   link: "dashboard/:id",
+  //   icon: "",
+  //   hasCaret: false,
+  // },
+  // {
+  //   label: "dashboard",
+  //   link: "dashboard",
+  //   icon: "",
+  //   hasCaret: false,
+  // },
 ];
 
 export default function OrbitLayout() {
@@ -330,7 +336,7 @@ export default function OrbitLayout() {
           >
             <Routes>
               <Route path="/" element={<ProjectPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/dashboard/:id" element={<DashboardPage />} />
             </Routes>
           </section>
         </section>

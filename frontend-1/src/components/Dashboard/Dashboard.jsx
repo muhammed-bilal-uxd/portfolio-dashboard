@@ -1,10 +1,61 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+// dependencies
+import React, { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+
+// context
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
-import Modal from "../Modal/Modal";
-import DeliveryCards from "../DeliveryCards/DeliveryCards";
+
+// components
 import ChartModel from "../ChartModel/ChartModel";
 
+// css
+import "./Dashboard.css";
+import Modal from "../Modal/Modal";
+
+// env
 const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+async function fetchJsonSource(urlToFetch) {
+  const url = String(urlToFetch || "").trim();
+  if (!url) {
+    return {
+      success: false,
+      message: "Enter a URL or select a source.",
+      data: null,
+    };
+  }
+
+  try {
+    new URL(url);
+  } catch (err) {
+    console.log("err", err);
+    return { success: false, message: "Invalid URL", data: null };
+  }
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const res = await response.json();
+
+    if (!res) {
+      return { success: false, message: "No data from API", data: null };
+    } else if (typeof res === "object" && res !== null && !Array.isArray(res)) {
+      return { success: false, message: "data must be array", data: [] };
+    } else if (Array.isArray(res) && !res.length) {
+      return { success: false, message: "No data from API", data: [] };
+    } else if (Array.isArray(res) && res.length) {
+      return { success: true, message: "Success", data: res };
+    } else {
+      return { success: false, message: "error found", data: [] };
+    }
+  } catch (error) {
+    return { success: false, message: error.message, data: null };
+  }
+}
 
 const chartList = [
   { label: "Card", type: "card", active: true },
@@ -38,9 +89,19 @@ export default function Dashboard() {
   const [apiAllData, setApiAllData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("card");
 
-  const inputSubmitUrl = useRef(null);
+  const [inputSource, setInputSource] = useState("");
+  const [showSourcePopup, setShowSourcePopup] = useState(false);
+  const [sourcePreview, setSourcePreview] = useState(null);
+  const [sourceList, setSourceList] = useState([]);
+  const [selectedInputSource, setSelectedInputSource] = useState({});
   const [newConfigName, setNewConfigName] = useState("");
   const [configList, setConfigList] = useState([]);
+
+  const { id: projectId } = useParams();
+
+  useEffect(() => {
+    getAllSources();
+  }, []);
 
   useEffect(() => {
     if (!singleData || !baseDataKeys.length) return;
@@ -156,7 +217,7 @@ export default function Dashboard() {
   }, [products]);
 
   const handleSubmitUrl = () => {
-    const url = inputSubmitUrl.current.value;
+    const url = selectedInputSource?.sourceLink;
     try {
       new URL(url);
       // valid URL, you can use it here
@@ -252,7 +313,7 @@ export default function Dashboard() {
     ).data;
 
     const newConfig = {
-      inputSubmitUrl: inputSubmitUrl.current.value,
+      selectedInputSource: selectedInputSource,
       selectedChart: selectedChart,
       selectListItemOne: selectListItemOne,
       selectListItemTwo: selectListItemTwo,
@@ -325,6 +386,111 @@ export default function Dashboard() {
     return !isNaN(cleaned);
   };
 
+  useEffect(() => {
+    if (!showSourcePopup) {
+      setSourcePreview(null);
+      return;
+    }
+
+    const url = inputSource.trim();
+    let cancelled = false;
+
+    setSourcePreview({ loading: true, error: null, data: null });
+
+    fetchJsonSource(url).then((result) => {
+      if (cancelled) return;
+      if (result.success) {
+        setSourcePreview({ loading: false, error: null, data: result.data });
+      } else {
+        setSourcePreview({ loading: false, error: result.message, data: null });
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [showSourcePopup, selectedInputSource, inputSource]);
+
+  const handleSaveSource = async () => {
+    console.log("projectId", projectId);
+    if (!projectId) alert("projectId not found");
+
+    try {
+      const url = VITE_API_URL + "/project-source";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          projectId: projectId,
+          sourceLink: inputSource,
+        }),
+      });
+
+      const payload = await res.json().catch(() => null);
+
+      // if (!res.ok) {
+      //   throw new Error(
+      //     payload?.message || `Request failed with status ${res.status}`,
+      //   );
+      // }
+
+      getAllSources();
+      setShowSourcePopup(false);
+      // alert(payload?.message || "source saved successfully");
+      // setShowSourcePopup(false);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const getAllSources = async () => {
+    if (!projectId) return alert("project id needed");
+
+    const url = VITE_API_URL + "/project-source/" + projectId;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await response.json().catch(() => null);
+
+    // if (!res.ok) {
+    //   throw new Error(
+    //     res?.message || `Request failed with status ${res.status}`,
+    //   );
+    // }
+
+    console.log("res", res);
+
+    setSourceList([...res]);
+    setSelectedInputSource(res[0]);
+  };
+
+  const getSourceShortLink = (link) => {
+    return link.split("?")[0];
+  };
+
+  const removeSource = async (source) => {
+    if (!source._id) alert("source not found");
+
+    const url = VITE_API_URL + "/project-source/" + source._id;
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await response.json().catch(() => null);
+
+    alert(res.message);
+    getAllSources();
+  };
+
   return (
     <div className="dashboard-root">
       {/* tittle */}
@@ -345,7 +511,95 @@ export default function Dashboard() {
             gap: 5,
           }}
         >
-          <input type="text" ref={inputSubmitUrl} placeholder="URL here..." />
+          <input
+            className="input-source-url"
+            type="text"
+            onChange={(e) => setInputSource(e.target.value)}
+            placeholder="URL here..."
+            value={inputSource}
+          />
+          {/* <button onClick={() => setSourceList([...sourceList, inputSource])}>
+            add
+          </button> */}
+          <button
+            onClick={() => {
+              // if (!inputSource) return alert("input should not be empty");
+              setShowSourcePopup(true);
+            }}
+          >
+            view
+          </button>
+        </div>
+
+        {showSourcePopup && (
+          <Modal
+            title={" "}
+            isOpen={showSourcePopup}
+            onClose={() => setShowSourcePopup(false)}
+          >
+            {sourcePreview?.loading && <p>Loading…</p>}
+            {sourcePreview?.error && (
+              <p className="source-preview-error">{sourcePreview.error}</p>
+            )}
+            {sourcePreview?.data != null && (
+              <>
+                <div>
+                  <div className={"pop-title"}>source link </div>
+                  {inputSource}
+                </div>
+
+                <div>
+                  <div className={"pop-title"}> preview source data </div>
+                </div>
+                <pre className="source-preview-json">
+                  {JSON.stringify(sourcePreview.data, null, 4)}
+                </pre>
+                <div style={{ display: "flex" }}>
+                  <span style={{ flex: 1 }}></span>
+                  <button onClick={() => handleSaveSource()}>
+                    save link as source
+                  </button>
+                </div>
+              </>
+            )}
+          </Modal>
+        )}
+
+        <h3>select source</h3>
+        <div className="source-list">
+          {Array.isArray(sourceList) && sourceList.length > 0 ? (
+            sourceList.map((source, index) => (
+              <div
+                className={
+                  "source-list-item" +
+                  (source?.sourceLink === selectedInputSource?.sourceLink
+                    ? " active"
+                    : "")
+                }
+                key={index}
+              >
+                <div
+                  style={{ flex: 1 }}
+                  onClick={() => {
+                    setSelectedInputSource(source);
+                    setBaseDataKeys([]);
+                  }}
+                >
+                  {getSourceShortLink(source?.sourceLink)}
+                </div>
+                <div
+                  style={{ color: "red" }}
+                  onClick={() => {
+                    removeSource(source);
+                  }}
+                >
+                  X
+                </div>
+              </div>
+            ))
+          ) : (
+            <div>No data</div>
+          )}
         </div>
       </section>
 

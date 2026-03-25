@@ -104,7 +104,7 @@ export default function ProjectPage() {
         >
           <h3
             style={{ cursor: "pointer" }}
-            onClick={() => navigate(`/project/${project._id}`)}
+            onClick={() => navigate(`/dashboard/${project._id}`)}
           >
             {project.name}
           </h3>
