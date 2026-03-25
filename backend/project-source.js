@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
 // delete
 router.delete("/:id", async (req, res) => {
   try {
-    await new ProjectSource.findByIdAndDelete(req.params.id);
+    await ProjectSource.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted successfully" });
   } catch (err) {
     res.json({ message: err.message });
