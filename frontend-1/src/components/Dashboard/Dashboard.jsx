@@ -91,6 +91,7 @@ export default function Dashboard() {
 
   const [inputSource, setInputSource] = useState("");
   const [showSourcePopup, setShowSourcePopup] = useState(false);
+  const [sourceLinkPopup, setSourceLinkPopup] = useState("");
   const [sourcePreview, setSourcePreview] = useState(null);
   const [sourceList, setSourceList] = useState([]);
   const [selectedInputSource, setSelectedInputSource] = useState({});
@@ -392,7 +393,7 @@ export default function Dashboard() {
       return;
     }
 
-    const url = inputSource.trim();
+    const url = sourceLinkPopup.trim();
     let cancelled = false;
 
     setSourcePreview({ loading: true, error: null, data: null });
@@ -409,11 +410,19 @@ export default function Dashboard() {
     return () => {
       cancelled = true;
     };
-  }, [showSourcePopup, selectedInputSource, inputSource]);
+  }, [showSourcePopup, selectedInputSource, sourceLinkPopup]);
 
-  const handleSaveSource = async () => {
+  const handleAddSource = async () => {
     console.log("projectId", projectId);
-    if (!projectId) alert("projectId not found");
+    if (!projectId) return alert("projectId not found");
+    if (!inputSource) return alert("source link not found");
+
+    try {
+      new URL(inputSource);
+    } catch (err) {
+      console.log("err", err);
+      return alert("Invalid URL")
+    }
 
     try {
       const url = VITE_API_URL + "/project-source";
@@ -430,14 +439,14 @@ export default function Dashboard() {
 
       const payload = await res.json().catch(() => null);
 
-      // if (!res.ok) {
-      //   throw new Error(
-      //     payload?.message || `Request failed with status ${res.status}`,
-      //   );
-      // }
+      if (!res.ok) {
+        throw new Error(
+          payload?.message || `Request failed with status ${res.status}`,
+        );
+      }
 
       getAllSources();
-      setShowSourcePopup(false);
+      // setShowSourcePopup(false);
       // alert(payload?.message || "source saved successfully");
       // setShowSourcePopup(false);
     } catch (err) {
@@ -500,6 +509,12 @@ export default function Dashboard() {
     }
   }
 
+  const onClickViewSourcePopup = (url) => {
+    setSourceLinkPopup(url)
+    setShowSourcePopup(true);
+  };
+
+  // dev start
   return (
     <div className="dashboard-root">
       {/* tittle */}
@@ -531,12 +546,9 @@ export default function Dashboard() {
             add
           </button> */}
           <button
-            onClick={() => {
-              // if (!inputSource) return alert("input should not be empty");
-              setShowSourcePopup(true);
-            }}
+            onClick={() => handleAddSource()}
           >
-            view
+            add
           </button>
         </div>
 
@@ -554,7 +566,7 @@ export default function Dashboard() {
               <>
                 <div>
                   <div className={"pop-title"}>source link </div>
-                  {inputSource}
+                  {sourceLinkPopup}
                 </div>
 
                 <div>
@@ -563,12 +575,12 @@ export default function Dashboard() {
                 <pre className="source-preview-json">
                   {JSON.stringify(sourcePreview.data, null, 4)}
                 </pre>
-                <div style={{ display: "flex" }}>
+                {/* <div style={{ display: "flex" }}>
                   <span style={{ flex: 1 }}></span>
                   <button onClick={() => handleSaveSource()}>
                     save link as source
                   </button>
-                </div>
+                </div> */}
               </>
             )}
           </Modal>
@@ -589,12 +601,14 @@ export default function Dashboard() {
               >
                 <div
                   style={{ flex: 1 }}
+                >
+                  <span
                   onClick={() => {
                     setSelectedInputSource(source);
                     setBaseDataKeys([]);
                   }}
-                >
-                  {getSourceShortLink(source?.sourceLink)}
+                  >{getSourceShortLink(source?.sourceLink)}</span>
+                  <span style={{color: "red"}} onClick={()=> onClickViewSourcePopup(source?.sourceLink)}> - view data</span>
                 </div>
                 <div
                   style={{ color: "red" }}
@@ -612,8 +626,7 @@ export default function Dashboard() {
         </div>
 
         <div className="next-button-container">
-          <span></span>
-          <button onClick={()=> handleNavNextSection(2) }>next</button>
+          <button onClick={()=> handleNavNextSection(2) }>select chart</button>
         </div>
       </section>
 
@@ -651,7 +664,13 @@ export default function Dashboard() {
         </div>
 
         <div className="next-button-container">
-          <button onClick={()=> handleNavNextSection(3) }>next</button>
+        <button disabled="" onClick={() => {
+          handleNavNextSection(3);
+          handleSubmitUrl();
+          }}>
+          map data
+        </button>
+        {/* <button onClick={()=> handleNavNextSection(3) }>next</button> */}
         </div>
       </section>
 
@@ -659,13 +678,7 @@ export default function Dashboard() {
       <section className="section-container" id="section-container-3">
         <b className="step-name">step : 3</b>
 
-        <br />
-        <br />
-        <button disabled="" onClick={() => handleSubmitUrl()}>
-          preview data
-        </button>
-
-        <h3>Select options:</h3>
+        <h3>Map data:</h3>
 
         <div>
           {baseDataKeys.length > 0 && (
@@ -700,7 +713,7 @@ export default function Dashboard() {
 
               {/* preview label */}
               <section>
-                <h3>view data label</h3>
+                <h3>preview label data</h3>
 
                 <div>
                   {apiAllData.map((row, index) => {
@@ -815,7 +828,7 @@ export default function Dashboard() {
 
               {/* preview label */}
               <section>
-                <h3>value view data</h3>
+                <h3>preview value data</h3>
 
                 <div>
                   {apiAllData.map((row, index) => {
@@ -882,7 +895,7 @@ export default function Dashboard() {
           {baseDataKeys.length === 0 && <>no data to preview</>}
         </div>
         <div className="next-button-container">
-          <button onClick={()=> handleNavNextSection(4) }>next</button>
+          <button onClick={()=> handleNavNextSection(4) }>Enter your new card name</button>
         </div>
       </section>
 
@@ -896,7 +909,7 @@ export default function Dashboard() {
             flexDirection: "column",
           }}
         >
-          <h3>Enter your new {selectedChart} name:</h3>
+          <h3>Enter your new {selectedChart === "card" ? "card" : (selectedChart + " chart") } name:</h3>
           <input
             type="text"
             placeholder="Enter name"
@@ -909,13 +922,18 @@ export default function Dashboard() {
         </div>
 
         <div>
-          <button onClick={() => handleAddNewChart()}>
-            add new{" "}
-            {selectedChart === "card" ? "card" : `${selectedChart} chart`}
+          <button onClick={() => {
+            handleNavNextSection(5);
+            handleAddNewChart();
+            }}>
+            publish new{" "}
+            {selectedChart === "card" ? "card" : `${selectedChart} chart to dashboard`}
           </button>
         </div>
         <br />
-
+        </section>
+        <section className="section-container"id="section-container-5">
+        <b className="step-name">step : 5</b>
         <div
           style={{
             display: "flex",

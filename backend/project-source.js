@@ -26,19 +26,28 @@ router.get("/:projectId", async (req, res) => {
 
 // create
 router.post("/", async (req, res) => {
-  // try {
+  try {
   const payload = req.body;
   // console.log("payload", payload);
 
   const projectSource = new ProjectSource(payload);
   const saved = await projectSource.save();
   res.json(saved);
-  // } catch (err) {
-  //   console.error("POST /project-source failed:", err);
-  //   res.status(500).json({
-  //     message: err?.message || "Internal server error",
-  //   });
-  // }
+  } catch (err) {
+    console.error("POST /project-source failed:", err);
+
+    if(err?.message.includes("duplicate")) {
+      res.status(409).json({
+        status: 409,
+        message: "duplicate data found",
+      });
+    } else {
+      res.status(500).json({
+        status: 500,
+        message: err?.message || "Internal server error",
+      });
+    }
+  }
 });
 
 // update

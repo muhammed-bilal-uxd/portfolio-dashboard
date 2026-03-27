@@ -22,7 +22,12 @@ const projectSourceSchema = new mongoose.Schema(
       ref: "Project",
       required: true,
     },
-    sourceLink: { type: String, required: true },
+    sourceLink: { 
+      type: String, 
+      required: true,
+      unique: true, // 🔥 THIS is what you want
+      trim: true,
+     },
   },
   { timestamps: true },
 );
