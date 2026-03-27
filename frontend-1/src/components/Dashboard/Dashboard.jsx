@@ -491,6 +491,15 @@ export default function Dashboard() {
     getAllSources();
   };
 
+  const handleNavNextSection = (value) => {
+    const id = "section-container-" + value
+    const elementId = document.getElementById(id)
+
+    if (elementId) {
+      elementId.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <div className="dashboard-root">
       {/* tittle */}
@@ -499,7 +508,7 @@ export default function Dashboard() {
       </div>
 
       {/* api call input */}
-      <section className="section-container">
+      <section className="section-container" id="section-container-1">
         <b className="step-name">step : 1</b>
 
         <h3>Paste rest data Url:</h3>
@@ -601,10 +610,15 @@ export default function Dashboard() {
             <div>No data</div>
           )}
         </div>
+
+        <div className="next-button-container">
+          <span></span>
+          <button onClick={()=> handleNavNextSection(2) }>next</button>
+        </div>
       </section>
 
       {/* select chart type */}
-      <section className="section-container">
+      <section className="section-container" id="section-container-2">
         <b className="step-name">step : 2</b>
         <h3>Select chart:</h3>
         <div
@@ -635,10 +649,14 @@ export default function Dashboard() {
             </select>
           </div>
         </div>
+
+        <div className="next-button-container">
+          <button onClick={()=> handleNavNextSection(3) }>next</button>
+        </div>
       </section>
 
       {/* generate data preview */}
-      <section className="section-container">
+      <section className="section-container" id="section-container-3">
         <b className="step-name">step : 3</b>
 
         <br />
@@ -863,17 +881,12 @@ export default function Dashboard() {
 
           {baseDataKeys.length === 0 && <>no data to preview</>}
         </div>
+        <div className="next-button-container">
+          <button onClick={()=> handleNavNextSection(4) }>next</button>
+        </div>
       </section>
 
-      {/* <br />
-
-      <b> {selectListItemOne.join(", ")}</b>
-
-      <br /> */}
-
-      {/* <DeliveryCards /> */}
-
-      <section className="section-container">
+      <section className="section-container"id="section-container-4">
         <b className="step-name">step : 4</b>
 
         <div
@@ -917,6 +930,9 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
+      <div className="next-button-container">
+          <button onClick={()=> handleNavNextSection(1) }>back to top</button>
+        </div>
     </div>
   );
 }

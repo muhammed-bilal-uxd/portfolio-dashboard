@@ -164,3 +164,13 @@ button {
   margin-bottom: 5px;
   text-transform: capitalize;
 }
+
+.section-container {
+  min-height: 100vh;
+}
+
+.next-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
