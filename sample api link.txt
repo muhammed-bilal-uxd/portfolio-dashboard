@@ -1,0 +1,39 @@
+website url:
+https://woooys.in/
+
+Consumer key: 
+ck_f6285f8fcead477b244ed7415862c03e5082a322
+
+Consumer secret: 
+cs_9e27f57441db1cb3613abf13808e9b2c3a559630
+
+
+use 
+
+@woocommerce/woocommerce-rest-api
+
+https://woooys.in/wp-json/wc/v3/reports/sales
+
+https://example.com/wp-json/wc/v3/reports/sales
+
+https://woooys.in/wp-json/wc/v3/wc-analytics/reports/revenue?after=2026-01-01&before=2026-02-01
+
+https://woooys.in/wp-json/wc/v3/reports/sales?consumer_key=ck_f6285f8fcead477b244ed7415862c03e5082a322&consumer_secret=cs_9e27f57441db1cb3613abf13808e9b2c3a559630
+
+https://woooys.in/wp-json/wc/v3/products?consumer_key=ck_f6285f8fcead477b244ed7415862c03e5082a322&consumer_secret=cs_9e27f57441db1cb3613abf13808e9b2c3a559630
+
+https://woooys.in/wp-json/wc/v3/products/categories?consumer_key=ck_f6285f8fcead477b244ed7415862c03e5082a322&consumer_secret=cs_9e27f57441db1cb3613abf13808e9b2c3a559630
+
+
+  const pieData = {
+    labels: ["Desktop", "Mobile", "Tablet"],
+    datasets: [
+      {
+        data: [52, 38, 10],
+        backgroundColor: ["#3b82f6", "#f97316", "#10b981"],
+      },
+    ],
+
+
+
+

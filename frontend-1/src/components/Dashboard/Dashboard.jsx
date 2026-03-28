@@ -531,7 +531,7 @@ export default function Dashboard() {
       }) || [];
 
     if (sourceDuplicate.includes(inputSource)) {
-      return alert("duplicate found");
+      return alert("Source already exists");
     }
 
     setSourceLinkPopupConfig({
