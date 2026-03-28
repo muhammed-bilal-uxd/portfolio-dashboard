@@ -91,6 +91,7 @@ export default function Dashboard() {
 
   const [inputSource, setInputSource] = useState("");
   const [showSourcePopup, setShowSourcePopup] = useState(false);
+  const [showDeleteSourcePopup, setShowDeleteSourcePopup] = useState(false);
   const [sourceLinkPopupConfig, setSourceLinkPopupConfig] = useState({
     sourceLink: "",
     isView: true,
@@ -612,6 +613,38 @@ export default function Dashboard() {
           </Modal>
         )}
 
+        {showDeleteSourcePopup && (
+          <Modal
+            title={" "}
+            modelStyle={{ maxWidth: "400px" }}
+            isOpen={showDeleteSourcePopup}
+            onClose={() => {
+              setShowDeleteSourcePopup(false);
+            }}
+          >
+            <h3>Are you sure, want to delete this source</h3>
+
+            <h5 style={{ wordBreak: "break-word", color: "blue" }}>
+              {selectedInputSource?.sourceLink}
+            </h5>
+            <div
+              style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}
+            >
+              <button onClick={() => setShowDeleteSourcePopup(false)}>
+                cancel
+              </button>
+              <button
+                onClick={() => {
+                  removeSource(selectedInputSource);
+                  setShowDeleteSourcePopup(false);
+                }}
+              >
+                confirm yes
+              </button>
+            </div>
+          </Modal>
+        )}
+
         <h3>select source</h3>
         <div className="source-list">
           {Array.isArray(sourceList) && sourceList.length > 0 ? (
@@ -645,7 +678,10 @@ export default function Dashboard() {
                 <div
                   style={{ color: "red" }}
                   onClick={() => {
-                    removeSource(source);
+                    setSelectedInputSource(source);
+                    setBaseDataKeys([]);
+                    setShowDeleteSourcePopup(true);
+                    // removeSource(source);
                   }}
                 >
                   X
