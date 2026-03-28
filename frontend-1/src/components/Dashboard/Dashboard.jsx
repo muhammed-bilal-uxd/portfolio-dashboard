@@ -91,7 +91,10 @@ export default function Dashboard() {
 
   const [inputSource, setInputSource] = useState("");
   const [showSourcePopup, setShowSourcePopup] = useState(false);
-  const [sourceLinkPopup, setSourceLinkPopup] = useState("");
+  const [sourceLinkPopupConfig, setSourceLinkPopupConfig] = useState({
+    sourceLink: "",
+    isView: true,
+  });
   const [sourcePreview, setSourcePreview] = useState(null);
   const [sourceList, setSourceList] = useState([]);
   const [selectedInputSource, setSelectedInputSource] = useState({});
@@ -393,7 +396,7 @@ export default function Dashboard() {
       return;
     }
 
-    const url = sourceLinkPopup.trim();
+    const url = sourceLinkPopupConfig?.sourceLink.trim();
     let cancelled = false;
 
     setSourcePreview({ loading: true, error: null, data: null });
@@ -410,18 +413,19 @@ export default function Dashboard() {
     return () => {
       cancelled = true;
     };
-  }, [showSourcePopup, selectedInputSource, sourceLinkPopup]);
+  }, [showSourcePopup, selectedInputSource, sourceLinkPopupConfig]);
 
-  const handleAddSource = async () => {
+  const handleSaveSource = async () => {
     console.log("projectId", projectId);
     if (!projectId) return alert("projectId not found");
-    if (!inputSource) return alert("source link not found");
+    if (!sourceLinkPopupConfig?.sourceLink)
+      return alert("source link not found");
 
     try {
-      new URL(inputSource);
+      new URL(sourceLinkPopupConfig?.sourceLink);
     } catch (err) {
       console.log("err", err);
-      return alert("Invalid URL")
+      return alert("Invalid URL");
     }
 
     try {
@@ -433,7 +437,7 @@ export default function Dashboard() {
         },
         body: JSON.stringify({
           projectId: projectId,
-          sourceLink: inputSource,
+          sourceLink: sourceLinkPopupConfig?.sourceLink,
         }),
       });
 
@@ -446,7 +450,7 @@ export default function Dashboard() {
       }
 
       getAllSources();
-      // setShowSourcePopup(false);
+      setShowSourcePopup(false);
       // alert(payload?.message || "source saved successfully");
       // setShowSourcePopup(false);
     } catch (err) {
@@ -501,16 +505,38 @@ export default function Dashboard() {
   };
 
   const handleNavNextSection = (value) => {
-    const id = "section-container-" + value
-    const elementId = document.getElementById(id)
+    const id = "section-container-" + value;
+    const elementId = document.getElementById(id);
 
     if (elementId) {
       elementId.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
-  const onClickViewSourcePopup = (url) => {
-    setSourceLinkPopup(url)
+  const onClickViewSource = (url) => {
+    setSourceLinkPopupConfig({
+      sourceLink: url,
+      isView: true,
+    });
+    setShowSourcePopup(true);
+  };
+
+  const handleAddSource = () => {
+    // To do: find duplicate at the beginning and return alert
+
+    const sourceDuplicate =
+      sourceList.map((s) => {
+        return s?.sourceLink;
+      }) || [];
+
+    if (sourceDuplicate.includes(inputSource)) {
+      return alert("duplicate found");
+    }
+
+    setSourceLinkPopupConfig({
+      isView: false,
+      sourceLink: inputSource,
+    });
     setShowSourcePopup(true);
   };
 
@@ -545,11 +571,7 @@ export default function Dashboard() {
           {/* <button onClick={() => setSourceList([...sourceList, inputSource])}>
             add
           </button> */}
-          <button
-            onClick={() => handleAddSource()}
-          >
-            add
-          </button>
+          <button onClick={() => handleAddSource()}>add</button>
         </div>
 
         {showSourcePopup && (
@@ -566,7 +588,7 @@ export default function Dashboard() {
               <>
                 <div>
                   <div className={"pop-title"}>source link </div>
-                  {sourceLinkPopup}
+                  {sourceLinkPopupConfig?.sourceLink}
                 </div>
 
                 <div>
@@ -575,12 +597,16 @@ export default function Dashboard() {
                 <pre className="source-preview-json">
                   {JSON.stringify(sourcePreview.data, null, 4)}
                 </pre>
-                {/* <div style={{ display: "flex" }}>
-                  <span style={{ flex: 1 }}></span>
-                  <button onClick={() => handleSaveSource()}>
-                    save link as source
-                  </button>
-                </div> */}
+                {!sourceLinkPopupConfig?.isView && (
+                  <>
+                    <div style={{ display: "flex" }}>
+                      <span style={{ flex: 1 }}></span>
+                      <button onClick={() => handleSaveSource()}>
+                        save link as source
+                      </button>
+                    </div>
+                  </>
+                )}
               </>
             )}
           </Modal>
@@ -599,16 +625,22 @@ export default function Dashboard() {
                 }
                 key={index}
               >
-                <div
-                  style={{ flex: 1 }}
-                >
+                <div style={{ flex: 1 }}>
                   <span
-                  onClick={() => {
-                    setSelectedInputSource(source);
-                    setBaseDataKeys([]);
-                  }}
-                  >{getSourceShortLink(source?.sourceLink)}</span>
-                  <span style={{color: "red"}} onClick={()=> onClickViewSourcePopup(source?.sourceLink)}> - view data</span>
+                    onClick={() => {
+                      setSelectedInputSource(source);
+                      setBaseDataKeys([]);
+                    }}
+                  >
+                    {getSourceShortLink(source?.sourceLink)}
+                  </span>
+                  <span
+                    style={{ color: "red" }}
+                    onClick={() => onClickViewSource(source?.sourceLink)}
+                  >
+                    {" "}
+                    - view data
+                  </span>
                 </div>
                 <div
                   style={{ color: "red" }}
@@ -626,7 +658,7 @@ export default function Dashboard() {
         </div>
 
         <div className="next-button-container">
-          <button onClick={()=> handleNavNextSection(2) }>select chart</button>
+          <button onClick={() => handleNavNextSection(2)}>select chart</button>
         </div>
       </section>
 
@@ -664,13 +696,16 @@ export default function Dashboard() {
         </div>
 
         <div className="next-button-container">
-        <button disabled="" onClick={() => {
-          handleNavNextSection(3);
-          handleSubmitUrl();
-          }}>
-          map data
-        </button>
-        {/* <button onClick={()=> handleNavNextSection(3) }>next</button> */}
+          <button
+            disabled=""
+            onClick={() => {
+              handleNavNextSection(3);
+              handleSubmitUrl();
+            }}
+          >
+            map data
+          </button>
+          {/* <button onClick={()=> handleNavNextSection(3) }>next</button> */}
         </div>
       </section>
 
@@ -895,11 +930,13 @@ export default function Dashboard() {
           {baseDataKeys.length === 0 && <>no data to preview</>}
         </div>
         <div className="next-button-container">
-          <button onClick={()=> handleNavNextSection(4) }>Enter your new card name</button>
+          <button onClick={() => handleNavNextSection(4)}>
+            Enter your new card name
+          </button>
         </div>
       </section>
 
-      <section className="section-container"id="section-container-4">
+      <section className="section-container" id="section-container-4">
         <b className="step-name">step : 4</b>
 
         <div
@@ -909,7 +946,10 @@ export default function Dashboard() {
             flexDirection: "column",
           }}
         >
-          <h3>Enter your new {selectedChart === "card" ? "card" : (selectedChart + " chart") } name:</h3>
+          <h3>
+            Enter your new{" "}
+            {selectedChart === "card" ? "card" : selectedChart + " chart"} name:
+          </h3>
           <input
             type="text"
             placeholder="Enter name"
@@ -922,17 +962,21 @@ export default function Dashboard() {
         </div>
 
         <div>
-          <button onClick={() => {
-            handleNavNextSection(5);
-            handleAddNewChart();
-            }}>
+          <button
+            onClick={() => {
+              handleNavNextSection(5);
+              handleAddNewChart();
+            }}
+          >
             publish new{" "}
-            {selectedChart === "card" ? "card" : `${selectedChart} chart to dashboard`}
+            {selectedChart === "card"
+              ? "card"
+              : `${selectedChart} chart to dashboard`}
           </button>
         </div>
         <br />
-        </section>
-        <section className="section-container"id="section-container-5">
+      </section>
+      <section className="section-container" id="section-container-5">
         <b className="step-name">step : 5</b>
         <div
           style={{
@@ -949,8 +993,8 @@ export default function Dashboard() {
         </div>
       </section>
       <div className="next-button-container">
-          <button onClick={()=> handleNavNextSection(1) }>back to top</button>
-        </div>
+        <button onClick={() => handleNavNextSection(1)}>back to top</button>
+      </div>
     </div>
   );
 }
