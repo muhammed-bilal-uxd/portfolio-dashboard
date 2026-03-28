@@ -800,7 +800,11 @@ export default function Dashboard() {
 
               {/* preview label */}
               <section>
-                <h3>preview label data</h3>
+                <h3>
+                  {selectedChart === "card"
+                    ? "Select label data"
+                    : "Preview label data"}
+                </h3>
 
                 {selectedChart !== "card" && (
                   <div>
@@ -1061,7 +1065,15 @@ export default function Dashboard() {
                         {/* SIMPLE VALUE */}
                         {["string", "number", "boolean"].includes(
                           preview.type,
-                        ) && <p>{String(value)}</p>}
+                        ) && (
+                          <>
+                            {selectedChart !== "card" && <p>{String(value)}</p>}
+                            {selectedChart === "card" &&
+                              index === selectListItemOneIndex && (
+                                <p>{String(value)}</p>
+                              )}
+                          </>
+                        )}
                       </div>
                     );
                   })}

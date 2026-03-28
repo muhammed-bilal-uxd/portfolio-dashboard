@@ -174,3 +174,7 @@ button {
   /* justify-content: flex-end; */
   margin-top: 15px;
 }
+
+.radio-group-container select {
+  max-width: 100%;
+}
