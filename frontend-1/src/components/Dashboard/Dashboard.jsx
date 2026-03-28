@@ -762,7 +762,23 @@ export default function Dashboard() {
               {/* select label */}
               <section>
                 <h3>select label</h3>
-                {baseDataKeys
+
+                <select
+                  value={selectListItemOne}
+                  onChange={(e) => {
+                    setSelectListItemOne(e.target.value);
+                  }}
+                >
+                  {baseDataKeys
+                    .filter((name) => checkTypeOfData(singleData[name], true))
+                    .map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                </select>
+
+                {/* {baseDataKeys
                   .filter((name) => checkTypeOfData(singleData[name], true))
                   .map((name) => (
                     <div
@@ -778,108 +794,199 @@ export default function Dashboard() {
                         readOnly
                       />
                       <span>{name}</span>
-                      {/* <span>
-                      {selectListItemOne === name && (
-                        <PreviewValue name={name} data={singleData[name]} />
-                      )}
-                    </span> */}
                     </div>
-                  ))}
+                  ))} */}
               </section>
 
               {/* preview label */}
               <section>
                 <h3>preview label data</h3>
 
-                <div>
-                  {apiAllData.map((row, index) => {
-                    const preview = getPreviewValue(row[selectListItemOne]);
-                    const value = preview.data;
+                {selectedChart !== "card" && (
+                  <div>
+                    {apiAllData.map((row, index) => {
+                      const preview = getPreviewValue(row[selectListItemOne]);
+                      const value = preview.data;
 
-                    return (
-                      <div key={index}>
-                        {["array", "object"].includes(preview.type) && (
-                          <h5>{preview.label}</h5>
-                        )}
+                      return (
+                        <div key={index}>
+                          {["array", "object"].includes(preview.type) && (
+                            <h5>{preview.label}</h5>
+                          )}
 
-                        {/* ARRAY TABLE */}
-                        {preview.type === "array" &&
-                          Array.isArray(value) &&
-                          value.length > 0 && (
-                            <table border="1">
-                              <thead>
-                                <tr>
-                                  {Object.keys(value[0]).map((key) => (
-                                    <th key={key}>{key}</th>
-                                  ))}
-                                </tr>
-                              </thead>
-
-                              <tbody>
-                                {value.map((item, i) => (
-                                  <tr key={i}>
-                                    {Object.values(item).map((val, j) => (
-                                      <td key={j}>{String(val)}</td>
+                          {/* ARRAY TABLE */}
+                          {preview.type === "array" &&
+                            Array.isArray(value) &&
+                            value.length > 0 && (
+                              <table border="1">
+                                <thead>
+                                  <tr>
+                                    {Object.keys(value[0]).map((key) => (
+                                      <th key={key}>{key}</th>
                                     ))}
+                                  </tr>
+                                </thead>
+
+                                <tbody>
+                                  {value.map((item, i) => (
+                                    <tr key={i}>
+                                      {Object.values(item).map((val, j) => (
+                                        <td key={j}>{String(val)}</td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            )}
+
+                          {/* OBJECT TABLE */}
+                          {preview.type === "object" && (
+                            <table border="1">
+                              <tbody>
+                                {Object.entries(value).map(([key, val]) => (
+                                  <tr key={key}>
+                                    <td>{key}</td>
+                                    <td>{String(val)}</td>
                                   </tr>
                                 ))}
                               </tbody>
                             </table>
                           )}
 
-                        {/* OBJECT TABLE */}
-                        {preview.type === "object" && (
-                          <table border="1">
-                            <tbody>
-                              {Object.entries(value).map(([key, val]) => (
-                                <tr key={key}>
-                                  <td>{key}</td>
-                                  <td>{String(val)}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        )}
+                          {/* SIMPLE VALUE */}
+                          {["string", "number", "boolean"].includes(
+                            preview.type,
+                          ) && (
+                            <>
+                              {!(selectedChart === "card") ? (
+                                <p>{String(value)}</p>
+                              ) : (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "flex-start",
+                                    gap: 5,
+                                  }}
+                                  onClick={() => {
+                                    setViewDataLabel(value);
+                                    setSelectListItemOneIndex(index);
+                                  }}
+                                >
+                                  <input
+                                    type="radio"
+                                    readOnly
+                                    checked={value === viewDataLabel}
+                                  />
+                                  <span>{String(value)}</span>
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
 
-                        {/* SIMPLE VALUE */}
-                        {["string", "number", "boolean"].includes(
-                          preview.type,
-                        ) && (
-                          <>
-                            {!(selectedChart === "card") ? (
-                              <p>{String(value)}</p>
-                            ) : (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "flex-start",
-                                  gap: 5,
-                                }}
-                                onClick={() => {
-                                  setViewDataLabel(value);
-                                  setSelectListItemOneIndex(index);
-                                }}
-                              >
-                                <input
-                                  type="radio"
-                                  readOnly
-                                  checked={value === viewDataLabel}
-                                />
-                                <span>{String(value)}</span>
-                              </div>
+                {selectedChart === "card" && (
+                  <>
+                    <select
+                      id="view-data-label"
+                      value={viewDataLabel}
+                      onChange={(e) => {
+                        setViewDataLabel(e.target.value);
+                        setSelectListItemOneIndex(e.target.selectedIndex);
+                      }}
+                    >
+                      {apiAllData.map((row, index) => {
+                        const preview = getPreviewValue(row[selectListItemOne]);
+                        const valueData = preview.data;
+
+                        return (
+                          <div key={index}>
+                            {["array", "object"].includes(preview.type) && (
+                              <h5>{preview.label}</h5>
                             )}
-                          </>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+
+                            {/* ARRAY TABLE */}
+                            {preview.type === "array" &&
+                              Array.isArray(valueData) &&
+                              valueData.length > 0 && (
+                                <table border="1">
+                                  <thead>
+                                    <tr>
+                                      {Object.keys(valueData[0]).map((key) => (
+                                        <th key={key}>{key}</th>
+                                      ))}
+                                    </tr>
+                                  </thead>
+
+                                  <tbody>
+                                    {valueData.map((item, i) => (
+                                      <tr key={i}>
+                                        {Object.values(item).map((val, j) => (
+                                          <td key={j}>{String(val)}</td>
+                                        ))}
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              )}
+
+                            {/* OBJECT TABLE */}
+                            {preview.type === "object" && (
+                              <table border="1">
+                                <tbody>
+                                  {Object.entries(valueData).map(
+                                    ([key, val]) => (
+                                      <tr key={key}>
+                                        <td>{key}</td>
+                                        <td>{String(val)}</td>
+                                      </tr>
+                                    ),
+                                  )}
+                                </tbody>
+                              </table>
+                            )}
+
+                            {/* SIMPLE VALUE */}
+                            {["string", "number", "boolean"].includes(
+                              preview.type,
+                            ) && (
+                              <>
+                                <option value={valueData}>
+                                  {String(valueData)}
+                                </option>
+                              </>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </select>
+                  </>
+                )}
               </section>
 
               {/* select value */}
               <section>
                 <h3>select value</h3>
-                {baseDataKeys
+                <select
+                  style={{ maxWidth: "100%" }}
+                  value={selectListItemTwo}
+                  onChange={(e) => {
+                    setSelectListItemTwo(e.target.value);
+                  }}
+                >
+                  {baseDataKeys
+                    .filter((name) => checkTypeOfData(singleData[name], false))
+                    .map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                </select>
+
+                {/* {baseDataKeys
                   .filter((name) => checkTypeOfData(singleData[name], false))
                   .map((name) => (
                     <div
@@ -893,13 +1000,8 @@ export default function Dashboard() {
                         readOnly
                       />
                       <span>{name}</span>
-                      {/* <span>
-                      {selectListItemOne === name && (
-                        <PreviewValue name={name} data={singleData[name]} />
-                      )}
-                    </span> */}
                     </div>
-                  ))}
+                  ))} */}
               </section>
 
               {/* preview label */}
