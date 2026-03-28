@@ -87,7 +87,7 @@ export default function Dashboard() {
   const [baseDataKeys, setBaseDataKeys] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [apiAllData, setApiAllData] = useState([]);
-  const [selectedChart, setSelectedChart] = useState("card");
+  const [selectedChart, setSelectedChart] = useState("");
 
   const [inputSource, setInputSource] = useState("");
   const [showSourcePopup, setShowSourcePopup] = useState(false);
@@ -679,9 +679,12 @@ export default function Dashboard() {
               onChange={(e) => {
                 setSelectedChart(e.target.value);
                 setCheckboxSelected([]);
+                setBaseDataKeys([]);
               }}
             >
-              <option disabled>Select Option</option>
+              <option value="" disabled>
+                Select Option
+              </option>
               {chartList.map((chart) => (
                 <option
                   key={chart.type}
@@ -699,6 +702,8 @@ export default function Dashboard() {
           <button
             disabled=""
             onClick={() => {
+              if (selectedChart === "")
+                return alert("please select chart type");
               handleNavNextSection(3);
               handleSubmitUrl();
             }}
