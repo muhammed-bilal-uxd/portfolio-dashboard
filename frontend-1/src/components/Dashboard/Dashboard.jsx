@@ -700,7 +700,14 @@ export default function Dashboard() {
                       setBaseDataKeys([]);
                     }}
                   >
-                    {getSourceShortLink(source?.sourceLink)}
+                    <input
+                      type="radio"
+                      readOnly
+                      checked={
+                        source?.sourceLink === selectedInputSource?.sourceLink
+                      }
+                    />
+                    {getSourceShortLink(source?.sourceLink)} ...
                   </span>
                   <span
                     style={{ color: "red" }}
@@ -1017,8 +1024,8 @@ export default function Dashboard() {
         <div>
           <button
             onClick={() => {
-              handleNavNextSection(5);
               handleAddNewChart();
+              handleNavNextSection(5);
             }}
           >
             publish new{" "}

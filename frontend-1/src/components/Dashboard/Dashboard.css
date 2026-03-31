@@ -253,11 +253,12 @@ button {
 }
 
 .selected-map-item {
-  background-color: red;
+  background-color: lightblue;
 }
 
 button:disabled {
-  opacity: 0.6;
+  /* opacity: 0.6; */
+  background-color: lightgray;
   cursor: not-allowed;
 }
 
@@ -270,5 +271,6 @@ button:disabled {
 .data-table th {
   position: sticky;
   top: 0px;
-  background-color: burlywood;
+  background-color: #000000;
+  color: #ffffff;
 }

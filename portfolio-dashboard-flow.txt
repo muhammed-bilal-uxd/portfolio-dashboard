@@ -38,11 +38,13 @@ https://woooys.in
 
 3. show data table in scroll container ✅
 	> in scrollable view height
+	
+4. radio button in step 1 ✅
 
-4. make stable version as (release version)
+5. make stable version as (release version)
 	> staging
 	> production
+		> add env files
 
-5. step 5 : save data db
+6. step 5 : save data db
 	> save mapping alone with unique chart name (validate) and unique (release version) number
-	
