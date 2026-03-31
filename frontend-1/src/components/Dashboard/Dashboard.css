@@ -255,3 +255,20 @@ button {
 .selected-map-item {
   background-color: red;
 }
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.data-table-container {
+  overflow: auto;
+  width: 100%;
+  max-height: 33vh;
+}
+
+.data-table th {
+  position: sticky;
+  top: 0px;
+  background-color: burlywood;
+}

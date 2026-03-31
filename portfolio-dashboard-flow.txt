@@ -26,4 +26,23 @@ https://woooys.in
 ?consumer_key=ck_f6285f8fcead477b244ed7415862c03e5082a322&consumer_secret=cs_9e27f57441db1cb3613abf13808e9b2c3a559630
 	
 	
+============
+
+31/mar/2026
+
+1. mapping data - loading data text + icon ✅
+
+2. show data button ✅
+	> disable after clicking
+	> enable when label or/and value selection change
+
+3. show data table in scroll container ✅
+	> in scrollable view height
+
+4. make stable version as (release version)
+	> staging
+	> production
+
+5. step 5 : save data db
+	> save mapping alone with unique chart name (validate) and unique (release version) number
 	

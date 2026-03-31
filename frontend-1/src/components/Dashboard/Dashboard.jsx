@@ -11,6 +11,7 @@ import ChartModel from "../ChartModel/ChartModel";
 // css
 import "./Dashboard.css";
 import Modal from "../Modal/Modal";
+import Loading from "../Loading/Loading";
 
 // env
 const VITE_API_URL = import.meta.env.VITE_API_URL;
@@ -102,6 +103,7 @@ export default function Dashboard() {
   const [newConfigName, setNewConfigName] = useState("");
   const [configList, setConfigList] = useState([]);
   const [showData, setShowData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id: projectId } = useParams();
 
@@ -237,6 +239,7 @@ export default function Dashboard() {
 
   const getLinkWithBase = async (url) => {
     try {
+      setIsLoading(true);
       const data = await fetch(url);
 
       if (!data.ok) {
@@ -257,6 +260,7 @@ export default function Dashboard() {
       console.log("data", res);
       setRestApiResponse(res);
       // setProducts(Array.isArray(res.data) ? res.data : []);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
       // setProducts([]);
@@ -787,30 +791,34 @@ export default function Dashboard() {
 
         <h3>Map data:</h3>
 
-        <div>
-          {baseDataKeys.length > 0 && (
-            <div className="d-flex f-col gap-15">
-              <section className="d-flex gap-10 align-center map-dropdown-section">
-                {/* select label */}
-                <div className="flex-1">
-                  <h3>select label</h3>
+        {!isLoading && (
+          <div>
+            {baseDataKeys.length > 0 && (
+              <div className="d-flex f-col gap-15">
+                <section className="d-flex gap-10 align-center map-dropdown-section">
+                  {/* select label */}
+                  <div className="flex-1">
+                    <h3>select label</h3>
 
-                  <select
-                    value={selectListItemOne}
-                    onChange={(e) => {
-                      setSelectListItemOne(e.target.value);
-                    }}
-                  >
-                    {baseDataKeys
-                      .filter((name) => checkTypeOfData(singleData[name], true))
-                      .map((name) => (
-                        <option key={name} value={name}>
-                          {name}
-                        </option>
-                      ))}
-                  </select>
+                    <select
+                      value={selectListItemOne}
+                      onChange={(e) => {
+                        setSelectListItemOne(e.target.value);
+                        setShowData(false);
+                      }}
+                    >
+                      {baseDataKeys
+                        .filter((name) =>
+                          checkTypeOfData(singleData[name], true),
+                        )
+                        .map((name) => (
+                          <option key={name} value={name}>
+                            {name}
+                          </option>
+                        ))}
+                    </select>
 
-                  {/* {baseDataKeys
+                    {/* {baseDataKeys
                     .filter((name) => checkTypeOfData(singleData[name], true))
                     .map((name) => (
                       <div
@@ -828,33 +836,34 @@ export default function Dashboard() {
                         <span>{name}</span>
                       </div>
                     ))} */}
-                </div>
+                  </div>
 
-                <div>
-                  <span className="arrow-right">{"--->"}</span>
-                </div>
-                {/* select value */}
-                <div className="flex-1">
-                  <h3>select value</h3>
-                  <select
-                    style={{ maxWidth: "100%" }}
-                    value={selectListItemTwo}
-                    onChange={(e) => {
-                      setSelectListItemTwo(e.target.value);
-                    }}
-                  >
-                    {baseDataKeys
-                      .filter((name) =>
-                        checkTypeOfData(singleData[name], false),
-                      )
-                      .map((name) => (
-                        <option key={name} value={name}>
-                          {name}
-                        </option>
-                      ))}
-                  </select>
+                  <div>
+                    <span className="arrow-right">{"--->"}</span>
+                  </div>
+                  {/* select value */}
+                  <div className="flex-1">
+                    <h3>select value</h3>
+                    <select
+                      style={{ maxWidth: "100%" }}
+                      value={selectListItemTwo}
+                      onChange={(e) => {
+                        setSelectListItemTwo(e.target.value);
+                        setShowData(false);
+                      }}
+                    >
+                      {baseDataKeys
+                        .filter((name) =>
+                          checkTypeOfData(singleData[name], false),
+                        )
+                        .map((name) => (
+                          <option key={name} value={name}>
+                            {name}
+                          </option>
+                        ))}
+                    </select>
 
-                  {/* {baseDataKeys
+                    {/* {baseDataKeys
                     .filter((name) => checkTypeOfData(singleData[name], false))
                     .map((name) => (
                       <div
@@ -870,108 +879,114 @@ export default function Dashboard() {
                         <span>{name}</span>
                       </div>
                     ))} */}
-                </div>
-              </section>
-
-              <section className="d-flex justify-end">
-                <button onClick={() => setShowData(!showData)}>
-                  {showData ? "hide data" : "show data"}
-                </button>
-              </section>
-
-              {showData && (
-                <section className="d-flex">
-                  <h2 style={{ margin: 0 }}>Select Label</h2>
+                  </div>
                 </section>
-              )}
 
-              {showData && (
-                <section>
-                  <table className="data-table">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>Label - {apiAllData?.length || 0}</th>
-                        <th>Corresponding values</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {apiAllData.map((row, index) => {
-                        const previewLabel = getPreviewValue(
-                          row[selectListItemOne],
-                        );
-                        const previewValue = getPreviewValue(
-                          row[selectListItemTwo],
-                        );
-
-                        return (
-                          <tr
-                            key={index}
-                            // className="selected-map-item"
-                            className={
-                              (tableItems || []).includes(index)
-                                ? "selected-map-item"
-                                : "selected-map-item-no"
-                            }
-                            onClick={() => handleTableSelectItem(index)}
-                          >
-                            {["string", "number", "boolean"].includes(
-                              previewLabel.type,
-                            ) && (
-                              <>
-                                <td
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "flex-start",
-                                    gap: 5,
-                                  }}
-                                >
-                                  {selectedChart === "card" && (
-                                    <input
-                                      type="radio"
-                                      readOnly
-                                      checked={(tableItems || []).includes(
-                                        index,
-                                      )}
-                                    />
-                                  )}
-                                  {selectedChart !== "card" && (
-                                    <input
-                                      type="checkbox"
-                                      readOnly
-                                      checked={(tableItems || []).includes(
-                                        index,
-                                      )}
-                                    />
-                                  )}
-                                  {/* {previewLabel.type}
-                                  {previewLabel.value | JSON} */}
-                                  {console.log("previewLabel", previewLabel)}
-                                </td>
-                                <td>{String(previewLabel?.data)}</td>
-                                <td>{String(previewValue?.data)}</td>
-                              </>
-                            )}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </section>
-              )}
-
-              {showData && (
-                <section className="next-button-container">
-                  <button onClick={() => handleNavNextSection(4)}>
-                    Enter your new card name
+                <section className="d-flex justify-end">
+                  <button disabled={showData} onClick={() => setShowData(true)}>
+                    show data
                   </button>
                 </section>
-              )}
-            </div>
-          )}
 
-          {baseDataKeys.length === 0 && <>no data to preview</>}
-        </div>
+                {showData && (
+                  <section className="d-flex">
+                    <h2 style={{ margin: 0 }}>Select Label</h2>
+                  </section>
+                )}
+
+                {showData && (
+                  <section>
+                    <div className="data-table-container">
+                      <table className="data-table">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>Label - {apiAllData?.length || 0}</th>
+                            <th>Corresponding values</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {apiAllData.map((row, index) => {
+                            const previewLabel = getPreviewValue(
+                              row[selectListItemOne],
+                            );
+                            const previewValue = getPreviewValue(
+                              row[selectListItemTwo],
+                            );
+
+                            return (
+                              <tr
+                                key={index}
+                                // className="selected-map-item"
+                                className={
+                                  (tableItems || []).includes(index)
+                                    ? "selected-map-item"
+                                    : "selected-map-item-no"
+                                }
+                                onClick={() => handleTableSelectItem(index)}
+                              >
+                                {["string", "number", "boolean"].includes(
+                                  previewLabel.type,
+                                ) && (
+                                  <>
+                                    <td
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
+                                        gap: 5,
+                                      }}
+                                    >
+                                      {selectedChart === "card" && (
+                                        <input
+                                          type="radio"
+                                          readOnly
+                                          checked={(tableItems || []).includes(
+                                            index,
+                                          )}
+                                        />
+                                      )}
+                                      {selectedChart !== "card" && (
+                                        <input
+                                          type="checkbox"
+                                          readOnly
+                                          checked={(tableItems || []).includes(
+                                            index,
+                                          )}
+                                        />
+                                      )}
+                                      {/* {previewLabel.type}
+                                    {previewLabel.value | JSON} */}
+                                      {console.log(
+                                        "previewLabel",
+                                        previewLabel,
+                                      )}
+                                    </td>
+                                    <td>{String(previewLabel?.data)}</td>
+                                    <td>{String(previewValue?.data)}</td>
+                                  </>
+                                )}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                )}
+
+                {showData && (
+                  <section className="next-button-container">
+                    <button onClick={() => handleNavNextSection(4)}>
+                      Enter your new card name
+                    </button>
+                  </section>
+                )}
+              </div>
+            )}
+
+            {baseDataKeys.length === 0 && <>no data to preview</>}
+          </div>
+        )}
       </section>
 
       <section className="section-container" id="section-container-4">
@@ -1033,6 +1048,7 @@ export default function Dashboard() {
       <div className="next-button-container">
         <button onClick={() => handleNavNextSection(1)}>back to top</button>
       </div>
+      {isLoading && <Loading />}
     </div>
   );
 }
