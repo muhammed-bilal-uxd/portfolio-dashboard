@@ -83,7 +83,7 @@ export default function Dashboard() {
   const [restApiResponse, setRestApiResponse] = useState([]);
   const [selectListItemOne, setSelectListItemOne] = useState("");
   const [selectListItemTwo, setSelectListItemTwo] = useState("");
-  const [selectListItemOneIndex, setSelectListItemOneIndex] = useState(0);
+  const [tableItems, setTableItems] = useState([]);
   const [baseDataKeys, setBaseDataKeys] = useState([]);
   const [singleData, setSingleData] = useState({});
   const [apiAllData, setApiAllData] = useState([]);
@@ -101,6 +101,7 @@ export default function Dashboard() {
   const [selectedInputSource, setSelectedInputSource] = useState({});
   const [newConfigName, setNewConfigName] = useState("");
   const [configList, setConfigList] = useState([]);
+  const [showData, setShowData] = useState(false);
 
   const { id: projectId } = useParams();
 
@@ -121,7 +122,7 @@ export default function Dashboard() {
 
     if (filterLabels[0]) {
       setSelectListItemOne(filterLabels[0]);
-      setSelectListItemOneIndex(0);
+      setTableItems(0);
       setViewDataLabel(singleData[filterLabels[0]]);
     }
 
@@ -263,18 +264,23 @@ export default function Dashboard() {
   };
 
   const isValidGenerateChart = () => {
-    if (selectListItemOne === "") {
-      alert("label missing");
-      return false;
-    }
+    // if (selectListItemOne === "") {
+    //   alert("label missing");
+    //   return false;
+    // }
 
-    if (selectListItemTwo === "") {
-      alert("value missing");
-      return false;
-    }
+    // if (selectListItemTwo === "") {
+    //   alert("value missing");
+    //   return false;
+    // }
 
-    if (viewDataLabel === "") {
-      alert("value data label missing");
+    // if (viewDataLabel === "") {
+    //   alert("value data label missing");
+    //   return false;
+    // }
+
+    if (tableItems.length === 0) {
+      alert("mapping section missing");
       return false;
     }
 
@@ -313,17 +319,25 @@ export default function Dashboard() {
   const handleAddNewChart = () => {
     if (!isValidGenerateChart()) return;
 
-    const viewDataValue = getPreviewValue(
-      apiAllData[selectListItemOneIndex][selectListItemTwo],
-    ).data;
+    const chartData = tableItems.map((i) => {
+      return {
+        label: apiAllData[i][selectListItemOne],
+        value: apiAllData[i][selectListItemTwo],
+      };
+    });
+
+    // const viewDataValue = getPreviewValue(
+    //   apiAllData[tableItems][selectListItemTwo],
+    // ).data;
 
     const newConfig = {
       selectedInputSource: selectedInputSource,
       selectedChart: selectedChart,
       selectListItemOne: selectListItemOne,
       selectListItemTwo: selectListItemTwo,
-      viewDataLabel: viewDataLabel,
-      viewDataValue: viewDataValue,
+      // viewDataLabel: viewDataLabel,
+      // viewDataValue: viewDataValue,
+      data: chartData,
       newConfigName: newConfigName,
       dataValues: getChartData(),
     };
@@ -539,6 +553,23 @@ export default function Dashboard() {
       sourceLink: inputSource,
     });
     setShowSourcePopup(true);
+  };
+
+  const handleTableSelectItem = (index) => {
+    if (selectedChart === "card") {
+      // [index] : [...tableItems,index]
+      setTableItems([index]);
+    } else {
+      const isExistItem = (tableItems || []).includes(index);
+
+      if (!isExistItem) {
+        setTableItems([...(tableItems || []), index]);
+      } else {
+        setTableItems([...(tableItems || []).filter((j) => j !== index)]);
+      }
+    }
+
+    console.log("tableItems", tableItems);
   };
 
   // dev start
@@ -758,336 +789,188 @@ export default function Dashboard() {
 
         <div>
           {baseDataKeys.length > 0 && (
-            <div className="radio-group-container">
-              {/* select label */}
-              <section>
-                <h3>select label</h3>
+            <div className="d-flex f-col gap-15">
+              <section className="d-flex gap-10 align-center map-dropdown-section">
+                {/* select label */}
+                <div className="flex-1">
+                  <h3>select label</h3>
 
-                <select
-                  value={selectListItemOne}
-                  onChange={(e) => {
-                    setSelectListItemOne(e.target.value);
-                  }}
-                >
-                  {baseDataKeys
+                  <select
+                    value={selectListItemOne}
+                    onChange={(e) => {
+                      setSelectListItemOne(e.target.value);
+                    }}
+                  >
+                    {baseDataKeys
+                      .filter((name) => checkTypeOfData(singleData[name], true))
+                      .map((name) => (
+                        <option key={name} value={name}>
+                          {name}
+                        </option>
+                      ))}
+                  </select>
+
+                  {/* {baseDataKeys
                     .filter((name) => checkTypeOfData(singleData[name], true))
                     .map((name) => (
-                      <option key={name} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                </select>
+                      <div
+                        key={name}
+                        onClick={() => {
+                          setSelectListItemOne(name);
+                        }}
+                        className="radio-list-item"
+                      >
+                        <input
+                          type="radio"
+                          checked={selectListItemOne === name}
+                          readOnly
+                        />
+                        <span>{name}</span>
+                      </div>
+                    ))} */}
+                </div>
 
-                {/* {baseDataKeys
-                  .filter((name) => checkTypeOfData(singleData[name], true))
-                  .map((name) => (
-                    <div
-                      key={name}
-                      onClick={() => {
-                        setSelectListItemOne(name);
-                      }}
-                      className="radio-list-item"
-                    >
-                      <input
-                        type="radio"
-                        checked={selectListItemOne === name}
-                        readOnly
-                      />
-                      <span>{name}</span>
-                    </div>
-                  ))} */}
+                <div>
+                  <span className="arrow-right">{"--->"}</span>
+                </div>
+                {/* select value */}
+                <div className="flex-1">
+                  <h3>select value</h3>
+                  <select
+                    style={{ maxWidth: "100%" }}
+                    value={selectListItemTwo}
+                    onChange={(e) => {
+                      setSelectListItemTwo(e.target.value);
+                    }}
+                  >
+                    {baseDataKeys
+                      .filter((name) =>
+                        checkTypeOfData(singleData[name], false),
+                      )
+                      .map((name) => (
+                        <option key={name} value={name}>
+                          {name}
+                        </option>
+                      ))}
+                  </select>
+
+                  {/* {baseDataKeys
+                    .filter((name) => checkTypeOfData(singleData[name], false))
+                    .map((name) => (
+                      <div
+                        key={name}
+                        onClick={() => setSelectListItemTwo(name)}
+                        className="radio-list-item"
+                      >
+                        <input
+                          type="radio"
+                          checked={selectListItemTwo === name}
+                          readOnly
+                        />
+                        <span>{name}</span>
+                      </div>
+                    ))} */}
+                </div>
               </section>
 
-              {/* preview label */}
-              <section>
-                <h3>
-                  {selectedChart === "card"
-                    ? "Select label data"
-                    : "Preview label data"}
-                </h3>
+              <section className="d-flex justify-end">
+                <button onClick={() => setShowData(!showData)}>
+                  {showData ? "hide data" : "show data"}
+                </button>
+              </section>
 
-                {selectedChart !== "card" && (
-                  <div>
-                    {apiAllData.map((row, index) => {
-                      const preview = getPreviewValue(row[selectListItemOne]);
-                      const value = preview.data;
+              {showData && (
+                <section className="d-flex">
+                  <h2 style={{ margin: 0 }}>Select Label</h2>
+                </section>
+              )}
 
-                      return (
-                        <div key={index}>
-                          {["array", "object"].includes(preview.type) && (
-                            <h5>{preview.label}</h5>
-                          )}
+              {showData && (
+                <section>
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Label - {apiAllData?.length || 0}</th>
+                        <th>Corresponding values</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {apiAllData.map((row, index) => {
+                        const previewLabel = getPreviewValue(
+                          row[selectListItemOne],
+                        );
+                        const previewValue = getPreviewValue(
+                          row[selectListItemTwo],
+                        );
 
-                          {/* ARRAY TABLE */}
-                          {preview.type === "array" &&
-                            Array.isArray(value) &&
-                            value.length > 0 && (
-                              <table border="1">
-                                <thead>
-                                  <tr>
-                                    {Object.keys(value[0]).map((key) => (
-                                      <th key={key}>{key}</th>
-                                    ))}
-                                  </tr>
-                                </thead>
-
-                                <tbody>
-                                  {value.map((item, i) => (
-                                    <tr key={i}>
-                                      {Object.values(item).map((val, j) => (
-                                        <td key={j}>{String(val)}</td>
-                                      ))}
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            )}
-
-                          {/* OBJECT TABLE */}
-                          {preview.type === "object" && (
-                            <table border="1">
-                              <tbody>
-                                {Object.entries(value).map(([key, val]) => (
-                                  <tr key={key}>
-                                    <td>{key}</td>
-                                    <td>{String(val)}</td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          )}
-
-                          {/* SIMPLE VALUE */}
-                          {["string", "number", "boolean"].includes(
-                            preview.type,
-                          ) && (
-                            <>
-                              {!(selectedChart === "card") ? (
-                                <p>{String(value)}</p>
-                              ) : (
-                                <div
+                        return (
+                          <tr
+                            key={index}
+                            // className="selected-map-item"
+                            className={
+                              (tableItems || []).includes(index)
+                                ? "selected-map-item"
+                                : "selected-map-item-no"
+                            }
+                            onClick={() => handleTableSelectItem(index)}
+                          >
+                            {["string", "number", "boolean"].includes(
+                              previewLabel.type,
+                            ) && (
+                              <>
+                                <td
                                   style={{
                                     display: "flex",
                                     alignItems: "flex-start",
                                     gap: 5,
                                   }}
-                                  onClick={() => {
-                                    setViewDataLabel(value);
-                                    setSelectListItemOneIndex(index);
-                                  }}
                                 >
-                                  <input
-                                    type="radio"
-                                    readOnly
-                                    checked={value === viewDataLabel}
-                                  />
-                                  <span>{String(value)}</span>
-                                </div>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {selectedChart === "card" && (
-                  <>
-                    <select
-                      id="view-data-label"
-                      value={viewDataLabel}
-                      onChange={(e) => {
-                        setViewDataLabel(e.target.value);
-                        setSelectListItemOneIndex(e.target.selectedIndex);
-                      }}
-                    >
-                      {apiAllData.map((row, index) => {
-                        const preview = getPreviewValue(row[selectListItemOne]);
-                        const valueData = preview.data;
-
-                        return (
-                          <div key={index}>
-                            {["array", "object"].includes(preview.type) && (
-                              <h5>{preview.label}</h5>
-                            )}
-
-                            {/* ARRAY TABLE */}
-                            {preview.type === "array" &&
-                              Array.isArray(valueData) &&
-                              valueData.length > 0 && (
-                                <table border="1">
-                                  <thead>
-                                    <tr>
-                                      {Object.keys(valueData[0]).map((key) => (
-                                        <th key={key}>{key}</th>
-                                      ))}
-                                    </tr>
-                                  </thead>
-
-                                  <tbody>
-                                    {valueData.map((item, i) => (
-                                      <tr key={i}>
-                                        {Object.values(item).map((val, j) => (
-                                          <td key={j}>{String(val)}</td>
-                                        ))}
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              )}
-
-                            {/* OBJECT TABLE */}
-                            {preview.type === "object" && (
-                              <table border="1">
-                                <tbody>
-                                  {Object.entries(valueData).map(
-                                    ([key, val]) => (
-                                      <tr key={key}>
-                                        <td>{key}</td>
-                                        <td>{String(val)}</td>
-                                      </tr>
-                                    ),
+                                  {selectedChart === "card" && (
+                                    <input
+                                      type="radio"
+                                      readOnly
+                                      checked={(tableItems || []).includes(
+                                        index,
+                                      )}
+                                    />
                                   )}
-                                </tbody>
-                              </table>
-                            )}
-
-                            {/* SIMPLE VALUE */}
-                            {["string", "number", "boolean"].includes(
-                              preview.type,
-                            ) && (
-                              <>
-                                <option value={valueData}>
-                                  {String(valueData)}
-                                </option>
+                                  {selectedChart !== "card" && (
+                                    <input
+                                      type="checkbox"
+                                      readOnly
+                                      checked={(tableItems || []).includes(
+                                        index,
+                                      )}
+                                    />
+                                  )}
+                                  {/* {previewLabel.type}
+                                  {previewLabel.value | JSON} */}
+                                  {console.log("previewLabel", previewLabel)}
+                                </td>
+                                <td>{String(previewLabel?.data)}</td>
+                                <td>{String(previewValue?.data)}</td>
                               </>
                             )}
-                          </div>
+                          </tr>
                         );
                       })}
-                    </select>
-                  </>
-                )}
-              </section>
+                    </tbody>
+                  </table>
+                </section>
+              )}
 
-              {/* select value */}
-              <section>
-                <h3>select value</h3>
-                <select
-                  style={{ maxWidth: "100%" }}
-                  value={selectListItemTwo}
-                  onChange={(e) => {
-                    setSelectListItemTwo(e.target.value);
-                  }}
-                >
-                  {baseDataKeys
-                    .filter((name) => checkTypeOfData(singleData[name], false))
-                    .map((name) => (
-                      <option key={name} value={name}>
-                        {name}
-                      </option>
-                    ))}
-                </select>
-
-                {/* {baseDataKeys
-                  .filter((name) => checkTypeOfData(singleData[name], false))
-                  .map((name) => (
-                    <div
-                      key={name}
-                      onClick={() => setSelectListItemTwo(name)}
-                      className="radio-list-item"
-                    >
-                      <input
-                        type="radio"
-                        checked={selectListItemTwo === name}
-                        readOnly
-                      />
-                      <span>{name}</span>
-                    </div>
-                  ))} */}
-              </section>
-
-              {/* preview label */}
-              <section>
-                <h3>preview value data</h3>
-
-                <div>
-                  {apiAllData.map((row, index) => {
-                    const preview = getPreviewValue(row[selectListItemTwo]);
-                    const value = preview.data;
-
-                    return (
-                      <div key={index}>
-                        {["array", "object"].includes(preview.type) && (
-                          <h5>{preview.label}</h5>
-                        )}
-
-                        {/* ARRAY TABLE */}
-                        {preview.type === "array" &&
-                          Array.isArray(value) &&
-                          value.length > 0 && (
-                            <table border="1">
-                              <thead>
-                                <tr>
-                                  {Object.keys(value[0]).map((key) => (
-                                    <th key={key}>{key}</th>
-                                  ))}
-                                </tr>
-                              </thead>
-
-                              <tbody>
-                                {value.map((item, i) => (
-                                  <tr key={i}>
-                                    {Object.values(item).map((val, j) => (
-                                      <td key={j}>{String(val)}</td>
-                                    ))}
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          )}
-
-                        {/* OBJECT TABLE */}
-                        {preview.type === "object" && (
-                          <table border="1">
-                            <tbody>
-                              {Object.entries(value).map(([key, val]) => (
-                                <tr key={key}>
-                                  <td>{key}</td>
-                                  <td>{String(val)}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        )}
-
-                        {/* SIMPLE VALUE */}
-                        {["string", "number", "boolean"].includes(
-                          preview.type,
-                        ) && (
-                          <>
-                            {selectedChart !== "card" && <p>{String(value)}</p>}
-                            {selectedChart === "card" &&
-                              index === selectListItemOneIndex && (
-                                <p>{String(value)}</p>
-                              )}
-                          </>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
+              {showData && (
+                <section className="next-button-container">
+                  <button onClick={() => handleNavNextSection(4)}>
+                    Enter your new card name
+                  </button>
+                </section>
+              )}
             </div>
           )}
 
           {baseDataKeys.length === 0 && <>no data to preview</>}
-        </div>
-        <div className="next-button-container">
-          <button onClick={() => handleNavNextSection(4)}>
-            Enter your new card name
-          </button>
         </div>
       </section>
 

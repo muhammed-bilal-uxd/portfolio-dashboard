@@ -179,3 +179,79 @@ button {
   max-width: 100%;
   width: 100%;
 }
+
+.d-flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.f-col {
+  flex-direction: column;
+}
+
+.gap-5 {
+  gap: 5px;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-15 {
+  gap: 15px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.gap-25 {
+  gap: 25px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.map-dropdown-section select {
+  width: 100%;
+  max-width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.map-dropdown-section h3 {
+  margin: 0 0 5px 0;
+  text-transform: capitalize;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.arrow-right {
+  font-weight: bold;
+}
+
+.data-table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.data-table tbody tr {
+  cursor: pointer;
+}
+
+.selected-map-item {
+  background-color: red;
+}

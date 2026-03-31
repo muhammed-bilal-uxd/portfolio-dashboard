@@ -87,11 +87,11 @@ export default function ChartModel({ chartData }) {
   const randomColor = () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`;
 
   const lineData = {
-    labels: chartData.dataValues.labels,
+    labels: chartData.data.map((i) => i.label),
     datasets: [
       {
         label: chartData.selectListItemOne,
-        data: chartData.dataValues.values,
+        data: chartData.data.map((i) => i.value),
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59,130,246,0.2)",
         fill: true,
@@ -101,11 +101,11 @@ export default function ChartModel({ chartData }) {
   };
 
   const barData = {
-    labels: [...chartData.dataValues.labels],
+    labels: [...chartData.data.map((i) => i.label)],
     datasets: [
       {
         label: chartData.selectListItemOne || "",
-        data: [...chartData.dataValues.values],
+        data: [...chartData.data.map((i) => i.value)],
         backgroundColor: randomColor(),
       },
     ],
@@ -115,14 +115,14 @@ export default function ChartModel({ chartData }) {
 
   const pieData = () => {
     const bgColors =
-      Array.isArray(chartData.dataValues.labels) &&
+      Array.isArray(chartData.data.map((i) => i.label)) &&
       labels.map(() => randomColor());
 
     return {
-      labels: chartData.dataValues.labels,
+      labels: chartData.data.map((i) => i.label),
       datasets: [
         {
-          data: [...chartData.dataValues.values],
+          data: [...chartData.data.map((i) => i.value)],
           backgroundColor: [...bgColors],
         },
       ],
@@ -131,11 +131,11 @@ export default function ChartModel({ chartData }) {
 
   const radarData = () => {
     return {
-      labels: [...chartData.dataValues.labels],
+      labels: [...chartData.data.map((i) => i.label)],
       datasets: [
         {
           label: "Score",
-          data: [...chartData.dataValues.values],
+          data: [...chartData.data.map((i) => i.value)],
           backgroundColor: "rgba(168,85,247,0.2)",
           borderColor: "#a855f7",
         },
@@ -144,13 +144,13 @@ export default function ChartModel({ chartData }) {
   };
 
   const polarData = () => {
-    const colors = chartData.dataValues.labels.map(() => randomColor());
+    const colors = chartData.data.map(() => randomColor());
 
     return {
-      labels: [...chartData.dataValues.labels],
+      labels: [...chartData.data.map((i) => i.label)],
       datasets: [
         {
-          data: [...chartData.dataValues.values],
+          data: [...chartData.data.map((i) => i.value)],
           backgroundColor: [...colors],
         },
       ],
@@ -242,7 +242,7 @@ export default function ChartModel({ chartData }) {
                   color: "#555",
                 }}
               >
-                {chartData.viewDataLabel}
+                {chartData.data[0].label}
               </h3>
 
               <p
@@ -253,7 +253,7 @@ export default function ChartModel({ chartData }) {
                   color: "#111",
                 }}
               >
-                {chartData.viewDataValue}
+                {chartData.data[0].value}
               </p>
             </div>
           </div>
