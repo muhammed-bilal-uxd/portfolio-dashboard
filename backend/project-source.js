@@ -27,26 +27,50 @@ router.get("/:projectId", async (req, res) => {
 // create
 router.post("/", async (req, res) => {
   try {
-  const payload = req.body;
-  // console.log("payload", payload);
+    const { projectId, sourceLink } = req.body;
+    // console.log("payload", payload);
 
-  const projectSource = new ProjectSource(payload);
-  const saved = await projectSource.save();
-  res.json(saved);
+    // validation
+    if (!projectId || !sourceLink) {
+      return res.status(400).json({
+        message: "projectId and sourceLink required",
+      });
+    }
+
+    const projectSource = new ProjectSource({ projectId, sourceLink });
+
+    console.log("projectId", { projectId, sourceLink });
+
+    const saved = await projectSource.save();
+    res.status(201).json({
+      message: "Saved successfully",
+      data: saved,
+    });
   } catch (err) {
     console.error("POST /project-source failed:", err);
 
-    if(err?.message.includes("duplicate")) {
-      res.status(409).json({
-        status: 409,
-        message: "duplicate data found",
-      });
-    } else {
-      res.status(500).json({
-        status: 500,
-        message: err?.message || "Internal server error",
+    // if (err?.message.includes("duplicate")) {
+    //   res.status(409).json({
+    //     status: 409,
+    //     message: "duplicate data found",
+    //   });
+    // } else {
+    //   res.status(500).json({
+    //     status: 500,
+    //     message: err?.message || "Internal server error",
+    //   });
+    // }
+
+    if (err.code === 11000) {
+      return res.status(400).json({
+        message: "Duplicate source for this project",
       });
     }
+
+    res.status(500).json({
+      status: 500,
+      message: err?.message || "Internal server error",
+    });
   }
 });
 

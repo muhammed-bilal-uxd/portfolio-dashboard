@@ -32,7 +32,7 @@ https://woooys.in
 
 1. mapping data - loading data text + icon ✅
 
-2. show data button ✅
+2. show data button ✅ (tag v1.0.1)
 	> disable after clicking
 	> enable when label or/and value selection change
 
@@ -41,10 +41,62 @@ https://woooys.in
 	
 4. radio button in step 1 ✅
 
-5. make stable version as (release version)
-	> staging
-	> production
-		> add env files
+5. make stable version as (release version) ✅
+	> branch
+		> staging
+		> production
+			> add env files
 
-6. step 5 : save data db
-	> save mapping alone with unique chart name (validate) and unique (release version) number
+6. unique (release version) number (wip)
+	> schema version
+
+7. step 5 : save data db
+	> save mapping alone with unique chart name (validate) (no duplication)
+
+// single action at time
+	
+8. edit chart data
+	> go to step 3 - mapping
+
+9. edit chart name
+	> go to step 4 - name
+
+10. add new chart below the last chart
+
+11. edit chart position
+
+	> step 5 - ? in discussion
+
+=================
+
+staging latest
+1bfb168a87382de7504c083af9df1c5a094ff085
+
+production v 1.0.1
+1bfb168a87382de7504c083af9df1c5a094ff085
+
+=================
+
+v 1.3.5 - FE & BE & db structure data
+
+v 2.4.8 - FE & BE & db structure data
+
+v 3.0.0 - FE & BE & db structure data
+
+data structure changed related backend changes in node mongoDB
+
+##schema version management##
+
+1.transformers (send v1 or v2, modify then return only v2)
+	> partial changes + addition changes
+		> add key _legacy key=true
+
+2.migration (run at once time call function, modify v1)
+	> skip new data, modify old data into v2 format
+	> info user migration needed
+	> add key _needsMigration=true
+
+3.dangerous mismatch data
+	> reject - throw err message
+
+	

@@ -12,6 +12,8 @@ const projectRouter = require("./project");
 const projectDetailsRouter = require("./project-detail");
 const projectSourceRouter = require("./project-source");
 
+const { ProjectSource } = require("./mongodb");
+
 // app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,8 +23,33 @@ console.log("PORT:", PORT);
 console.log("MONGO_URI exists:", !!MONGO_URI);
 console.log("MONGO_URI value:", MONGO_URI);
 
-mongoose.connection.on("connected", () => {
+mongoose.connection.on("connected", async () => {
   console.log("🔥 Mongoose connected");
+
+  // indexing
+  // const indexes = await ProjectSource.collection.getIndexes();
+  // console.log("indexes", indexes);
+
+  // verify
+  // const indexes = await ProjectSource.collection.getIndexes();
+  // console.log("indexes", indexes);
+
+  // sync indexes at last after all index issue fixed
+  // await ProjectSource.syncIndexes();
+
+  // update schema version
+  // await ProjectSource.updateMany(
+  //   {
+  //     $or: [{ schemaVersion: 1 }, { schemaVersion: { $exists: false } }],
+  //   },
+  //   { $set: { schemaVersion: "v1" } },
+  // )
+  //   .then(() => {
+  //     console.log("✅ Schema version updated");
+  //   })
+  //   .catch((err) => {
+  //     console.log("❌ Schema version update failed:", err);
+  //   });
 });
 
 mongoose.connection.on("error", (err) => {

@@ -805,7 +805,7 @@ export default function Dashboard() {
                 <section className="d-flex gap-10 align-center map-dropdown-section">
                   {/* select label */}
                   <div className="flex-1">
-                    <h3>select label</h3>
+                    <h3>select type of label</h3>
 
                     <select
                       value={selectListItemOne}
@@ -850,7 +850,7 @@ export default function Dashboard() {
                   </div>
                   {/* select value */}
                   <div className="flex-1">
-                    <h3>select value</h3>
+                    <h3>select type of value</h3>
                     <select
                       style={{ maxWidth: "100%" }}
                       value={selectListItemTwo}
@@ -897,7 +897,11 @@ export default function Dashboard() {
 
                 {showData && (
                   <section className="d-flex">
-                    <h2 style={{ margin: 0 }}>Select Label</h2>
+                    <h2 style={{ margin: 0 }}>
+                      {selectedChart === "card"
+                        ? "Select Label & corresponding value"
+                        : "Select Labels & corresponding values"}
+                    </h2>
                   </section>
                 )}
 
