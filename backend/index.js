@@ -9,10 +9,13 @@ const mongoose = require("mongoose");
 // routers
 const wooCommerceRouter = require("./woocommerce");
 const projectRouter = require("./project");
-const projectDetailsRouter = require("./project-detail");
+const projectDetailsRouter = require("./project-chart");
 const projectSourceRouter = require("./project-source");
+const projectChartRouter = require("./project-chart");
 
-const { ProjectSource } = require("./mongodb");
+const { ProjectSource, ProjectChart } = require("./mongo-schema");
+
+const { migrateSchemaVersion } = require("./migration");
 
 // app
 const app = express();
@@ -26,30 +29,7 @@ console.log("MONGO_URI value:", MONGO_URI);
 mongoose.connection.on("connected", async () => {
   console.log("🔥 Mongoose connected");
 
-  // indexing
-  // const indexes = await ProjectSource.collection.getIndexes();
-  // console.log("indexes", indexes);
-
-  // verify
-  // const indexes = await ProjectSource.collection.getIndexes();
-  // console.log("indexes", indexes);
-
-  // sync indexes at last after all index issue fixed
-  // await ProjectSource.syncIndexes();
-
-  // update schema version
-  // await ProjectSource.updateMany(
-  //   {
-  //     $or: [{ schemaVersion: 1 }, { schemaVersion: { $exists: false } }],
-  //   },
-  //   { $set: { schemaVersion: "v1" } },
-  // )
-  //   .then(() => {
-  //     console.log("✅ Schema version updated");
-  //   })
-  //   .catch((err) => {
-  //     console.log("❌ Schema version update failed:", err);
-  //   });
+  await migrateSchemaVersion();
 });
 
 mongoose.connection.on("error", (err) => {
@@ -66,7 +46,7 @@ app.use(
   }),
 );
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
@@ -74,8 +54,8 @@ app.get("/health", (req, res) => {
 
 app.use("/woocommerce", wooCommerceRouter);
 app.use("/projects", projectRouter);
-app.use("/project-detail", projectDetailsRouter);
 app.use("/project-source", projectSourceRouter);
+app.use("/project-chart", projectChartRouter);
 
 mongoose
   .connect(MONGO_URI)

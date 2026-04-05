@@ -6,18 +6,18 @@ const projectSchema = new mongoose.Schema(
     schemaVersion: { type: String, default: "v1" },
   },
   { timestamps: true },
-  // schemaVersion: { type: String, default: "v1" },
-  // '_needsMigration': { type: Boolean, default: false },
-  // '_legacy': { type: Boolean, default: false },
 );
 
-const projectDetailSchema = new mongoose.Schema(
+const ProjectChartSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    configName: { type: String, required: true, unique: true },
+    data: { type: mongoose.Schema.Types.Mixed, required: true },
     schemaVersion: { type: String, default: "v1" },
   },
   { timestamps: true },
 );
+
+ProjectChartSchema.index({ configName: 1 }, { unique: true });
 
 const projectSourceSchema = new mongoose.Schema(
   {
@@ -38,10 +38,10 @@ const projectSourceSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-projectSourceSchema.index({ projectId: 1, sourceLink: 1 }, { unique: true });
+// projectSourceSchema.index({ projectId: 1, sourceLink: 1 }, { unique: true });
 
 module.exports = {
   Project: mongoose.model("Project", projectSchema),
-  ProjectDetail: mongoose.model("ProjectDetail", projectDetailSchema),
   ProjectSource: mongoose.model("ProjectSource", projectSourceSchema),
+  ProjectChart: mongoose.model("ProjectChart", ProjectChartSchema),
 };

@@ -47,7 +47,7 @@ https://woooys.in
 		> production
 			> add env files
 
-6. unique (release version) number (wip)
+6. unique (release version) number ✅
 	> schema version
 
 7. step 5 : save data db
@@ -66,6 +66,7 @@ https://woooys.in
 11. edit chart position
 
 	> step 5 - ? in discussion
+	> switch position
 
 =================
 
@@ -83,20 +84,6 @@ v 2.4.8 - FE & BE & db structure data
 
 v 3.0.0 - FE & BE & db structure data
 
-data structure changed related backend changes in node mongoDB
 
-##schema version management##
-
-1.transformers (send v1 or v2, modify then return only v2)
-	> partial changes + addition changes
-		> add key _legacy key=true
-
-2.migration (run at once time call function, modify v1)
-	> skip new data, modify old data into v2 format
-	> info user migration needed
-	> add key _needsMigration=true
-
-3.dangerous mismatch data
-	> reject - throw err message
 
 	

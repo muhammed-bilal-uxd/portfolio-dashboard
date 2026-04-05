@@ -109,6 +109,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     getAllSources();
+    getAllCharts();
   }, []);
 
   useEffect(() => {
@@ -213,8 +214,6 @@ export default function Dashboard() {
         catList[categoryName] = (catList[categoryName] || 0) + 1;
       });
     });
-
-    console.log("catlist", catList);
 
     for (const [key, value] of Object.entries(catList)) {
       catLabels.push(key);
@@ -335,19 +334,65 @@ export default function Dashboard() {
     // ).data;
 
     const newConfig = {
-      selectedInputSource: selectedInputSource,
-      selectedChart: selectedChart,
+      projectId: projectId,
+      sourceUrl: selectedInputSource?.sourceLink,
+      chartType: selectedChart,
       selectListItemOne: selectListItemOne,
       selectListItemTwo: selectListItemTwo,
-      // viewDataLabel: viewDataLabel,
-      // viewDataValue: viewDataValue,
-      data: chartData,
-      newConfigName: newConfigName,
-      dataValues: getChartData(),
+      apiAllData,
+      configName: newConfigName,
+      chartData: chartData,
     };
 
-    setConfigList([...configList, newConfig]);
-    // addChart();
+    console.log("newConfig", newConfig);
+
+    // setConfigList([...configList, newConfig]);
+    addChart(newConfig);
+  };
+
+  const getAllCharts = async () => {
+    const url = VITE_API_URL + `/project-chart?projectId=${projectId}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const res = await response.json().catch(() => null);
+
+    if (res && Array.isArray(res)) {
+      console.log("res", res);
+      const list = res.map(({ data }) => {
+        return data;
+      });
+      setConfigList([...configList, ...list]);
+    }
+  };
+
+  const addChart = async (config) => {
+    try {
+      const url = VITE_API_URL + "/project-chart";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: config, configName: config?.configName }),
+      });
+
+      const payload = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(
+          payload?.message || `Request failed with status ${res.status}`,
+        );
+      }
+
+      getAllCharts();
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   const getPreviewValue = (data) => {
@@ -480,7 +525,7 @@ export default function Dashboard() {
   const getAllSources = async () => {
     if (!projectId) return alert("project id needed");
 
-    const url = VITE_API_URL + "/project-source/" + projectId;
+    const url = VITE_API_URL + `/project-source?projectId=${projectId}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -967,10 +1012,10 @@ export default function Dashboard() {
                                       )}
                                       {/* {previewLabel.type}
                                     {previewLabel.value | JSON} */}
-                                      {console.log(
+                                      {/* {console.log(
                                         "previewLabel",
                                         previewLabel,
-                                      )}
+                                      )} */}
                                     </td>
                                     <td>{String(previewLabel?.data)}</td>
                                     <td>{String(previewValue?.data)}</td>
@@ -1052,7 +1097,7 @@ export default function Dashboard() {
           }}
         >
           {configList.map((data, index) => (
-            <ChartModel key={index} chartData={data}></ChartModel>
+            <ChartModel key={index} configData={data}></ChartModel>
           ))}
         </div>
       </section>

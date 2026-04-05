@@ -25,7 +25,7 @@ import {
 } from "react-chartjs-2";
 
 import "./ChartModel.css";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 
@@ -43,17 +43,21 @@ ChartJS.register(
   Filler,
 );
 
-export default function ChartModel({ chartData }) {
+export default function ChartModel({ configData }) {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
   const [activeChart, setActiveChart] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedChart, setSelectedChart] = useState(chartData.selectedChart);
+  const [selectedChart, setSelectedChart] = useState("");
   //   const [dataValues, setDataValues] = useState({
   //     labels: ["Desktop", "Mobile", "Tablet"],
   //     values: [52, 38, 10],
   //   });
-  //   const [dataValues, setDataValues] = useState(chartData.dataValues);
+  //   const [dataValues, setDataValues] = useState(configData?.chartDataValues);
+
+  useEffect(() => {
+    setSelectedChart(configData?.chartType);
+  }, []);
 
   const openChartModal = ({ type, title, data, options }) => {
     setActiveChart({ type, title, data, options });
@@ -87,11 +91,11 @@ export default function ChartModel({ chartData }) {
   const randomColor = () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`;
 
   const lineData = {
-    labels: chartData.data.map((i) => i.label),
+    labels: configData?.chartData.map((i) => i.label) || [],
     datasets: [
       {
-        label: chartData.selectListItemOne,
-        data: chartData.data.map((i) => i.value),
+        label: configData?.selectListItemOne,
+        data: configData?.chartData.map((i) => i.value) || [],
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59,130,246,0.2)",
         fill: true,
@@ -101,11 +105,11 @@ export default function ChartModel({ chartData }) {
   };
 
   const barData = {
-    labels: [...chartData.data.map((i) => i.label)],
+    labels: [...(configData?.chartData.map((i) => i.label) || [])],
     datasets: [
       {
-        label: chartData.selectListItemOne || "",
-        data: [...chartData.data.map((i) => i.value)],
+        label: configData?.selectListItemOne || "",
+        data: [...(configData?.chartData.map((i) => i.value) || [])],
         backgroundColor: randomColor(),
       },
     ],
@@ -115,14 +119,14 @@ export default function ChartModel({ chartData }) {
 
   const pieData = () => {
     const bgColors =
-      Array.isArray(chartData.data.map((i) => i.label)) &&
+      Array.isArray(configData?.chartData.map((i) => i.label)) &&
       labels.map(() => randomColor());
 
     return {
-      labels: chartData.data.map((i) => i.label),
+      labels: configData?.chartData.map((i) => i.label) || [],
       datasets: [
         {
-          data: [...chartData.data.map((i) => i.value)],
+          data: [...(configData?.chartData.map((i) => i.value) || [])],
           backgroundColor: [...bgColors],
         },
       ],
@@ -131,11 +135,11 @@ export default function ChartModel({ chartData }) {
 
   const radarData = () => {
     return {
-      labels: [...chartData.data.map((i) => i.label)],
+      labels: [...(configData?.chartData.map((i) => i.label) || [])],
       datasets: [
         {
           label: "Score",
-          data: [...chartData.data.map((i) => i.value)],
+          data: [...(configData?.chartData.map((i) => i.value) || [])],
           backgroundColor: "rgba(168,85,247,0.2)",
           borderColor: "#a855f7",
         },
@@ -144,13 +148,13 @@ export default function ChartModel({ chartData }) {
   };
 
   const polarData = () => {
-    const colors = chartData.data.map(() => randomColor());
+    const colors = configData?.chartData.map(() => randomColor());
 
     return {
-      labels: [...chartData.data.map((i) => i.label)],
+      labels: [...(configData?.chartData.map((i) => i.label) || [])],
       datasets: [
         {
-          data: [...chartData.data.map((i) => i.value)],
+          data: [...(configData?.chartData.map((i) => i.value) || [])],
           backgroundColor: [...colors],
         },
       ],
@@ -190,216 +194,222 @@ export default function ChartModel({ chartData }) {
 
     switch (chart.type) {
       case "line":
-        return <Line data={chart.data} options={chart.options} />;
+        return <Line data={chart?.chartData} options={chart?.options} />;
       case "bar":
-        return <Bar data={chart.data} options={chart.options} />;
+        return <Bar data={chart?.chartData} options={chart?.options} />;
       case "pie":
-        return <Pie data={chart.data} />;
+        return <Pie data={chart?.chartData} />;
       case "doughnut":
-        return <Doughnut data={chart.data} />;
+        return <Doughnut data={chart?.chartData} />;
       case "radar":
-        return <Radar data={chart.data} />;
+        return <Radar data={chart?.chartData} />;
       case "polar":
-        return <PolarArea data={chart.data} />;
+        return <PolarArea data={chart?.chartData} />;
       case "bubble":
-        return <Bubble data={chart.data} options={chart.options} />;
+        return <Bubble data={chart?.chartData} options={chart?.options} />;
       case "scatter":
-        return <Scatter data={chart.data} options={chart.options} />;
+        return <Scatter data={chart?.chartData} options={chart?.options} />;
       default:
         return null;
     }
   };
 
   return (
-    <div>
-      <h3>
-        {chartData.newConfigName} (
-        {chartData.selectedChart === "card"
-          ? "card"
-          : `${chartData.selectedChart} chart`}
-        )
-      </h3>
-      <div className="grid-container">
-        {selectedChart === "card" && (
-          <div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "16px",
-                border: "1px solid #ddd",
-                borderRadius: "12px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                background: "#fff",
-                fontFamily: "Arial, sans-serif",
-              }}
-            >
-              <h3
+    <>
+      <div>
+        <h3>
+          {configData?.configName}(
+          {configData?.chartType === "card"
+            ? "card"
+            : `${configData?.chartType} chart`}
+          )
+        </h3>
+        <div className="grid-container">
+          {selectedChart === "card" && (
+            <div>
+              <div
                 style={{
-                  margin: "0 0 0 0",
-                  fontSize: "16px",
-                  color: "#555",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "16px",
+                  border: "1px solid #ddd",
+                  borderRadius: "12px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  background: "#fff",
+                  fontFamily: "Arial, sans-serif",
                 }}
               >
-                {chartData.data[0].label}
-              </h3>
+                <h3
+                  style={{
+                    margin: "0 0 0 0",
+                    fontSize: "16px",
+                    color: "#555",
+                  }}
+                >
+                  {configData?.chartData[0].label}
+                </h3>
 
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  color: "#111",
-                }}
-              >
-                {chartData.data[0].value}
-              </p>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    color: "#111",
+                  }}
+                >
+                  {configData?.chartData[0].value}
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {selectedChart === "line" && (
-          <div
-            className="grid-item chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "line",
-                title: "Visits (Weekly)",
-                data: lineData,
-                options: baseOptions("Visits (Weekly)"),
-              })
-            }
-          >
-            <Line data={lineData} options={baseOptions()} />
-          </div>
-        )}
+          {selectedChart === "line" && (
+            <div
+              className="grid-item chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "line",
+                  title: "Visits (Weekly)",
+                  data: lineData,
+                  options: baseOptions("Visits (Weekly)"),
+                })
+              }
+            >
+              <Line data={lineData} options={baseOptions()} />
+            </div>
+          )}
 
-        {selectedChart === "bar" && (
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "bar",
-                title: "Orders (Weekly)",
-                data: barData,
-                options: baseOptions("Orders (Weekly)"),
-              })
-            }
-          >
-            <Bar data={barData} options={baseOptions()} />
-          </div>
-        )}
+          {selectedChart === "bar" && (
+            <div
+              className="chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "bar",
+                  title: "Orders (Weekly)",
+                  data: barData,
+                  options: baseOptions("Orders (Weekly)"),
+                })
+              }
+            >
+              <Bar data={barData} options={baseOptions()} />
+            </div>
+          )}
 
-        {selectedChart === "pie" && (
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "pie",
-                title: "Traffic Split",
-                data: pieData(),
-                options: null,
-              })
-            }
-          >
-            <Pie data={pieData()} />
-          </div>
-        )}
+          {selectedChart === "pie" && (
+            <div
+              className="chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "pie",
+                  title: "Traffic Split",
+                  data: pieData(),
+                  options: null,
+                })
+              }
+            >
+              <Pie data={pieData()} />
+            </div>
+          )}
 
-        {selectedChart === "radar" && (
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "radar",
-                title: "Performance Score",
-                data: radarData(),
-                options: null,
-              })
-            }
-          >
-            <Radar data={radarData()} />
-          </div>
-        )}
+          {selectedChart === "radar" && (
+            <div
+              className="chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "radar",
+                  title: "Performance Score",
+                  data: radarData(),
+                  options: null,
+                })
+              }
+            >
+              <Radar data={radarData()} />
+            </div>
+          )}
 
-        {selectedChart === "polar" && (
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "polar",
-                title: "Category Spread",
-                data: polarData(),
-                options: null,
-              })
-            }
-          >
-            <PolarArea data={polarData()} />
-          </div>
-        )}
+          {selectedChart === "polar" && (
+            <div
+              className="chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "polar",
+                  title: "Category Spread",
+                  data: polarData(),
+                  options: null,
+                })
+              }
+            >
+              <PolarArea data={polarData()} />
+            </div>
+          )}
 
-        {selectedChart === "bubble" && (
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "bubble",
-                title: "Campaigns",
-                data: bubbleData,
-                options: baseOptions("Campaigns"),
-              })
-            }
-          >
-            <Bubble data={bubbleData} options={baseOptions()} />
-          </div>
-        )}
+          {selectedChart === "bubble" && (
+            <div
+              className="chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "bubble",
+                  title: "Campaigns",
+                  data: bubbleData,
+                  options: baseOptions("Campaigns"),
+                })
+              }
+            >
+              <Bubble data={bubbleData} options={baseOptions()} />
+            </div>
+          )}
 
-        {selectedChart === "scatter" && (
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "scatter",
-                title: "Spend vs Conversion",
-                data: scatterData,
-                options: baseOptions("Spend vs Conversion"),
-              })
-            }
-          >
-            <Scatter data={scatterData} options={baseOptions()} />
-          </div>
-        )}
+          {selectedChart === "scatter" && (
+            <div
+              className="chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "scatter",
+                  title: "Spend vs Conversion",
+                  data: scatterData,
+                  options: baseOptions("Spend vs Conversion"),
+                })
+              }
+            >
+              <Scatter data={scatterData} options={baseOptions()} />
+            </div>
+          )}
 
-        {selectedChart === "doughnut" && (
-          <div
-            className="chart-card"
-            onClick={() =>
-              openChartModal({
-                type: "doughnut",
-                title: "Traffic Split (Doughnut)",
-                data: pieData(),
-                options: null,
-              })
-            }
+          {selectedChart === "doughnut" && (
+            <div
+              className="chart-card"
+              onClick={() =>
+                openChartModal({
+                  type: "doughnut",
+                  title: "Traffic Split (Doughnut)",
+                  data: pieData(),
+                  options: null,
+                })
+              }
+            >
+              <Doughnut data={pieData()} />
+            </div>
+          )}
+        </div>
+
+        {modalOpen && (
+          <Modal
+            isOpen={modalOpen}
+            onClose={() => {
+              setModalOpen(false);
+              setActiveChart(null);
+            }}
           >
-            <Doughnut data={pieData()} />
-          </div>
+            {activeChart?.title ? (
+              <h3 className="modal-chart-title">{activeChart.title}</h3>
+            ) : null}
+            <div className="modal-chart-container">
+              {renderChart(activeChart)}
+            </div>
+          </Modal>
         )}
       </div>
-
-      <Modal
-        isOpen={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-          setActiveChart(null);
-        }}
-      >
-        {activeChart?.title ? (
-          <h3 className="modal-chart-title">{activeChart.title}</h3>
-        ) : null}
-        <div className="modal-chart-container">{renderChart(activeChart)}</div>
-      </Modal>
-    </div>
+    </>
   );
 }

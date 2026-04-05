@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { ProjectSource } = require("./mongodb");
+const { ProjectSource } = require("./mongo-schema");
 const mongoose = require("mongoose");
 
-// get all
-router.get("/", async (req, res) => {
+// get one
+router.get("/:projectId", async (req, res) => {
   const projects = await ProjectSource.find();
   res.json(projects);
 });
 
-// get one
-router.get("/:projectId", async (req, res) => {
-  const { projectId } = req.params;
+// get all
+router.get("/", async (req, res) => {
+  const { projectId } = req.query;
 
   if (!mongoose.Types.ObjectId.isValid(projectId)) {
     return res.status(400).json({ message: "Invalid projectId" });
