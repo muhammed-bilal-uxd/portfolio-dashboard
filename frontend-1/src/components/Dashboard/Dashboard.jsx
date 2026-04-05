@@ -368,7 +368,7 @@ export default function Dashboard() {
       const list = res.map(({ data }) => {
         return data;
       });
-      setConfigList([...configList, ...list]);
+      setConfigList([...list]);
     }
   };
 
