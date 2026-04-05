@@ -19,6 +19,7 @@ export default function ProjectPage() {
       setProjects(data);
     } catch (err) {
       console.error("Fetch error:", err);
+      // alert(err.message);
     }
   };
 
@@ -37,18 +38,29 @@ export default function ProjectPage() {
     e.preventDefault();
 
     try {
+      let response;
       if (editId) {
-        await fetch(`${API_URL}/${editId}`, {
+        response = await fetch(`${API_URL}/${editId}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
         });
       } else {
-        await fetch(API_URL, {
+        response = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(form),
         });
+      }
+
+      const res = await response.json().catch(() => null);
+
+      console.log("res", res);
+
+      if (![200, 201].includes(res.status)) {
+        throw new Error(
+          res?.message || `Request failed with status ${res.status}`,
+        );
       }
 
       setForm({ name: "" });
@@ -56,6 +68,7 @@ export default function ProjectPage() {
       getProjects();
     } catch (err) {
       console.error("Submit error:", err);
+      alert(err.message);
     }
   };
 

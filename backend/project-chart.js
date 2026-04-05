@@ -43,8 +43,9 @@ router.post("/", async (req, res) => {
     });
   } catch (err) {
     if (err.code === 11000) {
+      // Duplicate chart name issue found
       return res.status(400).json({
-        message: "Duplicate chart name issue found",
+        message: "Chart name already exist",
       });
     }
 

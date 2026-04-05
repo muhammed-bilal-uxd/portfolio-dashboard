@@ -1,4 +1,4 @@
-const { ProjectSource, ProjectChart } = require("./mongo-schema");
+const { Project, ProjectSource, ProjectChart } = require("./mongo-schema");
 
 async function migrateSchemaVersion() {
   console.log("🔥 Migrating schema version");
@@ -92,6 +92,17 @@ async function migrateSchemaVersion() {
   //     );
   //   }
   // }
+
+  // ProjectChart.deleteMany({})
+  //   .then(() => {
+  //     console.log("✅ Schema version updated");
+  //   })
+  //   .catch((err) => {
+  //     console.log("❌ Schema version update failed:", err);
+  //   });
+  // Project
+  // ProjectSource.deleteMany({});
+  // ProjectChart.deleteMany({});
 }
 
 module.exports = {

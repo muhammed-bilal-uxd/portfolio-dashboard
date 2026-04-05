@@ -8,6 +8,8 @@ const projectSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+projectSchema.index({ name: 1 }, { unique: true });
+
 const ProjectChartSchema = new mongoose.Schema(
   {
     configName: { type: String, required: true, unique: true },

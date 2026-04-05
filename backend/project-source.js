@@ -62,8 +62,9 @@ router.post("/", async (req, res) => {
     // }
 
     if (err.code === 11000) {
+      // Duplicate source for this project
       return res.status(400).json({
-        message: "Duplicate source for this project",
+        message: "Source URL already exist",
       });
     }
 

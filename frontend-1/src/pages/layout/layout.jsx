@@ -181,7 +181,7 @@ export default function OrbitLayout() {
           <nav className="ol-nav">
             {navLinks.map((nav, index) => {
               return (
-                <>
+                <div key={index}>
                   {/* <NavItem
                   key={index}
                   link={nav.link}
@@ -214,7 +214,7 @@ export default function OrbitLayout() {
                       ) : null}
                     </div>
                   </Link>
-                </>
+                </div>
               );
             })}
           </nav>
