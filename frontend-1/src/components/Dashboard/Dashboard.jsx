@@ -322,12 +322,14 @@ export default function Dashboard() {
   const handleAddNewChart = () => {
     if (!isValidGenerateChart()) return;
 
-    const chartData = tableItems.map((i) => {
-      return {
-        label: apiAllData[i][selectListItemOne],
-        value: apiAllData[i][selectListItemTwo],
-      };
-    });
+    const chartData =
+      Array.isArray(tableItems) &&
+      tableItems.map((i) => {
+        return {
+          label: apiAllData[i][selectListItemOne],
+          value: apiAllData[i][selectListItemTwo],
+        };
+      });
 
     // const viewDataValue = getPreviewValue(
     //   apiAllData[tableItems][selectListItemTwo],

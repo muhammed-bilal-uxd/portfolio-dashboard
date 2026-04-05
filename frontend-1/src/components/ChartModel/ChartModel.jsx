@@ -91,11 +91,17 @@ export default function ChartModel({ configData }) {
   const randomColor = () => `hsl(${Math.floor(Math.random() * 360)},70%,60%)`;
 
   const lineData = {
-    labels: configData?.chartData.map((i) => i.label) || [],
+    labels:
+      (Array.isArray(configData?.chartData) &&
+        configData?.chartData.map((i) => i.label)) ||
+      [],
     datasets: [
       {
         label: configData?.selectListItemOne,
-        data: configData?.chartData.map((i) => i.value) || [],
+        data:
+          (Array.isArray(configData?.chartData) &&
+            configData?.chartData.map((i) => i.value)) ||
+          [],
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59,130,246,0.2)",
         fill: true,
@@ -105,11 +111,19 @@ export default function ChartModel({ configData }) {
   };
 
   const barData = {
-    labels: [...(configData?.chartData.map((i) => i.label) || [])],
+    labels: [
+      ...((Array.isArray(configData?.chartData) &&
+        configData?.chartData.map((i) => i.label)) ||
+        []),
+    ],
     datasets: [
       {
         label: configData?.selectListItemOne || "",
-        data: [...(configData?.chartData.map((i) => i.value) || [])],
+        data: [
+          ...((Array.isArray(configData?.chartData) &&
+            configData?.chartData.map((i) => i.value)) ||
+            []),
+        ],
         backgroundColor: randomColor(),
       },
     ],
@@ -119,14 +133,23 @@ export default function ChartModel({ configData }) {
 
   const pieData = () => {
     const bgColors =
-      Array.isArray(configData?.chartData.map((i) => i.label)) &&
-      labels.map(() => randomColor());
+      Array.isArray(
+        Array.isArray(configData?.chartData) &&
+          configData?.chartData.map((i) => i.label),
+      ) && labels.map(() => randomColor());
 
     return {
-      labels: configData?.chartData.map((i) => i.label) || [],
+      labels:
+        (Array.isArray(configData?.chartData) &&
+          configData?.chartData.map((i) => i.label)) ||
+        [],
       datasets: [
         {
-          data: [...(configData?.chartData.map((i) => i.value) || [])],
+          data: [
+            ...((Array.isArray(configData?.chartData) &&
+              configData?.chartData.map((i) => i.value)) ||
+              []),
+          ],
           backgroundColor: [...bgColors],
         },
       ],
@@ -135,11 +158,19 @@ export default function ChartModel({ configData }) {
 
   const radarData = () => {
     return {
-      labels: [...(configData?.chartData.map((i) => i.label) || [])],
+      labels: [
+        ...((Array.isArray(configData?.chartData) &&
+          configData?.chartData.map((i) => i.label)) ||
+          []),
+      ],
       datasets: [
         {
           label: "Score",
-          data: [...(configData?.chartData.map((i) => i.value) || [])],
+          data: [
+            ...((Array.isArray(configData?.chartData) &&
+              configData?.chartData.map((i) => i.value)) ||
+              []),
+          ],
           backgroundColor: "rgba(168,85,247,0.2)",
           borderColor: "#a855f7",
         },
@@ -148,13 +179,23 @@ export default function ChartModel({ configData }) {
   };
 
   const polarData = () => {
-    const colors = configData?.chartData.map(() => randomColor());
+    const colors =
+      Array.isArray(configData?.chartData) &&
+      configData?.chartData.map(() => randomColor());
 
     return {
-      labels: [...(configData?.chartData.map((i) => i.label) || [])],
+      labels: [
+        ...((Array.isArray(configData?.chartData) &&
+          configData?.chartData.map((i) => i.label)) ||
+          []),
+      ],
       datasets: [
         {
-          data: [...(configData?.chartData.map((i) => i.value) || [])],
+          data: [
+            ...((Array.isArray(configData?.chartData) &&
+              configData?.chartData.map((i) => i.value)) ||
+              []),
+          ],
           backgroundColor: [...colors],
         },
       ],
