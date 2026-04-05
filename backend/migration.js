@@ -4,11 +4,11 @@ async function migrateSchemaVersion() {
   console.log("🔥 Migrating schema version");
 
   //   sync indexes at last after all index issue fixed
-  await ProjectSource.syncIndexes();
+  // await ProjectSource.syncIndexes();
 
   // indexing
-  const indexes = await ProjectChart.collection.getIndexes();
-  console.log("indexes", indexes);
+  // const indexes = await ProjectChart.collection.getIndexes();
+  // console.log("indexes", indexes);
 
   // return;
 
@@ -55,6 +55,43 @@ async function migrateSchemaVersion() {
   //   .catch((err) => {
   //     console.log("❌ Schema version update failed:", err);
   //   });
+
+  // const duplicates = await ProjectChart.aggregate([
+  //   {
+  //     $sort: { createdAt: 1 }, // oldest first (kept clean)
+  //   },
+  //   {
+  //     $group: {
+  //       _id: "$configName",
+  //       docs: { $push: "$_id" },
+  //       count: { $sum: 1 },
+  //     },
+  //   },
+  //   {
+  //     $match: {
+  //       _id: { $ne: null },
+  //       count: { $gt: 1 },
+  //     },
+  //   },
+  // ]);
+
+  // for (const item of duplicates) {
+  //   const baseName = item._id;
+
+  //   for (let i = 0; i < item.docs.length; i++) {
+  //     const docId = item.docs[i];
+
+  //     // first one keep original
+  //     if (i === 0) continue;
+
+  //     const newName = `${baseName}-${i}`;
+
+  //     await ProjectChart.updateOne(
+  //       { _id: docId },
+  //       { $set: { configName: newName } },
+  //     );
+  //   }
+  // }
 }
 
 module.exports = {

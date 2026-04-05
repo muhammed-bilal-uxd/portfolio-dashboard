@@ -390,6 +390,7 @@ export default function Dashboard() {
       }
 
       getAllCharts();
+      handleNavNextSection(5);
     } catch (err) {
       alert(err.message);
     }
@@ -1074,7 +1075,6 @@ export default function Dashboard() {
           <button
             onClick={() => {
               handleAddNewChart();
-              handleNavNextSection(5);
             }}
           >
             publish new{" "}

@@ -28,6 +28,8 @@ https://woooys.in
 	
 ============
 
+❌|✅
+
 31/mar/2026
 
 1. mapping data - loading data text + icon ✅
@@ -67,6 +69,8 @@ https://woooys.in
 
 	> step 5 - ? in discussion
 	> switch position
+	
+12. order charts (confirm with sir)
 
 =================
 
