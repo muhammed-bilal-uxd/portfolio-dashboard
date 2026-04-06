@@ -365,10 +365,10 @@ export default function Dashboard() {
 
     if (res && Array.isArray(res)) {
       console.log("res", res);
-      const list = res.map(({ data }) => {
-        return data;
-      });
-      setConfigList([...list]);
+      // const list = res.map(({ data }) => {
+      //   return data;
+      // });
+      setConfigList([...res]);
     }
   };
 
@@ -1099,7 +1099,11 @@ export default function Dashboard() {
           }}
         >
           {configList.map((data, index) => (
-            <ChartModel key={index} configData={data}></ChartModel>
+            <ChartModel
+              key={index}
+              configData={data}
+              projectId={projectId}
+            ></ChartModel>
           ))}
         </div>
       </section>

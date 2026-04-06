@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -43,20 +44,47 @@ ChartJS.register(
   Filler,
 );
 
-export default function ChartModel({ configData }) {
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
+// mui/material
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  FilledInput,
+} from "@mui/material";
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+
+const menuItems = [
+  { label: "Edit Chart Name", key: "name" },
+  { label: "Edit Chart Data", key: "data" },
+];
+
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+export default function ChartModel({ configData, projectId }) {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
   const [activeChart, setActiveChart] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedChart, setSelectedChart] = useState("");
+  const [showNamePopup, setShowNamePopup] = useState(false);
+  const [newConfigName, setNewConfigName] = useState("");
+  const [configName, setConfigName] = useState("");
   //   const [dataValues, setDataValues] = useState({
   //     labels: ["Desktop", "Mobile", "Tablet"],
   //     values: [52, 38, 10],
   //   });
-  //   const [dataValues, setDataValues] = useState(configData?.chartDataValues);
+  //   const [dataValues, setDataValues] = useState(configData?.data?.chartDataValues);
 
   useEffect(() => {
-    setSelectedChart(configData?.chartType);
+    setSelectedChart(configData?.data?.chartType);
+    setConfigName(configData?.configName);
   }, []);
 
   const openChartModal = ({ type, title, data, options }) => {
@@ -92,15 +120,15 @@ export default function ChartModel({ configData }) {
 
   const lineData = {
     labels:
-      (Array.isArray(configData?.chartData) &&
-        configData?.chartData.map((i) => i.label)) ||
+      (Array.isArray(configData?.data?.chartData) &&
+        configData?.data?.chartData.map((i, j) => i.label)) ||
       [],
     datasets: [
       {
-        label: configData?.selectListItemOne,
+        label: configData?.data?.selectListItemOne,
         data:
-          (Array.isArray(configData?.chartData) &&
-            configData?.chartData.map((i) => i.value)) ||
+          (Array.isArray(configData?.data?.chartData) &&
+            configData?.data?.chartData.map((i, j) => i.value)) ||
           [],
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59,130,246,0.2)",
@@ -112,16 +140,16 @@ export default function ChartModel({ configData }) {
 
   const barData = {
     labels: [
-      ...((Array.isArray(configData?.chartData) &&
-        configData?.chartData.map((i) => i.label)) ||
+      ...((Array.isArray(configData?.data?.chartData) &&
+        configData?.data?.chartData.map((i, j) => i.label)) ||
         []),
     ],
     datasets: [
       {
-        label: configData?.selectListItemOne || "",
+        label: configData?.data?.selectListItemOne || "",
         data: [
-          ...((Array.isArray(configData?.chartData) &&
-            configData?.chartData.map((i) => i.value)) ||
+          ...((Array.isArray(configData?.data?.chartData) &&
+            configData?.data?.chartData.map((i, j) => i.value)) ||
             []),
         ],
         backgroundColor: randomColor(),
@@ -134,20 +162,20 @@ export default function ChartModel({ configData }) {
   const pieData = () => {
     const bgColors =
       Array.isArray(
-        Array.isArray(configData?.chartData) &&
-          configData?.chartData.map((i) => i.label),
-      ) && labels.map(() => randomColor());
+        Array.isArray(configData?.data?.chartData) &&
+          configData?.data?.chartData.map((i, j) => i.label),
+      ) && labels.map((label, l) => randomColor());
 
     return {
       labels:
-        (Array.isArray(configData?.chartData) &&
-          configData?.chartData.map((i) => i.label)) ||
+        (Array.isArray(configData?.data?.chartData) &&
+          configData?.data?.chartData.map((i, j) => i.label)) ||
         [],
       datasets: [
         {
           data: [
-            ...((Array.isArray(configData?.chartData) &&
-              configData?.chartData.map((i) => i.value)) ||
+            ...((Array.isArray(configData?.data?.chartData) &&
+              configData?.data?.chartData.map((i, j) => i.value)) ||
               []),
           ],
           backgroundColor: [...bgColors],
@@ -159,16 +187,16 @@ export default function ChartModel({ configData }) {
   const radarData = () => {
     return {
       labels: [
-        ...((Array.isArray(configData?.chartData) &&
-          configData?.chartData.map((i) => i.label)) ||
+        ...((Array.isArray(configData?.data?.chartData) &&
+          configData?.data?.chartData.map((i, j) => i.label)) ||
           []),
       ],
       datasets: [
         {
           label: "Score",
           data: [
-            ...((Array.isArray(configData?.chartData) &&
-              configData?.chartData.map((i) => i.value)) ||
+            ...((Array.isArray(configData?.data?.chartData) &&
+              configData?.data?.chartData.map((i, j) => i.value)) ||
               []),
           ],
           backgroundColor: "rgba(168,85,247,0.2)",
@@ -180,20 +208,20 @@ export default function ChartModel({ configData }) {
 
   const polarData = () => {
     const colors =
-      Array.isArray(configData?.chartData) &&
-      configData?.chartData.map(() => randomColor());
+      Array.isArray(configData?.data?.chartData) &&
+      configData?.data?.chartData.map((data, d) => randomColor());
 
     return {
       labels: [
-        ...((Array.isArray(configData?.chartData) &&
-          configData?.chartData.map((i) => i.label)) ||
+        ...((Array.isArray(configData?.data?.chartData) &&
+          configData?.data?.chartData.map((i, j) => i.label)) ||
           []),
       ],
       datasets: [
         {
           data: [
-            ...((Array.isArray(configData?.chartData) &&
-              configData?.chartData.map((i) => i.value)) ||
+            ...((Array.isArray(configData?.data?.chartData) &&
+              configData?.data?.chartData.map((i, j) => i.value)) ||
               []),
           ],
           backgroundColor: [...colors],
@@ -255,16 +283,101 @@ export default function ChartModel({ configData }) {
     }
   };
 
+  const handleMenuItem = (key, data) => {
+    switch (key) {
+      case "name":
+        changeChartName();
+        break;
+      case "data":
+        break;
+      default:
+        break;
+    }
+  };
+
+  const changeChartName = () => {
+    setNewConfigName(configName);
+    setShowNamePopup(true);
+  };
+
+  const handleChangeName = async () => {
+    try {
+      const url = VITE_API_URL + `/project-chart?chartId=${configData?._id}`;
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ configName: newConfigName }),
+      });
+
+      const payload = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(
+          payload?.message || `Request failed with status ${res.status}`,
+        );
+      }
+
+      setConfigName(newConfigName);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // div start
   return (
     <>
       <div>
-        <h3>
-          {configData?.configName}(
-          {configData?.chartType === "card"
-            ? "card"
-            : `${configData?.chartType} chart`}
-          )
-        </h3>
+        <div style={{ display: "flex" }}>
+          <h3 style={{ flex: 1 }}>
+            {configName} (
+            {configData?.data?.chartType === "card"
+              ? "card"
+              : `${configData?.data?.chartType} chart`}
+            )
+          </h3>
+          <div>
+            <PopupState variant="popover" popupId="demo-popup-menu">
+              {(popupState) => (
+                <React.Fragment>
+                  {/* <Button variant="contained" {...bindTrigger(popupState)}>
+                    Dashboard
+                  </Button> */}
+                  <IconButton {...bindTrigger(popupState)}>
+                    <MoreVertIcon />
+                  </IconButton>
+                  <Menu
+                    {...bindMenu(popupState)}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                  >
+                    {menuItems.map((menu, i) => {
+                      return (
+                        <MenuItem
+                          key={i}
+                          onClick={() => {
+                            popupState.close();
+                            handleMenuItem(menu?.key, configData);
+                          }}
+                        >
+                          {menu?.label}
+                        </MenuItem>
+                      );
+                    })}
+                  </Menu>
+                </React.Fragment>
+              )}
+            </PopupState>
+          </div>
+        </div>
+
         <div className="grid-container">
           {selectedChart === "card" && (
             <div>
@@ -288,7 +401,7 @@ export default function ChartModel({ configData }) {
                     color: "#555",
                   }}
                 >
-                  {configData?.chartData[0].label}
+                  {configData?.data?.chartData[0].label}
                 </h3>
 
                 <p
@@ -299,7 +412,7 @@ export default function ChartModel({ configData }) {
                     color: "#111",
                   }}
                 >
-                  {configData?.chartData[0].value}
+                  {configData?.data?.chartData[0].value}
                 </p>
               </div>
             </div>
@@ -451,6 +564,45 @@ export default function ChartModel({ configData }) {
           </Modal>
         )}
       </div>
+
+      <Dialog
+        open={showNamePopup}
+        onClose={() => {
+          setShowNamePopup(false);
+        }}
+      >
+        <DialogTitle>Change Chart Name</DialogTitle>
+        <DialogContent>
+          <FilledInput
+            type="text"
+            placeholder="Enter name"
+            value={newConfigName}
+            onChange={(e) => setNewConfigName(e.target.value)}
+            style={{
+              maxWidth: 200,
+            }}
+          />
+          {/* {newConfigName} */}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setShowNamePopup(false);
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              setShowNamePopup(false);
+              handleChangeName();
+            }}
+            variant="contained"
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

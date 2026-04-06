@@ -57,15 +57,40 @@ router.post("/", async (req, res) => {
 });
 
 // update
-router.put("/:id", async (req, res) => {
-  const updated = await ProjectChart.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-    },
-  );
-  res.json(updated);
+router.put("/", async (req, res) => {
+  const { chartId } = req.query;
+  const { configName } = req.body;
+  // const updated = await ProjectChart.findByIdAndUpdate(chartId, req.body, {
+  //   new: true,
+  // });
+
+  try {
+    await ProjectChart.updateOne(
+      { _id: chartId },
+      {
+        $set: {
+          configName: configName,
+        },
+      },
+    );
+
+    res.status(200).json({
+      message: "chart name successfully updated",
+      status: 200,
+    });
+  } catch (err) {
+    if (err.code === 11000) {
+      // Duplicate chart name issue found
+      return res.status(400).json({
+        message: "Chart name already exist",
+      });
+    }
+
+    res.status(err.code).json({
+      message: err.message,
+      code: err.code,
+    });
+  }
 });
 
 // delete

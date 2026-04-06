@@ -103,6 +103,15 @@ async function migrateSchemaVersion() {
   // Project
   // ProjectSource.deleteMany({});
   // ProjectChart.deleteMany({});
+
+  // await ProjectChart.updateMany(
+  //   {},
+  //   {
+  //     $unset: {
+  //       "data.configName": "",
+  //     },
+  //   },
+  // );
 }
 
 module.exports = {
