@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.0.0...v1.1.0) (2026-04-07)
+
+
+### Features
+
+* migration neat file ([f54563e](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/f54563e0ea036cc4d90d399f4dfe80c3765e6da7))
+
 # 1.0.0 (2026-04-07)
 
 
