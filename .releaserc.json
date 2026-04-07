@@ -1,11 +1,5 @@
 {
-    "branches": [
-    "production",
-    {
-        "name": "staging",
-        "prerelease": true
-    },
-    ],
+    "branches": "staging",
     "tagFormat": "v${version}",
     "plugins": [
       "@semantic-release/commit-analyzer",
