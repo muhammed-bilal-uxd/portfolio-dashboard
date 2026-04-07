@@ -40,7 +40,7 @@ const projectSourceSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-// projectSourceSchema.index({ projectId: 1, sourceLink: 1 }, { unique: true });
+projectSourceSchema.index({ projectId: 1, sourceLink: 1 }, { unique: true });
 
 module.exports = {
   Project: mongoose.model("Project", projectSchema),

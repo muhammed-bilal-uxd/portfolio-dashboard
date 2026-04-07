@@ -12,6 +12,7 @@ import ChartModel from "../ChartModel/ChartModel";
 import "./Dashboard.css";
 import Modal from "../Modal/Modal";
 import Loading from "../Loading/Loading";
+import MappingData from "../MappingData/MappingData";
 
 // env
 const VITE_API_URL = import.meta.env.VITE_API_URL;
@@ -843,9 +844,7 @@ export default function Dashboard() {
       {/* generate data preview */}
       <section className="section-container" id="section-container-3">
         <b className="step-name">step : 3</b>
-
         <h3>Map data:</h3>
-
         {!isLoading && (
           <div>
             {baseDataKeys.length > 0 && (
@@ -1046,6 +1045,18 @@ export default function Dashboard() {
             {baseDataKeys.length === 0 && <>no data to preview</>}
           </div>
         )}
+        =========
+        <MappingData
+          mapIsLoading={isLoading}
+          mapBaseDataKeys={baseDataKeys}
+          mapSelectListItemOne={selectListItemOne}
+          mapSelectListItemTwo={selectListItemTwo}
+          mapApiAllData={apiAllData}
+          mapSelectedChart={selectedChart}
+          mapSingleData={singleData}
+          setMapSelectListItemOne={setSelectListItemOne}
+          // setMapSelectListItemTwo={setSelectListItemTwo}
+        />
       </section>
 
       <section className="section-container" id="section-container-4">
