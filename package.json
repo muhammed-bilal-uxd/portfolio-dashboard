@@ -1,5 +1,5 @@
 {
-    "name": "my-fullstack-project",
+    "name": "react-dashboard-charts",
     "private": true,
     "scripts": {
         "release": "semantic-release"
