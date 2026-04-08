@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.1.0...v1.1.1) (2026-04-08)
+
+
+### Bug Fixes
+
+* glish issue fix ([2b2c46f](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/2b2c46fe4de5549387941b6f91d8d09f5bb23e16))
+
 # [1.1.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.0.0...v1.1.0) (2026-04-07)
 
 
