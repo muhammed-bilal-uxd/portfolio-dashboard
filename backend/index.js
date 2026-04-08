@@ -9,7 +9,6 @@ const mongoose = require("mongoose");
 // routers
 const wooCommerceRouter = require("./woocommerce");
 const projectRouter = require("./project");
-const projectDetailsRouter = require("./project-chart");
 const projectSourceRouter = require("./project-source");
 const projectChartRouter = require("./project-chart");
 

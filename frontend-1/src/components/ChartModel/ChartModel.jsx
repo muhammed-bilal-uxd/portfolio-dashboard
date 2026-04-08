@@ -26,7 +26,7 @@ import {
 } from "react-chartjs-2";
 
 import "./ChartModel.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 
@@ -67,7 +67,7 @@ const menuItems = [
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
-export default function ChartModel({ configData, projectId }) {
+export default function ChartModel({ configData }) {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
   const [activeChart, setActiveChart] = useState(null);
@@ -76,11 +76,6 @@ export default function ChartModel({ configData, projectId }) {
   const [showNamePopup, setShowNamePopup] = useState(false);
   const [newConfigName, setNewConfigName] = useState("");
   const [configName, setConfigName] = useState("");
-  //   const [dataValues, setDataValues] = useState({
-  //     labels: ["Desktop", "Mobile", "Tablet"],
-  //     values: [52, 38, 10],
-  //   });
-  //   const [dataValues, setDataValues] = useState(configData?.data?.chartDataValues);
 
   useEffect(() => {
     setSelectedChart(configData?.data?.chartType);
