@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.1.1...v1.2.0) (2026-04-08)
+
+
+### Features
+
+* Mapping data component update ([3f2f042](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/3f2f04212ab7e2eba0ee786821e25dcf97a23c04))
+
 ## [1.1.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.1.0...v1.1.1) (2026-04-08)
 
 
