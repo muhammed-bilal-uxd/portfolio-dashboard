@@ -73,7 +73,7 @@ export default function Dashboard() {
   const [selectListItemTwo, setSelectListItemTwo] = useState("");
   const [tableItems, setTableItems] = useState([]);
   const [baseDataKeys, setBaseDataKeys] = useState([]);
-  const [singleData, setSingleData] = useState({});
+  const [singleData, setSingleData] = useState(null);
   const [apiAllData, setApiAllData] = useState([]);
   const [selectedChart, setSelectedChart] = useState("");
 
@@ -143,7 +143,7 @@ export default function Dashboard() {
       const data = await fetch(url);
 
       if (!data.ok) {
-        throw new Error(`Request failed with status ${products.status}`);
+        throw new Error(`Request failed with status ${data.status}`);
       }
 
       const res = await data.json();
@@ -153,17 +153,12 @@ export default function Dashboard() {
       const firstItem = res[0];
       setSingleData(firstItem);
       setApiAllData(res);
+
       const keys = Object.keys(firstItem);
-
       setBaseDataKeys(keys);
-
-      console.log("data", res);
-      setRestApiResponse(res);
-      // setProducts(Array.isArray(res.data) ? res.data : []);
       setIsLoading(false);
     } catch (err) {
       console.log(err);
-      // setProducts([]);
     }
   };
 
@@ -200,7 +195,7 @@ export default function Dashboard() {
       selectListItemOne: selectListItemOne,
       selectListItemTwo: selectListItemTwo,
       apiAllData,
-      configName: JSON.stringify(newConfigName),
+      configName: newConfigName.trim(),
       chartData: chartData,
     };
 

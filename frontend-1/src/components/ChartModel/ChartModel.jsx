@@ -78,9 +78,9 @@ export default function ChartModel({ configData }) {
   const [configName, setConfigName] = useState("");
 
   useEffect(() => {
-    setSelectedChart(configData?.data?.chartType);
-    setConfigName(configData?.configName);
-  }, []);
+    setSelectedChart(configData?.data?.chartType || "");
+    setConfigName(configData?.configName || "");
+  }, [configData]);
 
   const openChartModal = ({ type, title, data, options }) => {
     setActiveChart({ type, title, data, options });
