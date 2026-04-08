@@ -130,8 +130,6 @@ export default function MappingData({
     <>
       <h3>Map data:</h3>
 
-      {JSON.stringify(mapIsLoading)}
-
       {!mapIsLoading && (
         <div>
           {Array.isArray(mapBaseDataKeys) && mapBaseDataKeys.length > 0 && (
