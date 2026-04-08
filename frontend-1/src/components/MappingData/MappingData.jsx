@@ -3,13 +3,15 @@ import "./MappingData.css";
 
 export default function MappingData({
   //input
-  mapIsLoading,
+  parent,
+  showMappingData,
   mapBaseDataKeys,
   mapSelectListItemOne,
   mapSelectListItemTwo,
   mapApiAllData,
   mapSelectedChart,
   mapSingleData,
+  mapTableItems,
 
   // output
   setMapSelectListItemOne,
@@ -17,7 +19,6 @@ export default function MappingData({
   setMapTableItems,
 }) {
   const [showData, setShowData] = useState(false);
-  const [tableItems, setTableItems] = useState([]);
 
   const checkTypeOfData = (value, isLabel) => {
     // check label
@@ -42,12 +43,8 @@ export default function MappingData({
 
     if (filterLabels[0]) {
       setMapSelectListItemOne(filterLabels[0]);
-      // setTableItems([0]);
-      // setMapTableItems([0]);
-    }
-
-    if (filterValues[0]) {
       setMapSelectListItemTwo(filterValues[0]);
+      // setMapTableItems([0]);
     }
   }, [mapSingleData, mapBaseDataKeys]);
 
@@ -106,31 +103,34 @@ export default function MappingData({
     if (mapSelectedChart === "card") {
       updatedItems = [index];
     } else {
-      const isExistItem = (tableItems || []).includes(index);
+      const isExistItem = (mapTableItems || []).includes(index);
 
       if (!isExistItem) {
-        updatedItems = [...(tableItems || []), index];
+        updatedItems = [...(mapTableItems || []), index];
       } else {
-        updatedItems = (tableItems || []).filter((j) => j !== index);
+        updatedItems = (mapTableItems || []).filter((j) => j !== index);
       }
     }
 
-    setTableItems(updatedItems);
+    console.log("updatedItems", updatedItems);
+
     setMapTableItems(updatedItems);
   };
 
   const handleShowData = () => {
     setShowData(true);
-    setTableItems([0]);
-    setMapTableItems([0]);
+    if (parent === "chart") {
+      setMapTableItems(mapTableItems);
+    }
+    if (parent === "dashboard") {
+      setMapTableItems([0]);
+    }
   };
 
   // div start
   return (
-    <>
-      <h3>Map data:</h3>
-
-      {!mapIsLoading && (
+    <div>
+      {showMappingData && (
         <div>
           {Array.isArray(mapBaseDataKeys) && mapBaseDataKeys.length > 0 && (
             <div className="d-flex f-col gap-15">
@@ -231,7 +231,7 @@ export default function MappingData({
                               key={index}
                               // className="selected-map-item"
                               className={
-                                (tableItems || []).includes(index)
+                                (mapTableItems || []).includes(index)
                                   ? "selected-map-item"
                                   : "selected-map-item-no"
                               }
@@ -252,7 +252,7 @@ export default function MappingData({
                                       <input
                                         type="radio"
                                         readOnly
-                                        checked={(tableItems || []).includes(
+                                        checked={(mapTableItems || []).includes(
                                           index,
                                         )}
                                       />
@@ -261,7 +261,7 @@ export default function MappingData({
                                       <input
                                         type="checkbox"
                                         readOnly
-                                        checked={(tableItems || []).includes(
+                                        checked={(mapTableItems || []).includes(
                                           index,
                                         )}
                                       />
@@ -286,6 +286,6 @@ export default function MappingData({
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }

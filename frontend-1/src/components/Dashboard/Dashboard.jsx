@@ -117,9 +117,6 @@ export default function Dashboard() {
       setSelectListItemOne(filterLabels[0]);
       setTableItems([0]);
       // setViewDataLabel(singleData[filterLabels[0]]);
-    }
-
-    if (filterValues[0]) {
       setSelectListItemTwo(filterValues[0]);
     }
   }, [singleData, baseDataKeys]);
@@ -189,6 +186,8 @@ export default function Dashboard() {
       });
 
     const newConfig = {
+      baseDataKeys: baseDataKeys,
+      singleData: singleData,
       projectId: projectId,
       sourceUrl: selectedInputSource?.sourceLink,
       chartType: selectedChart,
@@ -197,6 +196,7 @@ export default function Dashboard() {
       apiAllData,
       configName: newConfigName.trim(),
       chartData: chartData,
+      tableItems: tableItems,
     };
 
     console.log("newConfig", newConfig);
@@ -621,17 +621,28 @@ export default function Dashboard() {
         <b className="step-name">step : 3</b>
         <h3>Map data:</h3>
         <MappingData
-          mapIsLoading={isLoading}
+          parent="dashboard"
+          showMappingData={!isLoading}
           mapBaseDataKeys={baseDataKeys}
           mapSelectListItemOne={selectListItemOne}
           mapSelectListItemTwo={selectListItemTwo}
           mapApiAllData={apiAllData}
           mapSelectedChart={selectedChart}
           mapSingleData={singleData}
+          mapTableItems={tableItems}
           setMapSelectListItemOne={setSelectListItemOne}
           setMapSelectListItemTwo={setSelectListItemTwo}
           setMapTableItems={setTableItems}
         />
+        <div>
+          <button
+            onClick={() => {
+              handleNavNextSection(4);
+            }}
+          >
+            Go to Enter new chart/card name
+          </button>
+        </div>
       </section>
 
       <section className="section-container" id="section-container-4">
@@ -644,10 +655,7 @@ export default function Dashboard() {
             flexDirection: "column",
           }}
         >
-          <h3>
-            Enter your new{" "}
-            {selectedChart === "card" ? "card" : selectedChart + " chart"} name:
-          </h3>
+          <h3>Enter your new chart/card name:</h3>
           <input
             type="text"
             placeholder="Enter name"
@@ -685,7 +693,11 @@ export default function Dashboard() {
           }}
         >
           {configList.map((data, index) => (
-            <ChartModel key={index} configData={data}></ChartModel>
+            <ChartModel
+              key={data?._id}
+              configData={data}
+              dataIndex={index}
+            ></ChartModel>
           ))}
         </div>
       </section>
