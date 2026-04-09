@@ -200,8 +200,8 @@ export default function MappingData({
                 <section className="d-flex">
                   <h2 style={{ margin: 0 }}>
                     {mapSelectedChart === "card"
-                      ? "Select Label & corresponding value"
-                      : "Select Labels & corresponding values"}
+                      ? "Select Label & Corresponding Value"
+                      : "Select Labels & Corresponding Values"}
                   </h2>
                 </section>
               )}
@@ -214,7 +214,7 @@ export default function MappingData({
                         <tr>
                           <th></th>
                           <th>Label - {mapApiAllData?.length || 0}</th>
-                          <th>Corresponding values</th>
+                          <th>Corresponding Values</th>
                         </tr>
                       </thead>
                       <tbody>

@@ -69,6 +69,7 @@ const chartList = [
 ];
 
 export default function Dashboard() {
+  // variable start
   const [selectListItemOne, setSelectListItemOne] = useState("");
   const [selectListItemTwo, setSelectListItemTwo] = useState("");
   const [tableItems, setTableItems] = useState([]);
@@ -90,6 +91,7 @@ export default function Dashboard() {
   const [newConfigName, setNewConfigName] = useState("");
   const [configList, setConfigList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [projectDetail, setProjectDetail] = useState({});
 
   const { id: projectId } = useParams();
 
@@ -98,6 +100,7 @@ export default function Dashboard() {
   }, []);
 
   const onStartLoad = () => {
+    getProjectDetail();
     getAllSources();
     getAllCharts();
   };
@@ -323,6 +326,26 @@ export default function Dashboard() {
     }
   };
 
+  const getProjectDetail = async () => {
+    if (!projectId) return alert("project id needed");
+
+    try {
+      const url = VITE_API_URL + `/projects/${projectId}`;
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const res = await response.json().catch(() => null);
+
+      setProjectDetail(res);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   const getAllSources = async () => {
     if (!projectId) return alert("project id needed");
 
@@ -342,6 +365,11 @@ export default function Dashboard() {
 
   const getSourceShortLink = (link) => {
     return link.split("?")[0];
+  };
+
+  const getSourceEndPoint = (link = "") => {
+    const urlArray = link.split("?")[0].split("/");
+    return urlArray[urlArray.length - 1];
   };
 
   const removeSource = async (source) => {
@@ -414,7 +442,9 @@ export default function Dashboard() {
     <div className="dashboard-root">
       {/* tittle */}
       <div className="dashboard-header">
-        <h1 className="dashboard-title">Dashboard</h1>
+        <h1 className="dashboard-title">
+          Dashboard - {projectDetail?.name || "<project name>"}
+        </h1>
       </div>
 
       {/* api call input */}
@@ -621,7 +651,13 @@ export default function Dashboard() {
       {/* generate data preview */}
       <section className="section-container" id="section-container-3">
         <b className="step-name">step : 3</b>
-        <h3>Map data:</h3>
+        <h3>
+          map data for{" "}
+          {selectedChart
+            ? `<${selectedChart} ${selectedChart === "card" ? "" : "chart"}>`
+            : "-"}
+          {`<${getSourceEndPoint(selectedInputSource?.sourceLink) || ""}>`}
+        </h3>
         <MappingData
           parent="dashboard"
           showMappingData={!isLoading}
@@ -639,6 +675,10 @@ export default function Dashboard() {
         <div>
           <button
             onClick={() => {
+              if (selectedChart !== "card" && tableItems.length < 2) {
+                alert("In mapping data : At least select two option");
+                return;
+              }
               handleNavNextSection(4);
             }}
           >
@@ -672,6 +712,10 @@ export default function Dashboard() {
         <div>
           <button
             onClick={() => {
+              if (selectedChart !== "card" && tableItems.length < 2) {
+                alert("In mapping data : At least select two option");
+                return;
+              }
               handleAddNewChart();
             }}
           >

@@ -91,27 +91,38 @@ v 3.0.0 - FE & BE & db structure data
 
 =============
 
+/***
 asap = (Low,Medium,High)
 differ = later
+***/
+
+> last data in first show - for list  (asap - medium) ✅
+> project (edit => rename)  (asap - low) ✅
+> select chart => select chart type (asap - low) ✅
 
 
-last data in first show - for list  (asap - medium) ✅
-project (edit => rename)  (asap - low) ✅
-dashboard title near project name  (asap - medium)
-orbit near release version number (asap - medium)
+> dashboard title near project name  (asap - medium) ✅
+	> get project data with project id & show project name
+	
+> step 3 : show url end point name in front of map data  (asap - medium)
+	> add chart type "map data for < chart type > < end point name >  ✅
 
-select chart => select chart type (asap - low) ✅
+> step 3: show alert alleast if only one label is selected for charts not card (medium) ✅
 
-step 3 : show url end point name in front of map data  (asap - medium)
-add chart type "map data for < chart type > < end point name >
-api access loading animation (high)
-step 3: show alert alleast if only one label is selected for charts not card (medium)
-chart graph click - block (high)
-mapping component dropdown selection can't change (high)
+> chart graph click - block (high)  ✅
 
-reload issue netlify (differ)
-theme (differ)
-label - dont allow number, date found (differ)
+> orbit near release version number (asap - medium) hold
+	> ?
+
+> api access loading animation (high)
+	> api change to axois ?
+
+
+> mapping component dropdown selection can't change (high)
+
+> netlify - reload issue  (differ)
+> theme (differ)
+> label - dont allow number, date found (differ)
 value - only allow numbers (differ)
 
 
