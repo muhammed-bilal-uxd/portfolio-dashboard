@@ -113,7 +113,6 @@ differ = later
 > mapping component dropdown selection can't change (high) ✅
 
 > orbit near release version number (asap - medium)  ✅
-	> ?
 
 > api access loading animation (high)
 	> api change to axois ?

@@ -655,8 +655,8 @@ export default function Dashboard() {
           map data for{" "}
           {selectedChart
             ? `<${selectedChart} ${selectedChart === "card" ? "" : "chart"}>`
-            : "-"}
-          {`<${getSourceEndPoint(selectedInputSource?.sourceLink) || ""}>`}
+            : "<Select Chart Type>"}
+          {`<${getSourceEndPoint(selectedInputSource?.sourceLink) || "Select Source Url"}>`}
         </h3>
         <MappingData
           parent="dashboard"
