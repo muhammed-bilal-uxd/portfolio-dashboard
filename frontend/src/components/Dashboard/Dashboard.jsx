@@ -566,14 +566,16 @@ export default function Dashboard() {
         </div>
 
         <div className="next-button-container">
-          <button onClick={() => handleNavNextSection(2)}>select chart</button>
+          <button onClick={() => handleNavNextSection(2)}>
+            select chart type
+          </button>
         </div>
       </section>
 
       {/* select chart type */}
       <section className="section-container" id="section-container-2">
         <b className="step-name">step : 2</b>
-        <h3>Select chart:</h3>
+        <h3>Select chart type:</h3>
         <div
           style={{
             alignItems: "center",
@@ -688,7 +690,7 @@ export default function Dashboard() {
             display: "flex",
             // alignItems: "center",
             // justifyContent: "center",
-            flexDirection: "column-reverse",
+            flexDirection: "column",
             gap: 50,
           }}
         >
