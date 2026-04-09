@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.4.0...v1.5.0) (2026-04-09)
+
+
+### Features
+
+* label changes ([bbbd71f](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/bbbd71faff5db3da4904020cf3649a887ba31ec6))
+
 # [1.4.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.3.0...v1.4.0) (2026-04-09)
 
 
