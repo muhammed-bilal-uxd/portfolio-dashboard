@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import "./ProjectPage.css";
+
 const API_URL = import.meta.env.VITE_API_URL + "/projects";
 
 export default function ProjectPage() {
@@ -116,13 +118,13 @@ export default function ProjectPage() {
           }}
         >
           <h3
-            style={{ cursor: "pointer" }}
+            className={"cursor-pointer project-name"}
             onClick={() => navigate(`/dashboard/${project._id}`)}
           >
             {project.name}
           </h3>
 
-          <button onClick={() => handleEdit(project)}>Edit</button>
+          <button onClick={() => handleEdit(project)}>Rename</button>
           <button onClick={() => handleDelete(project._id)}>Delete</button>
         </div>
       ))}

@@ -79,10 +79,15 @@ export default function ChartModel({ configData, dataIndex }) {
   const [configName, setConfigName] = useState("");
   const [showEditChartPopup, setShowEditChartPopup] = useState(false);
   const [localConfigData, setLocalConfigData] = useState(configData);
+  const [canShowChart, setCanShowChart] = useState(false);
 
   // chart edit popup
-  const [selectListItemOne, setSelectListItemOne] = useState("");
-  const [selectListItemTwo, setSelectListItemTwo] = useState("");
+  const [selectListItemOne, setSelectListItemOne] = useState(
+    localConfigData?.data?.selectListItemOne || "",
+  );
+  const [selectListItemTwo, setSelectListItemTwo] = useState(
+    localConfigData?.data?.selectListItemTwo || "",
+  );
   const [tableItems, setTableItems] = useState(
     localConfigData?.data?.tableItems || [],
   );
@@ -469,6 +474,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="grid-item chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "line",
                   title: "Visits (Weekly)",
@@ -485,6 +491,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "bar",
                   title: "Orders (Weekly)",
@@ -501,6 +508,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "pie",
                   title: "Traffic Split",
@@ -517,6 +525,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "radar",
                   title: "Performance Score",
@@ -533,6 +542,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "polar",
                   title: "Category Spread",
@@ -549,6 +559,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "bubble",
                   title: "Campaigns",
@@ -565,6 +576,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "scatter",
                   title: "Spend vs Conversion",
@@ -581,6 +593,7 @@ export default function ChartModel({ configData, dataIndex }) {
             <div
               className="chart-card"
               onClick={() =>
+                canShowChart &&
                 openChartModal({
                   type: "doughnut",
                   title: "Traffic Split (Doughnut)",
@@ -665,11 +678,11 @@ export default function ChartModel({ configData, dataIndex }) {
             parent={"chart"}
             showMappingData={true}
             mapBaseDataKeys={localConfigData?.data?.baseDataKeys}
-            mapSelectListItemOne={localConfigData?.data?.selectListItemOne}
-            mapSelectListItemTwo={localConfigData?.data?.selectListItemTwo}
             mapApiAllData={localConfigData?.data?.apiAllData}
             mapSelectedChart={localConfigData?.data?.chartType}
             mapSingleData={localConfigData?.data?.singleData}
+            mapSelectListItemOne={selectListItemOne}
+            mapSelectListItemTwo={selectListItemTwo}
             mapTableItems={tableItems}
             setMapSelectListItemOne={setSelectListItemOne}
             setMapSelectListItemTwo={setSelectListItemTwo}
