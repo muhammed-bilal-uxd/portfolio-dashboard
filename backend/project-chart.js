@@ -59,23 +59,44 @@ router.post("/", async (req, res) => {
 // update
 router.put("/", async (req, res) => {
   const { chartId } = req.query;
-  const { configName } = req.body;
-  // const updated = await ProjectChart.findByIdAndUpdate(chartId, req.body, {
-  //   new: true,
-  // });
+  const { configName, selectListItemOne, selectListItemTwo, chartData } =
+    req.body;
+
+  const payload = {};
+
+  if (configName) {
+    payload["configName"] = configName;
+  }
+
+  if (selectListItemOne) {
+    payload["data.selectListItemOne"] = selectListItemOne;
+  }
+
+  if (selectListItemTwo) {
+    payload["data.selectListItemTwo"] = selectListItemTwo;
+  }
+
+  if (Array.isArray(chartData) && chartData.length > 0) {
+    payload["data.chartData"] = chartData;
+  }
+
+  // 🚨 prevent empty update
+  if (Object.keys(payload).length === 0) {
+    throw new Error("No keys matched");
+  }
 
   try {
     await ProjectChart.updateOne(
       { _id: chartId },
       {
         $set: {
-          configName: configName,
+          ...payload,
         },
       },
     );
 
     res.status(200).json({
-      message: "chart name successfully updated",
+      message: "chart successfully updated",
       status: 200,
     });
   } catch (err) {

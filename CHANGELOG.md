@@ -1,3 +1,24 @@
+# [1.2.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.1.1...v1.2.0) (2026-04-08)
+
+
+### Features
+
+* Mapping data component update ([3f2f042](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/3f2f04212ab7e2eba0ee786821e25dcf97a23c04))
+
+## [1.1.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.1.0...v1.1.1) (2026-04-08)
+
+
+### Bug Fixes
+
+* glish issue fix ([2b2c46f](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/2b2c46fe4de5549387941b6f91d8d09f5bb23e16))
+
+# [1.1.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.0.0...v1.1.0) (2026-04-07)
+
+
+### Features
+
+* migration neat file ([f54563e](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/f54563e0ea036cc4d90d399f4dfe80c3765e6da7))
+
 # 1.0.0 (2026-04-07)
 
 

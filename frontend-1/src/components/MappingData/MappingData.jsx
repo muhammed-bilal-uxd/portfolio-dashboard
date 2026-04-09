@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from "react";
 import "./MappingData.css";
 
-const MappingData = ({
+export default function MappingData({
   //input
-  mapIsLoading,
+  parent,
+  showMappingData,
   mapBaseDataKeys,
   mapSelectListItemOne,
   mapSelectListItemTwo,
   mapApiAllData,
   mapSelectedChart,
   mapSingleData,
+  mapTableItems,
 
   // output
   setMapSelectListItemOne,
   setMapSelectListItemTwo,
-}) => {
+  setMapTableItems,
+}) {
   const [showData, setShowData] = useState(false);
-  const [tableItems, setTableItems] = useState([]);
+
+  const checkTypeOfData = (value, isLabel) => {
+    // check label
+    if (isLabel) return typeof value === "string";
+
+    //  check value
+    const cleaned = Number(String(value).replace("$", ""));
+
+    return !isNaN(cleaned);
+  };
 
   useEffect(() => {
     if (!mapSingleData || !mapBaseDataKeys.length) return;
@@ -31,23 +43,10 @@ const MappingData = ({
 
     if (filterLabels[0]) {
       setMapSelectListItemOne(filterLabels[0]);
-      setTableItems(0);
-    }
-
-    if (filterValues[0]) {
       setMapSelectListItemTwo(filterValues[0]);
+      // setMapTableItems([0]);
     }
   }, [mapSingleData, mapBaseDataKeys]);
-
-  const checkTypeOfData = (value, isLabel) => {
-    // check label
-    if (isLabel) return typeof value === "string";
-
-    //  check value
-    const cleaned = Number(String(value).replace("$", ""));
-
-    return !isNaN(cleaned);
-  };
 
   const getPreviewValue = (data) => {
     const getType = (value) => {
@@ -99,27 +98,39 @@ const MappingData = ({
   };
 
   const handleTableSelectItem = (index) => {
+    let updatedItems;
+
     if (mapSelectedChart === "card") {
-      // [index] : [...tableItems,index]
-      setTableItems([index]);
+      updatedItems = [index];
     } else {
-      const isExistItem = (tableItems || []).includes(index);
+      const isExistItem = (mapTableItems || []).includes(index);
 
       if (!isExistItem) {
-        setTableItems([...(tableItems || []), index]);
+        updatedItems = [...(mapTableItems || []), index];
       } else {
-        setTableItems([...(tableItems || []).filter((j) => j !== index)]);
+        updatedItems = (mapTableItems || []).filter((j) => j !== index);
       }
+    }
+
+    console.log("updatedItems", updatedItems);
+
+    setMapTableItems(updatedItems);
+  };
+
+  const handleShowData = () => {
+    setShowData(true);
+    if (parent === "chart") {
+      setMapTableItems(mapTableItems);
+    }
+    if (parent === "dashboard") {
+      setMapTableItems([0]);
     }
   };
 
+  // div start
   return (
-    <>
-      <h3>Map data:</h3>
-
-      {JSON.stringify(mapIsLoading)}
-
-      {!mapIsLoading && (
+    <div>
+      {showMappingData && (
         <div>
           {Array.isArray(mapBaseDataKeys) && mapBaseDataKeys.length > 0 && (
             <div className="d-flex f-col gap-15">
@@ -175,7 +186,12 @@ const MappingData = ({
               </section>
 
               <section className="d-flex justify-end">
-                <button disabled={showData} onClick={() => setShowData(true)}>
+                <button
+                  disabled={showData}
+                  onClick={() => {
+                    handleShowData();
+                  }}
+                >
                   show data
                 </button>
               </section>
@@ -215,7 +231,7 @@ const MappingData = ({
                               key={index}
                               // className="selected-map-item"
                               className={
-                                (tableItems || []).includes(index)
+                                (mapTableItems || []).includes(index)
                                   ? "selected-map-item"
                                   : "selected-map-item-no"
                               }
@@ -236,7 +252,7 @@ const MappingData = ({
                                       <input
                                         type="radio"
                                         readOnly
-                                        checked={(tableItems || []).includes(
+                                        checked={(mapTableItems || []).includes(
                                           index,
                                         )}
                                       />
@@ -245,7 +261,7 @@ const MappingData = ({
                                       <input
                                         type="checkbox"
                                         readOnly
-                                        checked={(tableItems || []).includes(
+                                        checked={(mapTableItems || []).includes(
                                           index,
                                         )}
                                       />
@@ -263,14 +279,6 @@ const MappingData = ({
                   </div>
                 </section>
               )}
-
-              {/* {showData && (
-              <section className="next-button-container">
-                <button onClick={() => handleNavNextSection(4)}>
-                  Enter your new card name
-                </button>
-              </section>
-            )} */}
             </div>
           )}
           {Array.isArray(mapBaseDataKeys) && mapBaseDataKeys.length === 0 && (
@@ -278,8 +286,6 @@ const MappingData = ({
           )}
         </div>
       )}
-    </>
+    </div>
   );
-};
-
-export default MappingData;
+}

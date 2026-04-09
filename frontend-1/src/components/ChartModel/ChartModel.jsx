@@ -26,7 +26,7 @@ import {
 } from "react-chartjs-2";
 
 import "./ChartModel.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 
@@ -59,6 +59,7 @@ import {
   FilledInput,
 } from "@mui/material";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import MappingData from "../MappingData/MappingData";
 
 const menuItems = [
   { label: "Edit Chart Name", key: "name" },
@@ -67,7 +68,7 @@ const menuItems = [
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
-export default function ChartModel({ configData, projectId }) {
+export default function ChartModel({ configData, dataIndex }) {
   const { theme: themeArray } = useTheme();
   const theme = themeArray;
   const [activeChart, setActiveChart] = useState(null);
@@ -76,16 +77,29 @@ export default function ChartModel({ configData, projectId }) {
   const [showNamePopup, setShowNamePopup] = useState(false);
   const [newConfigName, setNewConfigName] = useState("");
   const [configName, setConfigName] = useState("");
-  //   const [dataValues, setDataValues] = useState({
-  //     labels: ["Desktop", "Mobile", "Tablet"],
-  //     values: [52, 38, 10],
-  //   });
-  //   const [dataValues, setDataValues] = useState(configData?.data?.chartDataValues);
+  const [showEditChartPopup, setShowEditChartPopup] = useState(false);
+  const [localConfigData, setLocalConfigData] = useState(configData);
+
+  // chart edit popup
+  const [selectListItemOne, setSelectListItemOne] = useState("");
+  const [selectListItemTwo, setSelectListItemTwo] = useState("");
+  const [tableItems, setTableItems] = useState(
+    localConfigData?.data?.tableItems || [],
+  );
+
+  // useEffect(() => {
+  //   if (dataIndex === 0) onLoad();
+  // }, [localConfigData]);
+
+  // const onLoad = () => {
+  //   setShowEditChartPopup(true);
+  // };
 
   useEffect(() => {
-    setSelectedChart(configData?.data?.chartType);
-    setConfigName(configData?.configName);
-  }, []);
+    setSelectedChart(localConfigData?.data?.chartType || "");
+    setConfigName(localConfigData?.configName || "");
+    setTableItems;
+  }, [localConfigData]);
 
   const openChartModal = ({ type, title, data, options }) => {
     setActiveChart({ type, title, data, options });
@@ -120,15 +134,15 @@ export default function ChartModel({ configData, projectId }) {
 
   const lineData = {
     labels:
-      (Array.isArray(configData?.data?.chartData) &&
-        configData?.data?.chartData.map((i, j) => i.label)) ||
+      (Array.isArray(localConfigData?.data?.chartData) &&
+        localConfigData?.data?.chartData.map((i, j) => i.label)) ||
       [],
     datasets: [
       {
-        label: configData?.data?.selectListItemOne,
+        label: localConfigData?.data?.selectListItemOne,
         data:
-          (Array.isArray(configData?.data?.chartData) &&
-            configData?.data?.chartData.map((i, j) => i.value)) ||
+          (Array.isArray(localConfigData?.data?.chartData) &&
+            localConfigData?.data?.chartData.map((i, j) => i.value)) ||
           [],
         borderColor: "#3b82f6",
         backgroundColor: "rgba(59,130,246,0.2)",
@@ -140,16 +154,16 @@ export default function ChartModel({ configData, projectId }) {
 
   const barData = {
     labels: [
-      ...((Array.isArray(configData?.data?.chartData) &&
-        configData?.data?.chartData.map((i, j) => i.label)) ||
+      ...((Array.isArray(localConfigData?.data?.chartData) &&
+        localConfigData?.data?.chartData.map((i, j) => i.label)) ||
         []),
     ],
     datasets: [
       {
-        label: configData?.data?.selectListItemOne || "",
+        label: localConfigData?.data?.selectListItemOne || "",
         data: [
-          ...((Array.isArray(configData?.data?.chartData) &&
-            configData?.data?.chartData.map((i, j) => i.value)) ||
+          ...((Array.isArray(localConfigData?.data?.chartData) &&
+            localConfigData?.data?.chartData.map((i, j) => i.value)) ||
             []),
         ],
         backgroundColor: randomColor(),
@@ -162,20 +176,20 @@ export default function ChartModel({ configData, projectId }) {
   const pieData = () => {
     const bgColors =
       Array.isArray(
-        Array.isArray(configData?.data?.chartData) &&
-          configData?.data?.chartData.map((i, j) => i.label),
+        Array.isArray(localConfigData?.data?.chartData) &&
+          localConfigData?.data?.chartData.map((i, j) => i.label),
       ) && labels.map((label, l) => randomColor());
 
     return {
       labels:
-        (Array.isArray(configData?.data?.chartData) &&
-          configData?.data?.chartData.map((i, j) => i.label)) ||
+        (Array.isArray(localConfigData?.data?.chartData) &&
+          localConfigData?.data?.chartData.map((i, j) => i.label)) ||
         [],
       datasets: [
         {
           data: [
-            ...((Array.isArray(configData?.data?.chartData) &&
-              configData?.data?.chartData.map((i, j) => i.value)) ||
+            ...((Array.isArray(localConfigData?.data?.chartData) &&
+              localConfigData?.data?.chartData.map((i, j) => i.value)) ||
               []),
           ],
           backgroundColor: [...bgColors],
@@ -187,16 +201,16 @@ export default function ChartModel({ configData, projectId }) {
   const radarData = () => {
     return {
       labels: [
-        ...((Array.isArray(configData?.data?.chartData) &&
-          configData?.data?.chartData.map((i, j) => i.label)) ||
+        ...((Array.isArray(localConfigData?.data?.chartData) &&
+          localConfigData?.data?.chartData.map((i, j) => i.label)) ||
           []),
       ],
       datasets: [
         {
           label: "Score",
           data: [
-            ...((Array.isArray(configData?.data?.chartData) &&
-              configData?.data?.chartData.map((i, j) => i.value)) ||
+            ...((Array.isArray(localConfigData?.data?.chartData) &&
+              localConfigData?.data?.chartData.map((i, j) => i.value)) ||
               []),
           ],
           backgroundColor: "rgba(168,85,247,0.2)",
@@ -208,20 +222,20 @@ export default function ChartModel({ configData, projectId }) {
 
   const polarData = () => {
     const colors =
-      Array.isArray(configData?.data?.chartData) &&
-      configData?.data?.chartData.map((data, d) => randomColor());
+      Array.isArray(localConfigData?.data?.chartData) &&
+      localConfigData?.data?.chartData.map((data, d) => randomColor());
 
     return {
       labels: [
-        ...((Array.isArray(configData?.data?.chartData) &&
-          configData?.data?.chartData.map((i, j) => i.label)) ||
+        ...((Array.isArray(localConfigData?.data?.chartData) &&
+          localConfigData?.data?.chartData.map((i, j) => i.label)) ||
           []),
       ],
       datasets: [
         {
           data: [
-            ...((Array.isArray(configData?.data?.chartData) &&
-              configData?.data?.chartData.map((i, j) => i.value)) ||
+            ...((Array.isArray(localConfigData?.data?.chartData) &&
+              localConfigData?.data?.chartData.map((i, j) => i.value)) ||
               []),
           ],
           backgroundColor: [...colors],
@@ -283,46 +297,79 @@ export default function ChartModel({ configData, projectId }) {
     }
   };
 
-  const handleMenuItem = (key, data) => {
-    switch (key) {
+  const handleMenuItem = (a) => {
+    switch (a) {
       case "name":
-        changeChartName();
+        setNewConfigName(configName);
+        setShowNamePopup(true);
         break;
       case "data":
+        setShowEditChartPopup(true);
         break;
       default:
         break;
     }
   };
 
-  const changeChartName = () => {
-    setNewConfigName(configName);
-    setShowNamePopup(true);
-  };
+  const handleChangeMappingDetails = async (payload) => {
+    console.log("payload", payload);
 
-  const handleChangeName = async () => {
     try {
-      const url = VITE_API_URL + `/project-chart?chartId=${configData?._id}`;
+      const url =
+        VITE_API_URL + `/project-chart?chartId=${localConfigData?._id}`;
       const res = await fetch(url, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ configName: newConfigName }),
+        body: JSON.stringify(payload),
       });
 
-      const payload = await res.json().catch(() => null);
+      const response = await res.json().catch(() => null);
 
       if (!res.ok) {
         throw new Error(
-          payload?.message || `Request failed with status ${res.status}`,
+          response?.message || `Request failed with status ${res.status}`,
         );
       }
 
-      setConfigName(newConfigName);
+      if (payload?.configName) {
+        setConfigName(newConfigName);
+      } else {
+        const newData = {
+          ...localConfigData.data,
+          chartData: payload?.chartData,
+          selectListItemOne: payload?.selectListItemOne,
+          selectListItemTwo: payload?.selectListItemTwo,
+        };
+
+        setLocalConfigData({
+          ...localConfigData,
+          data: newData,
+        });
+      }
     } catch (err) {
       alert(err.message);
     }
+  };
+
+  const handleSaveChartData = () => {
+    setShowEditChartPopup(false);
+
+    const chartData =
+      Array.isArray(tableItems) &&
+      tableItems.map((i) => {
+        return {
+          label: localConfigData?.data?.apiAllData[i][selectListItemOne],
+          value: localConfigData?.data?.apiAllData[i][selectListItemTwo],
+        };
+      });
+
+    handleChangeMappingDetails({
+      chartData,
+      selectListItemOne: selectListItemOne,
+      selectListItemTwo: selectListItemTwo,
+    });
   };
 
   // div start
@@ -332,9 +379,9 @@ export default function ChartModel({ configData, projectId }) {
         <div style={{ display: "flex" }}>
           <h3 style={{ flex: 1 }}>
             {configName} (
-            {configData?.data?.chartType === "card"
+            {localConfigData?.data?.chartType === "card"
               ? "card"
-              : `${configData?.data?.chartType} chart`}
+              : `${localConfigData?.data?.chartType} chart`}
             )
           </h3>
           <div>
@@ -364,7 +411,7 @@ export default function ChartModel({ configData, projectId }) {
                           key={i}
                           onClick={() => {
                             popupState.close();
-                            handleMenuItem(menu?.key, configData);
+                            handleMenuItem(menu?.key);
                           }}
                         >
                           {menu?.label}
@@ -401,7 +448,7 @@ export default function ChartModel({ configData, projectId }) {
                     color: "#555",
                   }}
                 >
-                  {configData?.data?.chartData[0].label}
+                  {localConfigData?.data?.chartData[0].label}
                 </h3>
 
                 <p
@@ -412,7 +459,7 @@ export default function ChartModel({ configData, projectId }) {
                     color: "#111",
                   }}
                 >
-                  {configData?.data?.chartData[0].value}
+                  {localConfigData?.data?.chartData[0].value}
                 </p>
               </div>
             </div>
@@ -595,11 +642,55 @@ export default function ChartModel({ configData, projectId }) {
           <Button
             onClick={() => {
               setShowNamePopup(false);
-              handleChangeName();
+              handleChangeMappingDetails({ configName: newConfigName });
             }}
             variant="contained"
           >
-            Confirm
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        fullWidth={true}
+        maxWidth={"md"}
+        open={showEditChartPopup}
+        onClose={() => {
+          setShowEditChartPopup(false);
+        }}
+      >
+        <DialogTitle>Edit Mapping Data</DialogTitle>
+        <DialogContent>
+          <MappingData
+            parent={"chart"}
+            showMappingData={true}
+            mapBaseDataKeys={localConfigData?.data?.baseDataKeys}
+            mapSelectListItemOne={localConfigData?.data?.selectListItemOne}
+            mapSelectListItemTwo={localConfigData?.data?.selectListItemTwo}
+            mapApiAllData={localConfigData?.data?.apiAllData}
+            mapSelectedChart={localConfigData?.data?.chartType}
+            mapSingleData={localConfigData?.data?.singleData}
+            mapTableItems={tableItems}
+            setMapSelectListItemOne={setSelectListItemOne}
+            setMapSelectListItemTwo={setSelectListItemTwo}
+            setMapTableItems={setTableItems}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setShowEditChartPopup(false);
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              handleSaveChartData();
+            }}
+            variant="contained"
+          >
+            Save
           </Button>
         </DialogActions>
       </Dialog>
