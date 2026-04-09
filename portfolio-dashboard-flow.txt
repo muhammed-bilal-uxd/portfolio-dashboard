@@ -110,15 +110,13 @@ differ = later
 > step 3: show alert alleast if only one label is selected for charts not card (medium) ✅
 
 > chart graph click - block (high)  ✅
+> mapping component dropdown selection can't change (high) ✅
 
 > orbit near release version number (asap - medium) hold
 	> ?
 
 > api access loading animation (high)
 	> api change to axois ?
-
-
-> mapping component dropdown selection can't change (high)
 
 > netlify - reload issue  (differ)
 > theme (differ)
