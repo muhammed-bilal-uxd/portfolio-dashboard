@@ -112,7 +112,7 @@ differ = later
 > chart graph click - block (high)  ✅
 > mapping component dropdown selection can't change (high) ✅
 
-> orbit near release version number (asap - medium) hold
+> orbit near release version number (asap - medium)  ✅
 	> ?
 
 > api access loading animation (high)

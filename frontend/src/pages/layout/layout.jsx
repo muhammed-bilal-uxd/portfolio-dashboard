@@ -6,6 +6,10 @@ import "./layout.css";
 import { useTheme } from "../ThemeContext/ThemeContext";
 // import PublishSection from "../../components/PublishSection/PublishSection";
 
+//js
+
+import version from "../../version.js";
+
 // pages
 import DashboardPage from "../DashboardPage/DashboardPage";
 import ProjectPage from "../ProjectPage/ProjectPage";
@@ -37,6 +41,7 @@ export default function OrbitLayout() {
   const [active, setActive] = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [games, setGames] = useState([]);
+  const [appVersion, setAppVersion] = useState(version.APP_VERSION || "");
 
   const setMode = (modeOrFn) => {
     if (typeof modeOrFn === "function") {
@@ -160,6 +165,9 @@ export default function OrbitLayout() {
                 </svg>
               </div>
               <div className="ol-brandName">ORBIT</div>
+              <div className="version">
+                {appVersion ? " - v" + appVersion : "<app version>"}
+              </div>
             </div>
 
             <button
