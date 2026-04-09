@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.2.0...v1.3.0) (2026-04-09)
+
+
+### Features
+
+* alignment issue ([7d24f0e](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/7d24f0e8c8da00bbdd36274e3d561b2be76a6dcb))
+* codex update ([6952dc9](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/6952dc93c9b1787e8f2b9f02f9cc5cb7291bfc85))
+* rename and functional changes ([a24638e](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/a24638ec5a7cb97aaab440da0093d9e8f36aa615))
+* rename and functional changes ([15c48d1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/15c48d1bcfd78a9adfdb20ad6093baaa571de09f))
+* version in frontend update ([ad2f353](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/ad2f353daa77d9f69cd8b1fadcbcfef75cd2a676))
+* version in frontend update ([6bb5694](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/6bb56949cd4a773f441a174b5611c60a6e02f85c))
+
 # [1.2.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.1.1...v1.2.0) (2026-04-08)
 
 
