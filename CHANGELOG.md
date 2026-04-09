@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.3.0...v1.4.0) (2026-04-09)
+
+
+### Features
+
+* version no display in layout page ([0ceceed](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/0ceceed8d05a514bbc3ce5f384bcfbb10f011afd))
+
 # [1.3.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.2.0...v1.3.0) (2026-04-09)
 
 
