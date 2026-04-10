@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.5.4...v1.6.0) (2026-04-10)
+
+
+### Bug Fixes
+
+* js to jsx format changed ([109a9e4](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/109a9e477664311bd959026a7abb5c7f7acdc232))
+
+
+### Features
+
+* dummy save ([b21994b](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/b21994b8409efd85df5ad90cf701bf5f2e41046f))
+
 ## [1.5.4](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.5.3...v1.5.4) (2026-04-10)
 
 
