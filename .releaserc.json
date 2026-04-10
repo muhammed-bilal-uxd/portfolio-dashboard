@@ -13,14 +13,14 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "printf \"const APP_VERSION = '%s';\nexport default APP_VERSION;\n\" \"${nextRelease.version}\" > frontend/src/version.js"
+        "prepareCmd": "echo \"export default '${nextRelease.version}';\" > frontend/src/version.js"
       }
     ],
     "@semantic-release/github",
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md", "frontend/src/version.js"],
+        "assets": ["CHANGELOG.md", "frontend/src/version.jsx"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]

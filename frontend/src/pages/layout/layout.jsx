@@ -8,7 +8,7 @@ import { useTheme } from "../ThemeContext/ThemeContext";
 
 //js
 
-import version from "../../version.js";
+import version from "../../version";
 
 // pages
 import DashboardPage from "../DashboardPage/DashboardPage";
