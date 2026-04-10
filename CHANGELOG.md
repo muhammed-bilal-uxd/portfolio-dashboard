@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.6.0...v1.6.1) (2026-04-10)
+
+
+### Bug Fixes
+
+* dummy change 2 ([b5eed30](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/b5eed301f7434283f7d7d95b03e438cf1c616bd8))
+
 # [1.6.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.5.4...v1.6.0) (2026-04-10)
 
 
