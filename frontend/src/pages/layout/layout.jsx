@@ -41,7 +41,7 @@ export default function OrbitLayout() {
   const [active, setActive] = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [games, setGames] = useState([]);
-  const [appVersion, setAppVersion] = useState(version || ""); 
+  const [appVersion, setAppVersion] = useState(version || "");
 
   const setMode = (modeOrFn) => {
     if (typeof modeOrFn === "function") {
