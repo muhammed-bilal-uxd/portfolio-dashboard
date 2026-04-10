@@ -8,8 +8,8 @@ import ChartModel from "../ChartModel/ChartModel";
 // css
 import "./Dashboard.css";
 import Modal from "../Modal/Modal";
-import Loading from "../Loading/Loading";
 import MappingData from "../MappingData/MappingData";
+import { useLoading } from "../../context/LoadingContext";
 
 // env
 const VITE_API_URL = import.meta.env.VITE_API_URL;
@@ -90,8 +90,8 @@ export default function Dashboard() {
   const [selectedInputSource, setSelectedInputSource] = useState({});
   const [newConfigName, setNewConfigName] = useState("");
   const [configList, setConfigList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [projectDetail, setProjectDetail] = useState({});
+  const { isLoading } = useLoading();
 
   const { id: projectId } = useParams();
 
@@ -139,7 +139,6 @@ export default function Dashboard() {
 
   const getLinkWithBase = async (url) => {
     try {
-      setIsLoading(true);
       const data = await fetch(url);
 
       if (!data.ok) {
@@ -156,7 +155,6 @@ export default function Dashboard() {
 
       const keys = Object.keys(firstItem);
       setBaseDataKeys(keys);
-      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -750,7 +748,6 @@ export default function Dashboard() {
       <div className="next-button-container">
         <button onClick={() => handleNavNextSection(1)}>back to top</button>
       </div>
-      {isLoading && <Loading />}
     </div>
   );
 }
