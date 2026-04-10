@@ -1,1 +1,1 @@
-export default APP_VERSION = '1.5.0';
+export default '1.5.0';
