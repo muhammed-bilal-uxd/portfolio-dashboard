@@ -112,10 +112,11 @@ differ = later
 > chart graph click - block (high)  ✅
 > mapping component dropdown selection can't change (high) ✅
 
-> orbit near release version number (asap - medium)  ✅
+> orbit near release version number (asap - medium) ✅
 
 > api access loading animation (high)
 	> api change to axois ?
+	> status message
 
 > netlify - reload issue  (differ)
 > theme (differ)

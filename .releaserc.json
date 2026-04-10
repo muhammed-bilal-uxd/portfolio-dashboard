@@ -13,7 +13,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "echo \"export default '${nextRelease.version}';\" > frontend/src/version.js"
+        "prepareCmd": "echo \"export default '${nextRelease.version}';\" > frontend/src/version.jsx"
       }
     ],
     "@semantic-release/github",
