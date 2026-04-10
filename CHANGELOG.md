@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.6.1...v1.7.0) (2026-04-10)
+
+
+### Features
+
+* loader updated for every api request ([a6f7840](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/a6f7840286a883cbaa7bd70003c5e88b6f515c99))
+
 ## [1.6.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.6.0...v1.6.1) (2026-04-10)
 
 
