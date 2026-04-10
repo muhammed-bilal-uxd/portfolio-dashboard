@@ -1,3 +1,10 @@
+## [1.5.3](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.5.2...v1.5.3) (2026-04-10)
+
+
+### Bug Fixes
+
+* version show issue while build ([e265194](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/e265194d074c45b19048380d75d26b49747fe7d6))
+
 ## [1.5.2](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.5.1...v1.5.2) (2026-04-10)
 
 
