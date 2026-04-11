@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.7.0...v1.8.0) (2026-04-11)
+
+
+### Features
+
+* just an update ([20744a6](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/20744a6a4a045bcaf2cbcaca71ab2ab542a54243))
+
 # [1.7.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.6.1...v1.7.0) (2026-04-10)
 
 
