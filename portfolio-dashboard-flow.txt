@@ -114,14 +114,15 @@ differ = later
 
 > orbit near release version number (asap - medium) ✅
 
-> api access loading animation (high)
+> api access loading animation (high) ✅
 	> api change to axois ?
 	> status message
 
-> netlify - reload issue  (differ)
-> theme (differ)
 > label - dont allow number, date found (differ)
-value - only allow numbers (differ)
+> value - only allow numbers (differ)
+> theme (differ)
+> netlify - reload issue  (differ)
+
 
 
 
