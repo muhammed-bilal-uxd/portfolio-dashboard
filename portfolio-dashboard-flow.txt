@@ -118,12 +118,18 @@ differ = later
 	> api change to axois ?
 	> status message
 
+> netlify - reload issue  (differ) ✅
+
 > label - dont allow number, date found (differ)
 > value - only allow numbers (differ)
 > netlify - reload issue (differ)
 	> move vercel - reload issue
 
 > theme (differ)
+
+
+=======
+
 
 
 
