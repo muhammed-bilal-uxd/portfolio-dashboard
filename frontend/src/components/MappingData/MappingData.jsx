@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./MappingData.css";
 
+import { checkTypeOfData } from "../../utils/common"
+
 export default function MappingData({
   //input
   parent,
@@ -20,25 +22,15 @@ export default function MappingData({
 }) {
   const [showData, setShowData] = useState(false);
 
-  const checkTypeOfData = (value, isLabel) => {
-    // check label
-    if (isLabel) return typeof value === "string";
-
-    //  check value
-    const cleaned = Number(String(value).replace("$", ""));
-
-    return !isNaN(cleaned);
-  };
-
   useEffect(() => {
     if (!mapSingleData || !mapBaseDataKeys.length) return;
 
     const filterLabels = mapBaseDataKeys.filter((name) =>
-      checkTypeOfData(mapSingleData[name], true),
+      checkTypeOfData(mapSingleData[name], 'string'),
     );
 
     const filterValues = mapBaseDataKeys.filter((name) =>
-      checkTypeOfData(mapSingleData[name], false),
+      checkTypeOfData(mapSingleData[name], 'number'),
     );
 
     if (filterLabels[0]) {
@@ -146,15 +138,20 @@ export default function MappingData({
                       setShowData(false);
                     }}
                   >
-                    {mapBaseDataKeys
-                      .filter((name) =>
-                        checkTypeOfData(mapSingleData[name], true),
+                    {
+                      mapBaseDataKeys
+                      .filter((name) => {
+                        if(mapSingleData[name] === "") return false
+
+                        return checkTypeOfData(mapSingleData[name], 'string')
+                      }
                       )
                       .map((name) => (
                         <option key={name} value={name}>
                           {name}
                         </option>
-                      ))}
+                      ))
+                      }
                   </select>
                 </div>
 
@@ -172,15 +169,20 @@ export default function MappingData({
                       setShowData(false);
                     }}
                   >
-                    {mapBaseDataKeys
-                      .filter((name) =>
-                        checkTypeOfData(mapSingleData[name], false),
+                    { 
+                      mapBaseDataKeys
+                      .filter((name) => {
+                          if(mapSingleData[name] === "") return false
+
+                          return checkTypeOfData(mapSingleData[name], 'number')
+                        }
                       )
                       .map((name) => (
                         <option key={name} value={name}>
                           {name}
                         </option>
-                      ))}
+                      ))
+                    }
                   </select>
                 </div>
               </section>

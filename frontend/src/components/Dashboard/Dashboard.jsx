@@ -11,6 +11,8 @@ import Modal from "../Modal/Modal";
 import MappingData from "../MappingData/MappingData";
 import { useLoading } from "../../context/LoadingContext";
 
+import { checkTypeOfData } from '../../utils/common'
+
 // env
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -109,11 +111,11 @@ export default function Dashboard() {
     if (!singleData || !baseDataKeys.length) return;
 
     const filterLabels = baseDataKeys.filter((name) =>
-      checkTypeOfData(singleData[name], true),
+      checkTypeOfData(singleData[name], 'string'),
     );
 
     const filterValues = baseDataKeys.filter((name) =>
-      checkTypeOfData(singleData[name], false),
+      checkTypeOfData(singleData[name], 'number'),
     );
 
     if (filterLabels[0]) {
@@ -246,16 +248,6 @@ export default function Dashboard() {
     } catch (err) {
       alert(err.message);
     }
-  };
-
-  const checkTypeOfData = (value, isLabel) => {
-    // check label
-    if (isLabel) return typeof value === "string";
-
-    //  check value
-    const cleaned = Number(String(value).replace("$", ""));
-
-    return !isNaN(cleaned);
   };
 
   useEffect(() => {
