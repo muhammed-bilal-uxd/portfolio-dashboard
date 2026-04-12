@@ -118,12 +118,13 @@ differ = later
 	> api change to axois ?
 	> status message
 
-> netlify - reload issue  (differ) ✅
+> netlify - reload issue (differ) ✅
 
-> label - dont allow number, date found (differ)
-> value - only allow numbers (differ)
-> netlify - reload issue (differ)
-	> move vercel - reload issue
+> allow data based on type - (wip)
+	> label - allow only string, dont allow number or string number, string date found (differ)
+	> value - only allow numbers, string numbers (differ)
+	> filter toggle button
+		> default short version, other full version
 
 > theme (differ)
 
