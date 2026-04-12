@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.11.0...v1.11.1) (2026-04-12)
+
+
+### Bug Fixes
+
+* modified label and number dropdown filter by string and number only pure form ([35e183b](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/35e183b5f3cf3e3e51d525a21496d5f7a097fd83))
+
 # [1.11.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.10.0...v1.11.0) (2026-04-12)
 
 
