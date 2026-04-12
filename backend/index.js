@@ -39,10 +39,21 @@ mongoose.connection.on("disconnected", () => {
   console.log("⚠️ Mongoose disconnected");
 });
 
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map((url) => url.trim())
+  : [];
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
-  }),
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
 );
 
 app.use(express.json({ limit: "1mb" }));
