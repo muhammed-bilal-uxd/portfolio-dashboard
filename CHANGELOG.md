@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.9.0...v1.10.0) (2026-04-12)
+
+
+### Features
+
+* netlify and vercel second page refresh through error issue ([88e8605](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/88e8605aabccc0ef232f36add163a00a4be40792))
+
 # [1.9.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.8.0...v1.9.0) (2026-04-12)
 
 
