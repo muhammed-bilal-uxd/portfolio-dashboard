@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.10.0...v1.11.0) (2026-04-12)
+
+
+### Features
+
+* multiple Frontend domain access ([c6926f6](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/c6926f696a3e8c13fd8c8eefa477c79698ad228a))
+
 # [1.10.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.9.0...v1.10.0) (2026-04-12)
 
 
