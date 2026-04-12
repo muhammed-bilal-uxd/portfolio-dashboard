@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.8.0...v1.9.0) (2026-04-12)
+
+
+### Features
+
+* just an udpate ([d6a0fea](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/d6a0feac3f2cd8d32bda86be90710997792b87a5))
+
 # [1.8.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.7.0...v1.8.0) (2026-04-11)
 
 
