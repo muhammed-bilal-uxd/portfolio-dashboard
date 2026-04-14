@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import "./layout.css";
+import "./OrbitLayout.css";
 import { useTheme } from "../ThemeContext/ThemeContext";
 // import PublishSection from "../../components/PublishSection/PublishSection";
 
@@ -11,8 +11,11 @@ import { useTheme } from "../ThemeContext/ThemeContext";
 import version from "../../version";
 
 // pages
-import DashboardPage from "../DashboardPage/DashboardPage";
 import ProjectPage from "../ProjectPage/ProjectPage";
+
+import "./OrbitLayout.css";
+import Dashboard from "../../components/Dashboard/Dashboard";
+import AddNewChart from "../../components/AddNewChart/AddNewChart";
 
 const navLinks = [
   {
@@ -133,7 +136,7 @@ export default function OrbitLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`ol-sidebar ${sidebarOpen ? "isOpen" : ""}`}
+        className={`ol-sidebar ${sidebarOpen ? "" : "isOpen"}`}
         style={{ background: theme.panelBg, borderColor: theme.stroke }}
       >
         <div className="ol-sidebarContent">
@@ -277,58 +280,87 @@ export default function OrbitLayout() {
           className="ol-topbar"
           style={{ background: theme.panelBg, borderColor: theme.stroke }}
         >
-          <div
-            className="ol-dateChip"
-            style={{ background: theme.chipBg, borderColor: theme.stroke }}
-          >
-            16 Feb 2026
+          <div className="topbar-part-1">
+            <div className="ol-brandName">ORBIT</div>
+            <div className="version">
+              {appVersion ? " - v" + appVersion : "<app version>"}
+            </div>
+
+            <div>
+              <Link to={"/"}>projects</Link>
+            </div>
+
+            <div className="switch-mode">
+              <span
+                className={
+                  "cursor-pointer switch-day-night " +
+                  (mode === "light" ? "switch-night" : "switch-day")
+                }
+                onClick={() => setMode(mode === "light" ? "dark" : "light")}
+              >
+                {mode === "light" ? <>🌙</> : <>☼</>}
+              </span>
+            </div>
+
+            <div onClick={() => setActive("Settings")}>⚙️</div>
           </div>
 
-          <div
-            className="ol-search"
-            style={{ background: theme.chipBg, borderColor: theme.stroke }}
-          >
-            <input
-              className="ol-searchInput"
-              placeholder="Search"
-              style={{ color: theme.text }}
-            />
-            <span className="ol-searchIcon" style={{ color: theme.muted }}>
-              🔍
-            </span>
-          </div>
+          <div className="topbar-part-2">
+            <div className="ol-dateChip-container">
+              <div
+                className="ol-dateChip"
+                style={{ background: theme.chipBg, borderColor: theme.stroke }}
+              >
+                16 Feb 2026
+              </div>
+            </div>
 
-          <div className="ol-actions">
-            <button
-              className="ol-actionBtn"
-              style={{
-                background: theme.chipBg,
-                borderColor: theme.stroke,
-                color: theme.text,
-              }}
-              type="button"
-            >
-              🇺🇸 <span className="ol-actionText">English</span>{" "}
-              <span className="ol-actionText">▾</span>
-            </button>
-            <button
-              className="ol-actionIcon"
-              style={{
-                background: theme.chipBg,
-                borderColor: theme.stroke,
-                padding: 0,
-              }}
-              type="button"
-              aria-label="Notifications"
-            >
-              🔔
-            </button>
             <div
-              className="ol-avatar"
+              className="ol-search"
               style={{ background: theme.chipBg, borderColor: theme.stroke }}
-              aria-label="Profile"
             >
-              <div className="ol-avatarDot" />
+              <input
+                className="ol-searchInput"
+                placeholder="Search"
+                style={{ color: theme.text }}
+              />
+              <span className="ol-searchIcon" style={{ color: theme.muted }}>
+                🔍
+              </span>
+            </div>
+
+            <div className="ol-actions">
+              <button
+                className="ol-actionBtn"
+                style={{
+                  background: theme.chipBg,
+                  borderColor: theme.stroke,
+                  color: theme.text,
+                }}
+                type="button"
+              >
+                🇺🇸 <span className="ol-actionText">English</span>{" "}
+                <span className="ol-actionText">▾</span>
+              </button>
+              <button
+                className="ol-actionIcon"
+                style={{
+                  background: theme.chipBg,
+                  borderColor: theme.stroke,
+                  padding: 0,
+                }}
+                type="button"
+                aria-label="Notifications"
+              >
+                🔔
+              </button>
+              <div
+                className="ol-avatar"
+                style={{ background: theme.chipBg, borderColor: theme.stroke }}
+                aria-label="Profile"
+              >
+                <div className="ol-avatarDot" />
+              </div>
             </div>
           </div>
         </header>
@@ -344,7 +376,8 @@ export default function OrbitLayout() {
           >
             <Routes>
               <Route path="/" element={<ProjectPage />} />
-              <Route path="/dashboard/:id" element={<DashboardPage />} />
+              <Route path="/dashboard/:id" element={<Dashboard />} />
+              <Route path="/add-new-chart/:id" element={<AddNewChart />} />
             </Routes>
           </section>
         </section>

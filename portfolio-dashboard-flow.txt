@@ -120,13 +120,20 @@ differ = later
 
 > netlify - reload issue (differ) ✅
 
-> allow data based on type - (wip)
+> allow data based on type  ✅
 	> label - allow only string, dont allow number or string number, string date found (differ)
 	> value - only allow numbers, string numbers (differ)
 	> filter toggle button
 		> default short version, other full version
+		
+
+> left pannel into add in header ✅
+> split page (dashboard page || add new chart page) ✅
+> stepper (accordion) wip
 
 > theme (differ)
+
+> wordpress website for 
 
 
 =======

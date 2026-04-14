@@ -1,3 +1,17 @@
+# [1.14.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.13.0...v1.14.0) (2026-04-14)
+
+
+### Features
+
+* dashboard page split into two dashboard and add to charts ([e4e66a9](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/e4e66a962eb7650183233656fd810acd2a82419c))
+
+# [1.13.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.12.0...v1.13.0) (2026-04-14)
+
+
+### Features
+
+* hide sidebar and add header more content ([7dbb8dc](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/7dbb8dcbc07e657751072c67209dba9cd53b3f02))
+
 # [1.12.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.11.1...v1.12.0) (2026-04-14)
 
 
