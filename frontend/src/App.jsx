@@ -1,16 +1,16 @@
 import "./App.css";
-import LayoutApp from "./pages/layout/layout";
 import { ThemeProvider } from "./pages/ThemeContext/ThemeContext";
 import { LoadingProvider } from "./context/LoadingContext";
 
 import { BrowserRouter } from "react-router-dom";
+import OrbitLayout from "./pages/OrbitLayout/OrbitLayout";
 
 function App() {
   return (
     <BrowserRouter>
       <LoadingProvider>
         <ThemeProvider>
-          <LayoutApp />
+          <OrbitLayout />
         </ThemeProvider>
       </LoadingProvider>
     </BrowserRouter>

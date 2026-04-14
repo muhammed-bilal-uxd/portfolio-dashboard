@@ -9,7 +9,8 @@ body {
 .ol-app {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 240px 1fr;
+  /* grid-template-columns: 240px 1fr; */
+  grid-template-columns: 1fr;
   gap: 18px;
   padding: 18px;
   font-family:
@@ -45,6 +46,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   z-index: 50;
+  display: none;
 }
 
 .ol-sidebarHeader {
@@ -175,7 +177,7 @@ body {
 
 .ol-main {
   display: grid;
-  grid-template-rows: 65px 1fr;
+  grid-template-rows: auto 1fr;
   gap: 16px;
 }
 
@@ -183,10 +185,45 @@ body {
   border: 1px solid;
   border-radius: 14px;
   display: grid;
-  grid-template-columns: 150px 1fr auto;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto;
   gap: 14px;
   align-items: center;
   padding: 10px 12px;
+}
+
+.ol-topbar .topbar-part-1 {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  gap: 15px;
+}
+
+.ol-topbar .topbar-part-2 {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 15px;
+  align-items: center;
+}
+
+.switch-day-night {
+  user-select: none;
+}
+
+.switch-day {
+  display: block;
+  font-size: 16px;
+  width: 1.4em;
+  height: 1.4em;
+  text-align: center;
+  line-height: 1.4em;
+  height: 1.4em;
+}
+
+.switch-night {
+  display: block;
+  font-size: 16px;
+  width: 1.4em;
+  height: 1.4em;
 }
 
 .ol-dateChip {
@@ -288,11 +325,13 @@ button:focus {
 @media (max-width: 1023px) {
   .ol-app {
     grid-template-columns: 1fr;
-    padding-top: 70px; /* space for mobile top strip */
+    /* space for mobile top strip */
+    /* padding-top: 70px;  */
   }
 
   .ol-mobileTop {
-    display: flex;
+    /* display: flex; */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -358,6 +397,18 @@ button:focus {
   .ol-close {
     display: grid;
   }
+
+  .ol-topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .ol-topbar .topbar-part-1 {
+    grid-template-columns: auto auto 1fr auto auto;
+  }
+
+  .ol-topbar .topbar-part-2 {
+    grid-template-columns: auto 1fr auto;
+  }
 }
 
 /* =========================
@@ -377,4 +428,3 @@ button:focus {
     width: fit-content;
   }
 }
-
