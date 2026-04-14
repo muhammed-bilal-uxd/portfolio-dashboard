@@ -127,9 +127,9 @@ differ = later
 		> default short version, other full version
 		
 
-> left pannel into add in header ✅ 
-> split page (dashboard page || add new chart page) - 
-> stepper (accordion) - 
+> left pannel into add in header ✅
+> split page (dashboard page || add new chart page) ✅
+> stepper (accordion) wip
 
 > theme (differ)
 

@@ -11,10 +11,11 @@ import { useTheme } from "../ThemeContext/ThemeContext";
 import version from "../../version";
 
 // pages
-import DashboardPage from "../DashboardPage/DashboardPage";
 import ProjectPage from "../ProjectPage/ProjectPage";
 
 import "./OrbitLayout.css";
+import Dashboard from "../../components/Dashboard/Dashboard";
+import AddNewChart from "../../components/AddNewChart/AddNewChart";
 
 const navLinks = [
   {
@@ -375,7 +376,8 @@ export default function OrbitLayout() {
           >
             <Routes>
               <Route path="/" element={<ProjectPage />} />
-              <Route path="/dashboard/:id" element={<DashboardPage />} />
+              <Route path="/dashboard/:id" element={<Dashboard />} />
+              <Route path="/add-new-chart/:id" element={<AddNewChart />} />
             </Routes>
           </section>
         </section>

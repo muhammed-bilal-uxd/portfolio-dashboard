@@ -25,10 +25,6 @@ export default function ProjectPage() {
     }
   };
 
-  useEffect(() => {
-    getProjects();
-  }, []);
-
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -91,6 +87,16 @@ export default function ProjectPage() {
       console.error("Delete error:", err);
     }
   };
+
+  useEffect(() => {
+    getProjects();
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   return (
     <div style={{ padding: 20 }}>
