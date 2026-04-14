@@ -21,6 +21,9 @@ export default function MappingData({
   setMapTableItems,
 }) {
   const [showData, setShowData] = useState(false);
+  const [isFilterLabel, setIsFilterLabel] = useState(true);
+  const [isFilterValue, setIsFilterValue] = useState(true);
+  
 
   useEffect(() => {
     if (!mapSingleData || !mapBaseDataKeys.length) return;
@@ -143,7 +146,7 @@ export default function MappingData({
                       .filter((name) => {
                         if(mapSingleData[name] === "") return false
 
-                        return checkTypeOfData(mapSingleData[name], 'string')
+                        return !isFilterLabel || checkTypeOfData(mapSingleData[name], 'string')
                       }
                       )
                       .map((name) => (
@@ -153,6 +156,15 @@ export default function MappingData({
                       ))
                       }
                   </select>
+
+                  <div className="cursor-pointer" onClick={() => setIsFilterLabel(!isFilterLabel)}>
+                    <input
+                      type="checkbox"
+                      readOnly
+                      checked={isFilterLabel}
+                    />
+                    <span>filter Label</span>
+                  </div>
                 </div>
 
                 <div>
@@ -174,7 +186,7 @@ export default function MappingData({
                       .filter((name) => {
                           if(mapSingleData[name] === "") return false
 
-                          return checkTypeOfData(mapSingleData[name], 'number')
+                          return !isFilterValue || checkTypeOfData(mapSingleData[name], 'number')
                         }
                       )
                       .map((name) => (
@@ -184,6 +196,14 @@ export default function MappingData({
                       ))
                     }
                   </select>
+                  <div className="cursor-pointer" onClick={() => setIsFilterValue(!isFilterValue)}>
+                    <input
+                      type="checkbox"
+                      readOnly
+                      checked={isFilterValue}
+                    />
+                    <span>filter value</span>
+                  </div>
                 </div>
               </section>
 

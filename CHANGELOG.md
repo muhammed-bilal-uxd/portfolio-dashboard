@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.11.1...v1.12.0) (2026-04-14)
+
+
+### Features
+
+* checkbox show full data in dropdown filter ([f15710b](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/f15710b8813df33b613cfb71ca98652a98e36d62))
+
 ## [1.11.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.11.0...v1.11.1) (2026-04-12)
 
 
