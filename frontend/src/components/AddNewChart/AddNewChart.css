@@ -16,43 +16,6 @@
   color: var(--dashboard-text);
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-.grid-item {
-  grid-column: span 2;
-}
-
-@media screen and (max-width: 700px) {
-  .grid-item {
-    grid-column: span 1;
-  }
-}
-
-.chart-card {
-  background: var(--dashboard-card-bg);
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: var(--dashboard-card-shadow);
-  min-height: 260px;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-.modal-chart-title {
-  margin: 0 0 12px;
-  color: var(--dashboard-text);
-}
-
-.modal-chart-container {
-  height: 460px;
-  max-height: 80vh;
-}
-
 :root {
   --dashboard-bg: #f8fafc;
   --dashboard-text: #111827;
@@ -67,30 +30,11 @@
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.radio-group-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 230px));
-  gap: 12px;
-}
-
-.radio-list-item {
-  cursor: pointer;
-}
-
 button {
   background-color: blue;
   color: white;
   padding: 4px 8px;
   margin: 4px;
-  text-transform: capitalize;
-}
-
-.step-name {
-  color: red;
-  text-transform: capitalize;
-}
-
-.radio-group-container h3 {
   text-transform: capitalize;
 }
 
@@ -169,11 +113,6 @@ button {
   margin-top: 15px;
 }
 
-.radio-group-container select {
-  max-width: 100%;
-  width: 100%;
-}
-
 .d-flex {
   display: flex;
   flex-direction: row;
@@ -183,24 +122,12 @@ button {
   flex-direction: column;
 }
 
-.gap-5 {
-  gap: 5px;
-}
-
 .gap-10 {
   gap: 10px;
 }
 
 .gap-15 {
   gap: 15px;
-}
-
-.gap-20 {
-  gap: 20px;
-}
-
-.gap-25 {
-  gap: 25px;
 }
 
 .flex-1 {
@@ -222,10 +149,6 @@ button {
 
 .align-center {
   align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
 }
 
 .justify-end {

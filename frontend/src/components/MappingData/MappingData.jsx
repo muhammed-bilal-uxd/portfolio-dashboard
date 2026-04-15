@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./MappingData.css";
 
 import { checkTypeOfData } from "../../utils/common"
 
