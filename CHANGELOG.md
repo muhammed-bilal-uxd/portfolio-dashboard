@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.14.0...v1.15.0) (2026-04-15)
+
+
+### Features
+
+* Accordion added with naviation forward and backword also confirm dialog box for add new chart page ([33b811c](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/33b811ce7c5f4d77ed80615b9d4ea1f5aaac94e2))
+
 # [1.14.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.13.0...v1.14.0) (2026-04-14)
 
 
