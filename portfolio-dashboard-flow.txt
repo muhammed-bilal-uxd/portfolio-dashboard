@@ -129,11 +129,17 @@ differ = later
 
 > left pannel into add in header ✅
 > split page (dashboard page || add new chart page) ✅
-> stepper (accordion) wip
-
+> stepper (accordion)
+	> add number in step title  ✅
+	> forward and backward handle  ✅
+	> back button click - show alert dialog box to confirm or cancel ✅
 > theme (differ)
+	> unique className - wip
 
-> wordpress website for 
+========
+
+> get name of chart as step 1 (v2)
+> save selected information in DB for each step (v2)
 
 
 =======

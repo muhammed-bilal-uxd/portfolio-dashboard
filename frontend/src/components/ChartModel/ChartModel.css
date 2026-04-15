@@ -90,12 +90,6 @@ button {
   text-transform: capitalize;
 }
 
-.section-container {
-  margin-bottom: 50px;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
 .radio-group-container h3 {
   text-transform: capitalize;
 }

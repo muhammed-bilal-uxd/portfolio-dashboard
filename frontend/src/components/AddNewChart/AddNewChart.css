@@ -90,12 +90,6 @@ button {
   text-transform: capitalize;
 }
 
-.section-container {
-  margin-bottom: 50px;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
 .radio-group-container h3 {
   text-transform: capitalize;
 }
@@ -165,9 +159,9 @@ button {
   text-transform: capitalize;
 }
 
-.section-container {
+/* .section-container {
   min-height: 100vh;
-}
+} */
 
 .next-button-container {
   display: flex;
@@ -273,4 +267,17 @@ button:disabled {
   top: 0px;
   background-color: #000000;
   color: #ffffff;
+}
+
+.number-counter {
+  --size: 2rem;
+  font-size: 16px;
+  background-color: #eef0f3;
+  color: black;
+  min-width: var(--size);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 100%;
+  text-align: center;
+  line-height: var(--size);
 }

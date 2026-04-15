@@ -107,7 +107,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <section className="section-container" id="section-container-5">
+      <section className="section-chart-container" id="section-container-5">
         {/* <b className="step-name">step : 5</b> */}
         <div
           style={{
