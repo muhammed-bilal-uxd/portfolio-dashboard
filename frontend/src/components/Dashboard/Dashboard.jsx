@@ -101,7 +101,11 @@ export default function Dashboard() {
         </h1>
 
         <div>
-          <Button onClick={() => navigate(`/add-new-chart/${projectId}`)}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => navigate(`/add-new-chart/${projectId}`)}
+          >
             Add new Chart
           </Button>
         </div>
@@ -120,7 +124,13 @@ export default function Dashboard() {
         </div>
       </section>
       <div className="dashboard-page-next-button-container">
-        <button onClick={() => handleNavNextSection(5)}>back to top</button>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => handleNavNextSection(5)}
+        >
+          back to top
+        </Button>
       </div>
     </div>
   );

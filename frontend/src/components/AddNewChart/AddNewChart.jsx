@@ -494,7 +494,7 @@ export default function AddNewChart() {
       <Stack spacing={2}>
         <Accordion expanded={expanded === 1} disabled={false}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon className="expand-icon" />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
@@ -513,7 +513,13 @@ export default function AddNewChart() {
                   placeholder="URL here..."
                   value={inputSource}
                 />
-                <button onClick={() => handleAddSource()}>add</button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={() => handleAddSource()}
+                >
+                  add
+                </Button>
               </div>
 
               {showSourcePopup && (
@@ -545,9 +551,13 @@ export default function AddNewChart() {
                         <>
                           <div className="source-save-row">
                             <span className="source-save-spacer"></span>
-                            <button onClick={() => handleSaveSource()}>
+                            <Button
+                              color="primary"
+                              variant="contained"
+                              onClick={() => handleSaveSource()}
+                            >
                               save link as source
-                            </button>
+                            </Button>
                           </div>
                         </>
                       )}
@@ -570,19 +580,24 @@ export default function AddNewChart() {
                   <h5 className="source-link-preview">
                     {selectedInputSource?.sourceLink}
                   </h5>
-                  <div className="source-delete-actions">
-                    <button onClick={() => setShowDeleteSourcePopup(false)}>
+                  <Stack direction="row" spacing={1} className="source-delete-actions">
+                    <Button
+                      color="primary"
+                      onClick={() => setShowDeleteSourcePopup(false)}
+                    >
                       cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      color="primary"
+                      variant="contained"
                       onClick={() => {
                         removeSource(selectedInputSource);
                         setShowDeleteSourcePopup(false);
                       }}
                     >
                       confirm yes
-                    </button>
-                  </div>
+                    </Button>
+                  </Stack>
                 </Modal>
               )}
 
@@ -643,9 +658,13 @@ export default function AddNewChart() {
               </div>
 
               <div className="add-chart-next-button-container">
-                <button onClick={() => handleNavSection(2)}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={() => handleNavSection(2)}
+                >
                   select chart type
-                </button>
+                </Button>
               </div>
             </section>
           </AccordionDetails>
@@ -653,7 +672,7 @@ export default function AddNewChart() {
 
         <Accordion expanded={expanded === 2} disabled={false}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon className="expand-icon" />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
@@ -687,22 +706,27 @@ export default function AddNewChart() {
               </div>
 
               <div className="add-chart-next-button-container">
-                <button
-                  onClick={() => {
-                    setShowConfirmPopup(true);
-                    // goToBackwardFromStep(2, true);
-                  }}
-                >
-                  back
-                </button>
-                <button
-                  disabled={selectedChart === ""}
-                  onClick={() => {
-                    handleMapData();
-                  }}
-                >
-                  map data
-                </button>
+                <Stack direction="row" spacing={1}>
+                  <Button
+                    color="primary"
+                    onClick={() => {
+                      setShowConfirmPopup(true);
+                      // goToBackwardFromStep(2, true);
+                    }}
+                  >
+                    back
+                  </Button>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    disabled={selectedChart === ""}
+                    onClick={() => {
+                      handleMapData();
+                    }}
+                  >
+                    map data
+                  </Button>
+                </Stack>
               </div>
             </section>
           </AccordionDetails>
@@ -710,7 +734,7 @@ export default function AddNewChart() {
 
         <Accordion expanded={expanded === 3} disabled={false}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon className="expand-icon" />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
@@ -738,16 +762,19 @@ export default function AddNewChart() {
                 setMapSelectListItemTwo={setSelectListItemTwo}
                 setMapTableItems={setTableItems}
               />
-              <div>
-                <button
+              <Stack direction="row" spacing={1}>
+                <Button
+                  color="primary"
                   onClick={() => {
                     setShowConfirmPopup(true);
                     // goToBackwardFromStep(3, true);
                   }}
                 >
                   back
-                </button>
-                <button
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
                   onClick={() => {
                     if (selectedChart !== "card" && tableItems.length < 2) {
                       alert("In mapping data : At least select two option");
@@ -757,15 +784,15 @@ export default function AddNewChart() {
                   }}
                 >
                   Go to Enter new chart/card name
-                </button>
-              </div>
+                </Button>
+              </Stack>
             </section>
           </AccordionDetails>
         </Accordion>
 
         <Accordion expanded={expanded === 4} disabled={false}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon className="expand-icon" />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
@@ -783,16 +810,19 @@ export default function AddNewChart() {
                 />
               </div>
 
-              <div>
-                <button
+              <Stack direction="row" spacing={1}>
+                <Button
+                  color="primary"
                   onClick={() => {
                     setShowConfirmPopup(true);
                     // goToBackwardFromStep(4, true);
                   }}
                 >
                   back
-                </button>
-                <button
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
                   onClick={() => {
                     if (selectedChart !== "card" && tableItems.length < 2) {
                       alert("In mapping data : At least select two option");
@@ -805,8 +835,8 @@ export default function AddNewChart() {
                   {selectedChart === "card"
                     ? "card"
                     : `${selectedChart} chart to dashboard`}
-                </button>
-              </div>
+                </Button>
+              </Stack>
               <br />
             </section>
           </AccordionDetails>
@@ -824,22 +854,26 @@ export default function AddNewChart() {
           Going backward may delete step ({expanded}) details
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => {
-              setShowConfirmPopup(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              setShowConfirmPopup(false);
-              goToBackwardFromStep(expanded, true);
-            }}
-            variant="contained"
-          >
-            Yes, Confirm
-          </Button>
+          <Stack direction="row" spacing={1}>
+            <Button
+              color="primary"
+              onClick={() => {
+                setShowConfirmPopup(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              onClick={() => {
+                setShowConfirmPopup(false);
+                goToBackwardFromStep(expanded, true);
+              }}
+              variant="contained"
+            >
+              Yes, Confirm
+            </Button>
+          </Stack>
         </DialogActions>
       </Dialog>
     </div>

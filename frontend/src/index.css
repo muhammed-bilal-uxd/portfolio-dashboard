@@ -11,6 +11,46 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --common-dialog-paper-bg: #ffffff;
+  --common-dialog-paper-text: rgba(0,0,0,0.87);
+  --common-input-bg: #ffffff;
+  --common-input-text: #000000;
+  --common-button-bg: blue;
+  --common-button-text: white;
+  /* --common-button-disable-bg: rgba(0, 0, 0, 0.12);
+  --common-button-disable-text: rgba(0, 0, 0, 0.26); */
+  --common-button-disable-bg: #1565c0;
+  --common-button-disable-text: rgba(255, 255, 255,1);
+}
+
+[data-theme="dark"] {
+  --common-dialog-paper-bg: #1e293b;
+  --common-dialog-paper-text: #ffffff;
+  --common-input-bg: #42444e;
+  --common-input-text: #ffffff;
+  --common-button-bg: blue;
+  --common-button-text: white;
+  --common-button-disable-bg: #1565c0;
+  --common-button-disable-text: rgba(255, 255, 255,1);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select {
+  background-color: var(--common-input-bg);
+  color: var(--common-input-text);
+}
+
+button.Mui-disabled {
+  color: var(--common-button-disable-text) !important;
+  background-color: var(--common-button-disable-bg) !important;
+  opacity: 0.5;
+}
+
+.MuiDialog-paper {
+  background-color: var(--common-dialog-paper-bg) !important;
+  color: var(--common-dialog-paper-text) !important;
 }
 
 a {

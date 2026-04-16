@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, Stack } from "@mui/material";
 
 import "./ProjectPage.css";
 
@@ -103,6 +104,7 @@ export default function ProjectPage() {
       <h1>Project List</h1>
 
       <form onSubmit={handleSubmit} className="project-form">
+      <Stack direction="row" spacing={1}>
         <input
           type="text"
           name="name"
@@ -110,7 +112,10 @@ export default function ProjectPage() {
           value={form.name}
           onChange={handleChange}
         />
-        <button type="submit">{editId ? "Update" : "Add"} Project</button>
+          <Button color="primary" variant="contained" type="submit">
+            {editId ? "Update" : "Add"} Project
+          </Button>
+        </Stack>
       </form>
 
       {projects.map((project) => (
@@ -122,8 +127,22 @@ export default function ProjectPage() {
             {project.name}
           </h3>
 
-          <button onClick={() => handleEdit(project)}>Rename</button>
-          <button onClick={() => handleDelete(project._id)}>Delete</button>
+          <Stack direction="row" spacing={1}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => handleEdit(project)}
+            >
+              Rename
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => handleDelete(project._id)}
+            >
+              Delete
+            </Button>
+          </Stack>
         </div>
       ))}
     </div>

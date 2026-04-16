@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "@mui/material";
 import "./DeliveryCards.css";
 
 const DeliveryCards = () => {
@@ -77,15 +78,18 @@ const DeliveryCards = () => {
                 />
               ))}
 
-              <button
+              <Button
                 aria-label="More"
                 className="delivery-more-btn"
+                color="primary"
+                variant="contained"
                 onClick={() => console.log("more", c.title)}
+                type="button"
               >
                 <span className="delivery-more-dot" />
                 <span className="delivery-more-dot" />
                 <span className="delivery-more-dot" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
