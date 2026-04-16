@@ -1,0 +1,13 @@
+.mapping-select-full {
+  max-width: 100%;
+}
+
+.mapping-results-title {
+  margin: 0;
+}
+
+.mapping-selection-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+}

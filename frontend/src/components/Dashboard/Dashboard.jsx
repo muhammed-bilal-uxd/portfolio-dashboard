@@ -86,9 +86,9 @@ export default function Dashboard() {
 
   // dev start
   return (
-    <div className="dashboard-root">
+    <div className="dashboard-page-root">
       {/* tittle */}
-      <div className="dashboard-header">
+      <div className="dashboard-page-header">
         <ArrowBackIcon
           className="arrow-back"
           onClick={() => {
@@ -96,7 +96,7 @@ export default function Dashboard() {
           }}
         />
 
-        <h1 className="dashboard-title">
+        <h1 className="dashboard-page-title">
           Dashboard - {projectDetail?.name || "<project name>"}
         </h1>
 
@@ -107,17 +107,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <section className="section-container" id="section-container-5">
+      <section className="section-chart-container" id="section-container-5">
         {/* <b className="step-name">step : 5</b> */}
-        <div
-          style={{
-            display: "flex",
-            // alignItems: "center",
-            // justifyContent: "center",
-            flexDirection: "column",
-            gap: 50,
-          }}
-        >
+        <div className="dashboard-chart-list">
           {configList.map((data, index) => (
             <ChartModel
               key={data?._id}
@@ -127,7 +119,7 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
-      <div className="next-button-container">
+      <div className="dashboard-page-next-button-container">
         <button onClick={() => handleNavNextSection(5)}>back to top</button>
       </div>
     </div>

@@ -1,3 +1,32 @@
+# [1.17.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.16.0...v1.17.0) (2026-04-16)
+
+
+### Features
+
+* css dark theme update ([958d435](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/958d435d584704299907181dadff2bd2940f0f47))
+
+# [1.16.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.15.1...v1.16.0) (2026-04-16)
+
+
+### Features
+
+* css update all pages ([c712fd6](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/c712fd68b80c3d0073857d29b61a2eb6c1dbdfb5))
+* css updates all files ([0c25fcb](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/0c25fcb2a4b9a516e17c80d5366f54eb186b90f1))
+
+## [1.15.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.15.0...v1.15.1) (2026-04-15)
+
+
+### Bug Fixes
+
+* removed unused css ([dc346b0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/dc346b0f110ef02836dadff260fc0c0a5cbcc3fa))
+
+# [1.15.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.14.0...v1.15.0) (2026-04-15)
+
+
+### Features
+
+* Accordion added with naviation forward and backword also confirm dialog box for add new chart page ([33b811c](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/33b811ce7c5f4d77ed80615b9d4ea1f5aaac94e2))
+
 # [1.14.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.13.0...v1.14.0) (2026-04-14)
 
 

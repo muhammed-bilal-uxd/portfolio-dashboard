@@ -1,3 +1,29 @@
+:root {
+  --delivery-card-text: #eaf0ff;
+  --delivery-card-bg-start: rgba(92, 106, 168, 0.95);
+  --delivery-card-bg-end: rgba(64, 74, 125, 0.95);
+  --delivery-card-border: rgba(255, 255, 255, 0.08);
+  --delivery-icon-bg: rgba(255, 255, 255, 0.1);
+  --delivery-icon-border: rgba(255, 255, 255, 0.1);
+  --delivery-avatar-bg: rgba(255, 255, 255, 0.1);
+  --delivery-more-btn-bg: rgba(255, 255, 255, 0.08);
+  --delivery-more-btn-border: rgba(255, 255, 255, 0.1);
+  --delivery-more-dot-bg: rgba(255, 255, 255, 0.85);
+}
+
+[data-theme="dark"] {
+  --delivery-card-text: #eaf0ff;
+  --delivery-card-bg-start: rgba(92, 106, 168, 0.95);
+  --delivery-card-bg-end: rgba(64, 74, 125, 0.95);
+  --delivery-card-border: rgba(255, 255, 255, 0.08);
+  --delivery-icon-bg: rgba(255, 255, 255, 0.1);
+  --delivery-icon-border: rgba(255, 255, 255, 0.1);
+  --delivery-avatar-bg: rgba(255, 255, 255, 0.1);
+  --delivery-more-btn-bg: rgba(255, 255, 255, 0.08);
+  --delivery-more-btn-border: rgba(255, 255, 255, 0.1);
+  --delivery-more-dot-bg: rgba(255, 255, 255, 0.85);
+}
+
 .delivery-wrap {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -9,14 +35,14 @@
 .delivery-card {
   border-radius: 18px;
   padding: 18px;
-  color: #eaf0ff;
+  color: var(--delivery-card-text);
   background: linear-gradient(
     135deg,
-    rgba(92, 106, 168, 0.95),
-    rgba(64, 74, 125, 0.95)
+    var(--delivery-card-bg-start),
+    var(--delivery-card-bg-end)
   );
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--delivery-card-border);
   min-height: 120px;
   display: flex;
   flex-direction: column;
@@ -35,8 +61,8 @@
   border-radius: 25px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--delivery-icon-bg);
+  border: 1px solid var(--delivery-icon-border);
   font-size: 16px;
   flex: 0 0 auto;
 }
@@ -86,7 +112,7 @@
   height: 30px;
   border-radius: 50%;
   object-fit: cover;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--delivery-avatar-bg);
 }
 
 .delivery-avatar--overlap {
@@ -98,8 +124,8 @@
   width: 30px;
   height: 30px;
   border-radius: 25px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--delivery-more-btn-bg);
+  border: 1px solid var(--delivery-more-btn-border);
   display: grid;
   place-items: center;
   grid-auto-flow: column;
@@ -113,7 +139,7 @@
   width: 3px;
   height: 3px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--delivery-more-dot-bg);
   display: block;
   margin: 0;
 }

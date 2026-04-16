@@ -381,8 +381,8 @@ export default function ChartModel({ configData, dataIndex }) {
   return (
     <>
       <div>
-        <div style={{ display: "flex" }}>
-          <h3 style={{ flex: 1 }}>
+        <div className="chart-model-header">
+          <h3 className="chart-model-title">
             {configName} (
             {localConfigData?.data?.chartType === "card"
               ? "card"
@@ -433,37 +433,12 @@ export default function ChartModel({ configData, dataIndex }) {
         <div className="grid-container">
           {selectedChart === "card" && (
             <div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "16px",
-                  border: "1px solid #ddd",
-                  borderRadius: "12px",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                  background: "#fff",
-                  fontFamily: "Arial, sans-serif",
-                }}
-              >
-                <h3
-                  style={{
-                    margin: "0 0 0 0",
-                    fontSize: "16px",
-                    color: "#555",
-                  }}
-                >
+              <div className="chart-model-card-preview">
+                <h3 className="chart-model-card-label">
                   {localConfigData?.data?.chartData[0].label}
                 </h3>
 
-                <p
-                  style={{
-                    margin: 0,
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    color: "#111",
-                  }}
-                >
+                <p className="chart-model-card-value">
                   {localConfigData?.data?.chartData[0].value}
                 </p>
               </div>
@@ -634,13 +609,11 @@ export default function ChartModel({ configData, dataIndex }) {
         <DialogTitle>Change Chart Name</DialogTitle>
         <DialogContent>
           <FilledInput
+            className="chart-model-name-input"
             type="text"
             placeholder="Enter name"
             value={newConfigName}
             onChange={(e) => setNewConfigName(e.target.value)}
-            style={{
-              maxWidth: 200,
-            }}
           />
           {/* {newConfigName} */}
         </DialogContent>

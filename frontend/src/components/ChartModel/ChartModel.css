@@ -1,19 +1,37 @@
-.dashboard-root {
-  min-height: 100vh;
-  padding: 24px;
-  transition: 0.3s;
-  background: var(--dashboard-bg);
+
+:root {
+  --chart-model-bg: #f8fafc;
+  --chart-model-text: #111827;
+  --chart-model-card-bg: #ffffff;
+  --chart-model-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --chart-model-card-border: #ddd;
+  --chart-model-card-label-text: #555555;
+  --chart-model-card-value-text: #111111;
+  --chart-model-accordion-bg: #fffff;
+  --chart-model-accordion-text: #000000;
+  --chart-model-accordion-icon-text: #000000;
 }
 
-.dashboard-header {
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
-  margin-bottom: 20px;
+[data-theme="dark"] {
+  --chart-model-bg: #0f172a;
+  --chart-model-text: #e9e9e9;
+  --chart-model-card-bg: #1e293b;
+  --chart-model-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --chart-model-card-border: #ddd;
+  --chart-model-card-label-text: #555555;
+  --chart-model-card-value-text: #9b9b9b;
+  --chart-model-accordion-bg: #1e293b;
+  --chart-model-accordion-text: #fffff;
+  --chart-model-accordion-icon-text: #fffff;
 }
 
-.dashboard-title {
-  color: var(--dashboard-text);
+.MuiPaper-root {
+  background-color: var(--chart-model-accordion-bg) !important;
+  color: var(--chart-model-accordion-text) !important;
+}
+
+.MuiAccordionSummary-expandIconWrapper {
+  color: var(--chart-model-accordion-icon-text) !important;
 }
 
 .grid-container {
@@ -33,10 +51,10 @@
 }
 
 .chart-card {
-  background: var(--dashboard-card-bg);
+  background: var(--chart-model-card-bg);
   border-radius: 16px;
   padding: 16px;
-  box-shadow: var(--dashboard-card-shadow);
+  box-shadow: var(--chart-model-card-shadow);
   min-height: 260px;
   display: flex;
   flex-direction: column;
@@ -45,7 +63,7 @@
 
 .modal-chart-title {
   margin: 0 0 12px;
-  color: var(--dashboard-text);
+  color: var(--chart-model-text);
 }
 
 .modal-chart-container {
@@ -53,49 +71,41 @@
   max-height: 80vh;
 }
 
-:root {
-  --dashboard-bg: #f8fafc;
-  --dashboard-text: #111827;
-  --dashboard-card-bg: #ffffff;
-  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.chart-model-header {
+  display: flex;
 }
 
-[data-theme="dark"] {
-  --dashboard-bg: #0f172a;
-  --dashboard-text: #e9e9e9;
-  --dashboard-card-bg: #1e293b;
-  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+.chart-model-title {
+  flex: 1;
 }
 
-.radio-group-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 230px));
-  gap: 12px;
+.chart-model-card-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--chart-model-card-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /* background: #fff; */
+  background: var(--chart-model-card-bg);
+  color: var(--chart-model-text);
+  font-family: Arial, sans-serif;
 }
 
-.radio-list-item {
-  cursor: pointer;
+.chart-model-card-label {
+  margin: 0;
+  font-size: 16px;
+  color: var(--chart-model-card-label-text);
 }
 
-button {
-  background-color: blue;
-  color: white;
-  padding: 4px 8px;
-  margin: 4px;
-  text-transform: capitalize;
+.chart-model-card-value {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--chart-model-card-value-text)
 }
 
-.step-name {
-  color: red;
-  text-transform: capitalize;
-}
-
-.section-container {
-  margin-bottom: 50px;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-.radio-group-container h3 {
-  text-transform: capitalize;
+.chart-model-name-input {
+  max-width: 200px;
 }

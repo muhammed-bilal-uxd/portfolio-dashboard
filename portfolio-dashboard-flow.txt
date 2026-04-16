@@ -129,11 +129,19 @@ differ = later
 
 > left pannel into add in header ✅
 > split page (dashboard page || add new chart page) ✅
-> stepper (accordion) wip
-
+> stepper (accordion)
+	> add number in step title  ✅
+	> forward and backward handle  ✅
+	> back button click - show alert dialog box to c onfirm or cancel ✅
 > theme (differ)
+	> compare html and css - remove unused css or not in use ✅
+	> move inline style to external style with meaningfull unique className ✅
+	> check each component classname should not replicated in another component ✅
 
-> wordpress website for 
+========
+
+> get name of chart as step 1 (v2)
+> save selected information in DB for each step (v2)
 
 
 =======

@@ -1,5 +1,21 @@
 /* From Uiverse.io by adamgiebl */
 
+:root {
+  --loading-overlay-bg: #000000c9;
+  --loading-dot-bg: #b3d4fc;
+  --loading-dot-active-bg: #6793fb;
+  --loading-dot-shadow: rgba(178, 212, 252, 0.7);
+  --loading-dot-shadow-clear: rgba(178, 212, 252, 0);
+}
+
+[data-theme="dark"] {
+  --loading-overlay-bg: #000000c9;
+  --loading-dot-bg: #b3d4fc;
+  --loading-dot-active-bg: #6793fb;
+  --loading-dot-shadow: rgba(178, 212, 252, 0.7);
+  --loading-dot-shadow-clear: rgba(178, 212, 252, 0);
+}
+
 .loading-bg-layer {
   position: fixed;
   z-index: 1000;
@@ -7,7 +23,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #000000c9;
+  background-color: var(--loading-overlay-bg);
 }
 
 .dots-container {
@@ -23,7 +39,7 @@
   width: 20px;
   margin-right: 10px;
   border-radius: 10px;
-  background-color: #b3d4fc;
+  background-color: var(--loading-dot-bg);
   animation: pulse 1.5s infinite ease-in-out;
 }
 
@@ -46,19 +62,19 @@
 @keyframes pulse {
   0% {
     transform: scale(0.8);
-    background-color: #b3d4fc;
-    box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    background-color: var(--loading-dot-bg);
+    box-shadow: 0 0 0 0 var(--loading-dot-shadow);
   }
 
   50% {
     transform: scale(1.2);
-    background-color: #6793fb;
-    box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
+    background-color: var(--loading-dot-active-bg);
+    box-shadow: 0 0 0 10px var(--loading-dot-shadow-clear);
   }
 
   100% {
     transform: scale(0.8);
-    background-color: #b3d4fc;
-    box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+    background-color: var(--loading-dot-bg);
+    box-shadow: 0 0 0 0 var(--loading-dot-shadow);
   }
 }
