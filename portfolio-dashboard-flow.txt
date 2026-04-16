@@ -147,6 +147,11 @@ differ = later
 =======
 
 
+dont over promise and under deliver - ** important **
+
+250 per hour * 9 = 2250 per day (9h)
+
+
 
 
 

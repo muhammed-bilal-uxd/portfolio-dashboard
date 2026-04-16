@@ -123,15 +123,16 @@
 .delivery-more-btn {
   width: 30px;
   height: 30px;
+  min-width: 30px !important;
   border-radius: 25px;
-  background: var(--delivery-more-btn-bg);
-  border: 1px solid var(--delivery-more-btn-border);
+  background: var(--delivery-more-btn-bg) !important;
+  border: 1px solid var(--delivery-more-btn-border) !important;
   display: grid;
   place-items: center;
   grid-auto-flow: column;
   cursor: pointer;
   margin-left: -10px;
-  padding: 0;
+  padding: 0 !important;
   z-index: 0;
 }
 

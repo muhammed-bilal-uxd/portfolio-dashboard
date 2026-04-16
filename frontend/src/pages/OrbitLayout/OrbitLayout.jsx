@@ -1,6 +1,6 @@
 // react
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 import "./OrbitLayout.css";
 import { useTheme } from "../ThemeContext/ThemeContext";
@@ -39,11 +39,9 @@ const navLinks = [
 ];
 
 export default function OrbitLayout() {
-  const { theme: mode, toggleTheme, themeArray } = useTheme();
-  const theme = themeArray;
+  const { theme: mode, toggleTheme } = useTheme();
   const [active, setActive] = useState("Dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [games, setGames] = useState([]);
   const [appVersion, setAppVersion] = useState(version || "");
 
   const setMode = (modeOrFn) => {
@@ -62,13 +60,13 @@ export default function OrbitLayout() {
       <Link to={link}>
         <span
           className="ol-navIcon"
-          style={{ color: isActive ? theme.text : theme.muted }}
+          data-active={isActive ? "true" : "false"}
         >
           {icon}
         </span>
         <span className="ol-navLabel">{label}</span>
         {hasCaret ? (
-          <span className="ol-caret" style={{ color: theme.muted }}>
+          <span className="ol-caret">
             ▾
           </span>
         ) : null}
@@ -77,25 +75,13 @@ export default function OrbitLayout() {
   };
 
   return (
-    <div
-      className="ol-app"
-      style={{ background: theme.appBg, color: theme.text }}
-    >
+    <div className="ol-app">
       {/* Mobile/Tablet Top strip (only visible < 1024px) */}
-      <div
-        className="ol-mobileTop"
-        style={{ background: theme.panelBg, borderColor: theme.stroke }}
-      >
+      <div className="ol-mobileTop">
         <button
-          className="ol-hamburger"
+          className="ol-hamburger ol-mobile-control"
           onClick={() => setSidebarOpen(true)}
           aria-label="Open menu"
-          style={{
-            background: theme.chipBg,
-            borderColor: theme.stroke,
-            color: theme.text,
-            padding: 0,
-          }}
           type="button"
         >
           ☰
@@ -108,14 +94,8 @@ export default function OrbitLayout() {
 
         <div className="ol-mobileRight">
           <button
-            className="ol-modeMini"
+            className="ol-modeMini ol-mobile-control"
             onClick={() => setMode((m) => (m === "dark" ? "light" : "dark"))}
-            style={{
-              background: theme.chipBg,
-              borderColor: theme.stroke,
-              color: theme.text,
-              padding: 0,
-            }}
             type="button"
           >
             {mode === "dark" ? "🌙" : "☼"}
@@ -127,7 +107,6 @@ export default function OrbitLayout() {
       {sidebarOpen && (
         <button
           className="ol-overlay"
-          style={{ background: theme.overlay }}
           onClick={() => setSidebarOpen(false)}
           aria-label="Close menu overlay"
           type="button"
@@ -135,17 +114,11 @@ export default function OrbitLayout() {
       )}
 
       {/* Sidebar */}
-      <aside
-        className={`ol-sidebar ${sidebarOpen ? "" : "isOpen"}`}
-        style={{ background: theme.panelBg, borderColor: theme.stroke }}
-      >
+      <aside className={`ol-sidebar ${sidebarOpen ? "" : "isOpen"}`}>
         <div className="ol-sidebarContent">
           <div className="ol-sidebarHeader">
             <div className="ol-brand">
-              <div
-                className="ol-brandIcon"
-                style={{ borderColor: theme.stroke }}
-              >
+              <div className="ol-brandIcon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                   <path
                     d="M10.5 13.5L13.5 10.5"
@@ -174,14 +147,8 @@ export default function OrbitLayout() {
             </div>
 
             <button
-              className="ol-close"
+              className="ol-close ol-mobile-control"
               onClick={() => setSidebarOpen(false)}
-              style={{
-                background: theme.chipBg,
-                borderColor: theme.stroke,
-                color: theme.text,
-                padding: 0,
-              }}
               aria-label="Close menu"
               type="button"
             >
@@ -208,18 +175,14 @@ export default function OrbitLayout() {
                     onClick={() => setActive(nav.link)}
                   >
                     <div
-                      style={{
-                        color: nav.link === active ? theme.text : theme.muted,
-                      }}
-                      className={`ol-navItem ${nav.link === active ? "active" : ""}`}
+                      className={`ol-navItem ${
+                        nav.link === active ? "ol-navItem-active" : ""
+                      }`}
                     >
                       <span className="ol-navIcon">{nav.icon}</span>
                       <span className="ol-navLabel">{nav.label}</span>
                       {nav.hasCaret ? (
-                        <span
-                          className="ol-caret"
-                          style={{ color: theme.muted }}
-                        >
+                        <span className="ol-caret">
                           ▾
                         </span>
                       ) : null}
@@ -231,27 +194,16 @@ export default function OrbitLayout() {
           </nav>
 
           <div className="ol-sidebarBottom">
-            <div
-              className="ol-themeToggle"
-              style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
-            >
+            <div className="ol-themeToggle">
               <button
-                className="ol-pill"
-                style={{
-                  background: mode === "light" ? theme.activeBg : "transparent",
-                  color: theme.text,
-                }}
+                className={`ol-pill ${mode === "light" ? "ol-pill-active" : ""}`}
                 onClick={() => setMode("light")}
                 type="button"
               >
                 ☼ <span>Light</span>
               </button>
               <button
-                className="ol-pill"
-                style={{
-                  background: mode === "dark" ? theme.activeBg : "transparent",
-                  color: theme.text,
-                }}
+                className={`ol-pill ${mode === "dark" ? "ol-pill-active" : ""}`}
                 onClick={() => setMode("dark")}
                 type="button"
               >
@@ -261,11 +213,10 @@ export default function OrbitLayout() {
 
             <button
               className="ol-settings"
-              style={{ color: theme.text }}
               onClick={() => setActive("Settings")}
               type="button"
             >
-              <span className="ol-navIcon" style={{ color: theme.muted }}>
+              <span className="ol-navIcon ol-navIcon-muted">
                 ⚙️
               </span>
               <span className="ol-navLabel">Settings</span>
@@ -276,10 +227,7 @@ export default function OrbitLayout() {
 
       {/* Main */}
       <main className="ol-main">
-        <header
-          className="ol-topbar"
-          style={{ background: theme.panelBg, borderColor: theme.stroke }}
-        >
+        <header className="ol-topbar">
           <div className="topbar-part-1">
             <div className="ol-brandName">ORBIT</div>
             <div className="version">
@@ -307,24 +255,17 @@ export default function OrbitLayout() {
 
           <div className="topbar-part-2">
             <div className="ol-dateChip-container">
-              <div
-                className="ol-dateChip"
-                style={{ background: theme.chipBg, borderColor: theme.stroke }}
-              >
+              <div className="ol-dateChip">
                 16 Feb 2026
               </div>
             </div>
 
-            <div
-              className="ol-search"
-              style={{ background: theme.chipBg, borderColor: theme.stroke }}
-            >
+            <div className="ol-search">
               <input
                 className="ol-searchInput"
                 placeholder="Search"
-                style={{ color: theme.text }}
               />
-              <span className="ol-searchIcon" style={{ color: theme.muted }}>
+              <span className="ol-searchIcon">
                 🔍
               </span>
             </div>
@@ -332,11 +273,6 @@ export default function OrbitLayout() {
             <div className="ol-actions">
               <button
                 className="ol-actionBtn"
-                style={{
-                  background: theme.chipBg,
-                  borderColor: theme.stroke,
-                  color: theme.text,
-                }}
                 type="button"
               >
                 🇺🇸 <span className="ol-actionText">English</span>{" "}
@@ -344,21 +280,12 @@ export default function OrbitLayout() {
               </button>
               <button
                 className="ol-actionIcon"
-                style={{
-                  background: theme.chipBg,
-                  borderColor: theme.stroke,
-                  padding: 0,
-                }}
                 type="button"
                 aria-label="Notifications"
               >
                 🔔
               </button>
-              <div
-                className="ol-avatar"
-                style={{ background: theme.chipBg, borderColor: theme.stroke }}
-                aria-label="Profile"
-              >
+              <div className="ol-avatar" aria-label="Profile">
                 <div className="ol-avatarDot" />
               </div>
             </div>
@@ -370,10 +297,7 @@ export default function OrbitLayout() {
               <PublishSection games={games} />
             </div>
           </section> */}
-          <section
-            className="ol-content"
-            style={{ background: theme.panel2Bg, borderColor: theme.stroke }}
-          >
+          <section className="ol-content">
             <Routes>
               <Route path="/" element={<ProjectPage />} />
               <Route path="/dashboard/:id" element={<Dashboard />} />

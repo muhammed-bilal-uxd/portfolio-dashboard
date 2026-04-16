@@ -29,8 +29,6 @@
   --dashboard-card-bg: #ffffff;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   --dashboard-accent-text: blue;
-  --dashboard-button-bg: blue;
-  --dashboard-button-text: white;
   --dashboard-button-disabled-bg: lightgray;
 }
 
@@ -40,14 +38,10 @@
   --dashboard-card-bg: #1e293b;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   --dashboard-accent-text: blue;
-  --dashboard-button-bg: blue;
-  --dashboard-button-text: white;
   --dashboard-button-disabled-bg: lightgray;
 }
 
 button {
-  background-color: var(--dashboard-button-bg);
-  color: var(--dashboard-button-text);
   padding: 4px 8px;
   margin: 4px;
   text-transform: capitalize;

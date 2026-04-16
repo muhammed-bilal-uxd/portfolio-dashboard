@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "@mui/material";
 import "./MappingData.css";
 
 import { checkTypeOfData } from "../../utils/common"
@@ -208,14 +209,16 @@ export default function MappingData({
               </section>
 
               <section className="d-flex justify-end">
-                <button
+                <Button
+                  color="primary"
+                  variant="contained"
                   disabled={showData}
                   onClick={() => {
                     handleShowData();
                   }}
                 >
                   show data
-                </button>
+                </Button>
               </section>
 
               {showData && (

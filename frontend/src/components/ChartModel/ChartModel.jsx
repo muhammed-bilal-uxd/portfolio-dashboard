@@ -27,7 +27,6 @@ import {
 
 import "./ChartModel.css";
 import { useEffect, useState } from "react";
-import { useTheme } from "../../pages/ThemeContext/ThemeContext";
 import Modal from "../Modal/Modal";
 
 ChartJS.register(
@@ -57,6 +56,7 @@ import {
   Menu,
   MenuItem,
   FilledInput,
+  Stack,
 } from "@mui/material";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import MappingData from "../MappingData/MappingData";
@@ -69,8 +69,6 @@ const menuItems = [
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 export default function ChartModel({ configData, dataIndex }) {
-  const { theme: themeArray } = useTheme();
-  const theme = themeArray;
   const [activeChart, setActiveChart] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedChart, setSelectedChart] = useState("");
@@ -111,24 +109,54 @@ export default function ChartModel({ configData, dataIndex }) {
     setModalOpen(true);
   };
 
+  const getChartCssVar = (name, fallback) => {
+    if (typeof window === "undefined") return fallback;
+
+    const value = getComputedStyle(document.documentElement)
+      .getPropertyValue(name)
+      .trim();
+
+    return value || fallback;
+  };
+
   const baseOptions = (title) => ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "bottom",
-        labels: { color: theme.text },
+        labels: {
+          color: getChartCssVar("--chart-model-text", "#111827"),
+        },
       },
-      title: { display: !!title, text: title, color: theme.text },
+      title: {
+        display: !!title,
+        text: title,
+        color: getChartCssVar("--chart-model-text", "#111827"),
+      },
     },
     scales: {
       x: {
-        ticks: { color: theme.text },
-        grid: { color: theme.grid },
+        ticks: {
+          color: getChartCssVar("--chart-model-text", "#111827"),
+        },
+        grid: {
+          color: getChartCssVar(
+            "--chart-model-grid-color",
+            "rgba(0,0,0,0.08)",
+          ),
+        },
       },
       y: {
-        ticks: { color: theme.text },
-        grid: { color: theme.grid },
+        ticks: {
+          color: getChartCssVar("--chart-model-text", "#111827"),
+        },
+        grid: {
+          color: getChartCssVar(
+            "--chart-model-grid-color",
+            "rgba(0,0,0,0.08)",
+          ),
+        },
       },
     },
   });
@@ -379,7 +407,7 @@ export default function ChartModel({ configData, dataIndex }) {
 
   // div start
   return (
-    <>
+    <div className="chart-model-container">
       <div>
         <div className="chart-model-header">
           <h3 className="chart-model-title">
@@ -397,7 +425,7 @@ export default function ChartModel({ configData, dataIndex }) {
                     Dashboard
                   </Button> */}
                   <IconButton {...bindTrigger(popupState)}>
-                    <MoreVertIcon />
+                    <MoreVertIcon className="chart-model-more-vertical-icon" />
                   </IconButton>
                   <Menu
                     {...bindMenu(popupState)}
@@ -618,22 +646,26 @@ export default function ChartModel({ configData, dataIndex }) {
           {/* {newConfigName} */}
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => {
-              setShowNamePopup(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              setShowNamePopup(false);
-              handleChangeMappingDetails({ configName: newConfigName });
-            }}
-            variant="contained"
-          >
-            Save
-          </Button>
+          <Stack direction="row" spacing={1}>
+            <Button
+              color="primary"
+              onClick={() => {
+                setShowNamePopup(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                setShowNamePopup(false);
+                handleChangeMappingDetails({ configName: newConfigName });
+              }}
+            >
+              Save
+            </Button>
+          </Stack>
         </DialogActions>
       </Dialog>
 
@@ -663,23 +695,27 @@ export default function ChartModel({ configData, dataIndex }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={() => {
-              setShowEditChartPopup(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              handleSaveChartData();
-            }}
-            variant="contained"
-          >
-            Save
-          </Button>
+          <Stack direction="row" spacing={1}>
+            <Button
+              color="primary"
+              onClick={() => {
+                setShowEditChartPopup(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                handleSaveChartData();
+              }}
+            >
+              Save
+            </Button>
+          </Stack>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 }
