@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.15.0...v1.15.1) (2026-04-15)
+
+
+### Bug Fixes
+
+* removed unused css ([dc346b0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/dc346b0f110ef02836dadff260fc0c0a5cbcc3fa))
+
 # [1.15.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.14.0...v1.15.0) (2026-04-15)
 
 
