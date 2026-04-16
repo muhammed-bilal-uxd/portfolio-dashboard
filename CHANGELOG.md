@@ -1,3 +1,11 @@
+# [1.16.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.15.1...v1.16.0) (2026-04-16)
+
+
+### Features
+
+* css update all pages ([c712fd6](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/c712fd68b80c3d0073857d29b61a2eb6c1dbdfb5))
+* css updates all files ([0c25fcb](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/0c25fcb2a4b9a516e17c80d5366f54eb186b90f1))
+
 ## [1.15.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.15.0...v1.15.1) (2026-04-15)
 
 
