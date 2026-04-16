@@ -1,3 +1,39 @@
+
+:root {
+  --chart-model-bg: #f8fafc;
+  --chart-model-text: #111827;
+  --chart-model-card-bg: #ffffff;
+  --chart-model-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --chart-model-card-border: #ddd;
+  --chart-model-card-label-text: #555555;
+  --chart-model-card-value-text: #111111;
+  --chart-model-accordion-bg: #fffff;
+  --chart-model-accordion-text: #000000;
+  --chart-model-accordion-icon-text: #000000;
+}
+
+[data-theme="dark"] {
+  --chart-model-bg: #0f172a;
+  --chart-model-text: #e9e9e9;
+  --chart-model-card-bg: #1e293b;
+  --chart-model-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --chart-model-card-border: #ddd;
+  --chart-model-card-label-text: #555555;
+  --chart-model-card-value-text: #9b9b9b;
+  --chart-model-accordion-bg: #1e293b;
+  --chart-model-accordion-text: #fffff;
+  --chart-model-accordion-icon-text: #fffff;
+}
+
+.MuiPaper-root {
+  background-color: var(--chart-model-accordion-bg) !important;
+  color: var(--chart-model-accordion-text) !important;
+}
+
+.MuiAccordionSummary-expandIconWrapper {
+  color: var(--chart-model-accordion-icon-text) !important;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -15,10 +51,10 @@
 }
 
 .chart-card {
-  background: var(--dashboard-card-bg);
+  background: var(--chart-model-card-bg);
   border-radius: 16px;
   padding: 16px;
-  box-shadow: var(--dashboard-card-shadow);
+  box-shadow: var(--chart-model-card-shadow);
   min-height: 260px;
   display: flex;
   flex-direction: column;
@@ -27,7 +63,7 @@
 
 .modal-chart-title {
   margin: 0 0 12px;
-  color: var(--dashboard-text);
+  color: var(--chart-model-text);
 }
 
 .modal-chart-container {
@@ -48,41 +84,28 @@
   align-items: center;
   gap: 10px;
   padding: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--chart-model-card-border);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  background: #fff;
+  /* background: #fff; */
+  background: var(--chart-model-card-bg);
+  color: var(--chart-model-text);
   font-family: Arial, sans-serif;
 }
 
 .chart-model-card-label {
   margin: 0;
   font-size: 16px;
-  color: #555;
+  color: var(--chart-model-card-label-text);
 }
 
 .chart-model-card-value {
   margin: 0;
   font-size: 24px;
   font-weight: bold;
-  color: #111;
+  color: var(--chart-model-card-value-text)
 }
 
 .chart-model-name-input {
   max-width: 200px;
 }
-
-:root {
-  --dashboard-bg: #f8fafc;
-  --dashboard-text: #111827;
-  --dashboard-card-bg: #ffffff;
-  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] {
-  --dashboard-bg: #0f172a;
-  --dashboard-text: #e9e9e9;
-  --dashboard-card-bg: #1e293b;
-  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-

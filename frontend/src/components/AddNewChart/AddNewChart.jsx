@@ -614,7 +614,7 @@ export default function AddNewChart() {
                               selectedInputSource?.sourceLink
                             }
                           />
-                          {getSourceShortLink(source?.sourceLink)} ...
+                          <span className="source-link-item">{getSourceShortLink(source?.sourceLink)} ...</span>
                         </span>
                         <span
                           className="source-item-action"

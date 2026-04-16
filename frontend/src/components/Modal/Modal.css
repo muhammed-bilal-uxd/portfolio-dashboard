@@ -1,9 +1,21 @@
+:root {
+  --modal-overlay-bg: rgba(0, 0, 0, 0.8);
+  --modal-bg: #ffffff;
+  --modal-text: #111827;
+}
+
+[data-theme="dark"] {
+  --modal-overlay-bg: rgba(0, 0, 0, 0.8);
+  --modal-bg: #1e293b;
+  --modal-text: #e9e9e9;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: var(--modal-overlay-bg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +29,8 @@
   max-width: 90vw;
   width: 100%;
   position: relative;
-  background: #ffffff;
+  background: var(--modal-bg);
+  color: var(--modal-text);
 }
 
 .modal-header {
@@ -31,10 +44,6 @@
   font-weight: bold;
 }
 
-[data-theme="dark"] .modal {
-  background: #1e293b;
-}
-
 .modal-close {
   border: none;
   background: transparent;
@@ -43,11 +52,8 @@
   cursor: pointer;
   padding: 0;
   outline: none;
-  color: #111827;
+  color: var(--modal-text);
   margin: 0;
   vertical-align: middle;
 }
 
-[data-theme="dark"] .modal-close {
-  color: #e9e9e9;
-}

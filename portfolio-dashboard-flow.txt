@@ -134,7 +134,9 @@ differ = later
 	> forward and backward handle  ✅
 	> back button click - show alert dialog box to c onfirm or cancel ✅
 > theme (differ)
-	> unique className - wip
+	> compare html and css - remove unused css or not in use ✅
+	> move inline style to external style with meaningfull unique className ✅
+	> check each component classname should not replicated in another component ✅
 
 ========
 
@@ -143,13 +145,6 @@ differ = later
 
 
 =======
-
-
-frontend 
-
-1. compare html and css - remove unused css or not in use
-2. move inline style to external style with meaningfull unique name
-3. check each component classname should not duplicate between
 
 
 

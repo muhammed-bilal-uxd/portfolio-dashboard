@@ -21,6 +21,26 @@
   --dashboard-text: #111827;
   --dashboard-card-bg: #ffffff;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --add-chart-button-bg: blue;
+  --add-chart-button-text: white;
+  --add-chart-input-bg: #f0f0f0;
+  --add-chart-input-border: #ccc;
+  --add-chart-source-item-bg: #f9f9f9;
+  --add-chart-source-item-hover-bg: #eaf3ff;
+  --add-chart-source-item-active-bg: #c3d6ef;
+  --add-chart-source-item-active-text: #0056b3;
+  --add-chart-error-text: #b91c1c;
+  --add-chart-link-text: blue;
+  --add-chart-danger-text: red;
+  --add-chart-selected-row-bg: lightblue;
+  --add-chart-selected-row-text: #000000;
+  --add-chart-disabled-bg: lightgray;
+  --add-chart-disabled-text: #7e6c6c;
+  --add-chart-table-header-bg: #000000;
+  --add-chart-table-header-text: #ffffff;
+  --add-chart-counter-bg: #eef0f3;
+  --add-chart-counter-text: black;
+  --add-chart-source-link-item: #000000;
 }
 
 [data-theme="dark"] {
@@ -28,11 +48,35 @@
   --dashboard-text: #e9e9e9;
   --dashboard-card-bg: #1e293b;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --add-chart-button-bg: blue;
+  --add-chart-button-text: white;
+  --add-chart-input-bg: #f0f0f0;
+  --add-chart-input-border: #ccc;
+  --add-chart-source-item-bg: #f9f9f9;
+  --add-chart-source-item-hover-bg: #eaf3ff;
+  --add-chart-source-item-active-bg: #c3d6ef;
+  --add-chart-source-item-active-text: #0056b3;
+  --add-chart-error-text: #b91c1c;
+  --add-chart-link-text: blue;
+  --add-chart-danger-text: red;
+  --add-chart-selected-row-bg: lightblue;
+  --add-chart-selected-row-text: #1e293b;
+  --add-chart-disabled-bg: lightgray;
+  --add-chart-disabled-text: #7e6c6c;
+  --add-chart-table-header-bg: #000000;
+  --add-chart-table-header-text: #ffffff;
+  --add-chart-counter-bg: #eef0f3;
+  --add-chart-counter-text: black;
+  --add-chart-source-link-item: #000000;
+}
+
+.source-link-item {
+  color: var(--add-chart-source-link-item) !important;
 }
 
 button {
-  background-color: blue;
-  color: white;
+  background-color: var(--add-chart-button-bg);
+  color: var(--add-chart-button-text);
   padding: 4px 8px;
   margin: 4px;
   text-transform: capitalize;
@@ -41,8 +85,9 @@ button {
 .input-source-url {
   flex: 1;
   padding: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  background-color: var(--add-chart-input-bg);
+  border: 1px solid var(--add-chart-input-border);
+  color: var(--dashboard-text);
   border-radius: 5px;
   font-size: 16px;
   margin-bottom: 10px;
@@ -69,7 +114,7 @@ button {
   padding: 10px 15px;
   margin-left: 10px;
   margin-bottom: 6px;
-  background-color: #f9f9f9;
+  background-color: var(--add-chart-source-item-bg);
   border-radius: 4px;
   cursor: pointer;
   font-size: 15px;
@@ -80,16 +125,16 @@ button {
 }
 
 .source-list-item:hover {
-  background-color: #eaf3ff;
+  background-color: var(--add-chart-source-item-hover-bg);
 }
 
 .source-list-item.active {
-  background-color: #c3d6ef;
-  color: #0056b3;
+  background-color: var(--add-chart-source-item-active-bg);
+  color: var(--add-chart-source-item-active-text);
 }
 
 .source-preview-error {
-  color: #b91c1c;
+  color: var(--add-chart-error-text);
   margin: 0;
 }
 
@@ -124,7 +169,7 @@ button {
 
 .source-link-preview {
   word-break: break-word;
-  color: blue;
+  color: var(--add-chart-link-text);
 }
 
 .source-delete-actions {
@@ -139,7 +184,7 @@ button {
 
 .source-item-action,
 .source-item-delete {
-  color: red;
+  color: var(--add-chart-danger-text);
 }
 
 .chart-select-row {
@@ -225,12 +270,14 @@ button {
 }
 
 .selected-map-item {
-  background-color: lightblue;
+  background-color: var(--add-chart-selected-row-bg);
+  color: var(--add-chart-selected-row-text)
 }
 
 button:disabled {
   /* opacity: 0.6; */
-  background-color: lightgray;
+  background-color: var(--add-chart-disabled-bg);
+  color: var(--add-chart-disabled-text);
   cursor: not-allowed;
 }
 
@@ -243,15 +290,15 @@ button:disabled {
 .data-table th {
   position: sticky;
   top: 0px;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--add-chart-table-header-bg);
+  color: var(--add-chart-table-header-text);
 }
 
 .number-counter {
   --size: 2rem;
   font-size: 16px;
-  background-color: #eef0f3;
-  color: black;
+  background-color: var(--add-chart-counter-bg);
+  color: var(--add-chart-counter-text);
   min-width: var(--size);
   width: var(--size);
   height: var(--size);
