@@ -505,14 +505,7 @@ export default function AddNewChart() {
               {/* <b className="step-name">step : 1</b> */}
 
               {/* <h3>Paste rest data Url:</h3> */}
-              <div
-                style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                  gap: 5,
-                }}
-              >
+              <div className="source-input-row">
                 <input
                   className="input-source-url"
                   type="text"
@@ -550,8 +543,8 @@ export default function AddNewChart() {
                       </pre>
                       {!sourceLinkPopupConfig?.isView && (
                         <>
-                          <div style={{ display: "flex" }}>
-                            <span style={{ flex: 1 }}></span>
+                          <div className="source-save-row">
+                            <span className="source-save-spacer"></span>
                             <button onClick={() => handleSaveSource()}>
                               save link as source
                             </button>
@@ -566,7 +559,7 @@ export default function AddNewChart() {
               {showDeleteSourcePopup && (
                 <Modal
                   title={" "}
-                  modelStyle={{ maxWidth: "400px" }}
+                  modalClassName="modal-compact"
                   isOpen={showDeleteSourcePopup}
                   onClose={() => {
                     setShowDeleteSourcePopup(false);
@@ -574,16 +567,10 @@ export default function AddNewChart() {
                 >
                   <h3>Are you sure, want to delete this source</h3>
 
-                  <h5 style={{ wordBreak: "break-word", color: "blue" }}>
+                  <h5 className="source-link-preview">
                     {selectedInputSource?.sourceLink}
                   </h5>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      gap: 10,
-                    }}
-                  >
+                  <div className="source-delete-actions">
                     <button onClick={() => setShowDeleteSourcePopup(false)}>
                       cancel
                     </button>
@@ -612,7 +599,7 @@ export default function AddNewChart() {
                       }
                       key={index}
                     >
-                      <div style={{ flex: 1 }}>
+                      <div className="source-item-main">
                         <span
                           onClick={() => {
                             setSelectedInputSource(source);
@@ -630,7 +617,7 @@ export default function AddNewChart() {
                           {getSourceShortLink(source?.sourceLink)} ...
                         </span>
                         <span
-                          style={{ color: "red" }}
+                          className="source-item-action"
                           onClick={() => onClickViewSource(source?.sourceLink)}
                         >
                           {" "}
@@ -638,7 +625,7 @@ export default function AddNewChart() {
                         </span>
                       </div>
                       <div
-                        style={{ color: "red" }}
+                        className="source-item-delete"
                         onClick={() => {
                           setSelectedInputSource(source);
                           setBaseDataKeys([]);
@@ -675,13 +662,7 @@ export default function AddNewChart() {
           <AccordionDetails>
             {/* select chart type */}
             <section className="section-container" id="section-container-2">
-              <div
-                style={{
-                  alignItems: "center",
-                  display: "flex",
-                  gap: 5,
-                }}
-              >
+              <div className="chart-select-row">
                 <div className="chart-selector">
                   <select
                     value={selectedChart}
@@ -792,21 +773,13 @@ export default function AddNewChart() {
           </AccordionSummary>
           <AccordionDetails>
             <section className="section-container" id="section-container-4">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                }}
-              >
+              <div className="chart-name-form">
                 <input
+                  className="chart-name-input"
                   type="text"
                   placeholder="Enter name"
                   value={newConfigName}
                   onChange={(e) => setNewConfigName(e.target.value)}
-                  style={{
-                    maxWidth: 200,
-                  }}
                 />
               </div>
 

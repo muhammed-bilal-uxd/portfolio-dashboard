@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./MappingData.css";
 
 import { checkTypeOfData } from "../../utils/common"
 
@@ -173,7 +174,7 @@ export default function MappingData({
                 <div className="flex-1">
                   <h3>select type of value</h3>
                   <select
-                    style={{ maxWidth: "100%" }}
+                    className="mapping-select-full"
                     value={mapSelectListItemTwo}
                     onChange={(e) => {
                       setMapSelectListItemTwo(e.target.value);
@@ -219,7 +220,7 @@ export default function MappingData({
 
               {showData && (
                 <section className="d-flex">
-                  <h2 style={{ margin: 0 }}>
+                  <h2 className="mapping-results-title">
                     {mapSelectedChart === "card"
                       ? "Select Label & Corresponding Value"
                       : "Select Labels & Corresponding Values"}
@@ -262,13 +263,7 @@ export default function MappingData({
                                 previewLabel.type,
                               ) && (
                                 <>
-                                  <td
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "flex-start",
-                                      gap: 5,
-                                    }}
-                                  >
+                                  <td className="mapping-selection-cell">
                                     {mapSelectedChart === "card" && (
                                       <input
                                         type="radio"

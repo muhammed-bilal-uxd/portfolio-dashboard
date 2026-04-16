@@ -109,15 +109,7 @@ export default function Dashboard() {
 
       <section className="section-chart-container" id="section-container-5">
         {/* <b className="step-name">step : 5</b> */}
-        <div
-          style={{
-            display: "flex",
-            // alignItems: "center",
-            // justifyContent: "center",
-            flexDirection: "column",
-            gap: 50,
-          }}
-        >
+        <div className="dashboard-chart-list">
           {configList.map((data, index) => (
             <ChartModel
               key={data?._id}

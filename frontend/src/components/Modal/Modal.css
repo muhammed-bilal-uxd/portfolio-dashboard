@@ -20,6 +20,17 @@
   background: #ffffff;
 }
 
+.modal-header {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.modal-title {
+  flex: 1;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
 [data-theme="dark"] .modal {
   background: #1e293b;
 }

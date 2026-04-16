@@ -132,7 +132,7 @@ differ = later
 > stepper (accordion)
 	> add number in step title  ✅
 	> forward and backward handle  ✅
-	> back button click - show alert dialog box to confirm or cancel ✅
+	> back button click - show alert dialog box to c onfirm or cancel ✅
 > theme (differ)
 	> unique className - wip
 
@@ -143,6 +143,13 @@ differ = later
 
 
 =======
+
+
+frontend 
+
+1. compare html and css - remove unused css or not in use
+2. move inline style to external style with meaningfull unique name
+3. check each component classname should not duplicate between
 
 
 

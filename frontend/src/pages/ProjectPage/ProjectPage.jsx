@@ -99,10 +99,10 @@ export default function ProjectPage() {
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="project-container">
       <h1>Project List</h1>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
+      <form onSubmit={handleSubmit} className="project-form">
         <input
           type="text"
           name="name"
@@ -114,15 +114,7 @@ export default function ProjectPage() {
       </form>
 
       {projects.map((project) => (
-        <div
-          key={project._id}
-          style={{
-            border: "1px solid #ccc",
-            padding: 12,
-            marginBottom: 10,
-            borderRadius: 8,
-          }}
-        >
+        <div key={project._id} className="project-card">
           <h3
             className={"cursor-pointer project-name"}
             onClick={() => navigate(`/dashboard/${project._id}`)}

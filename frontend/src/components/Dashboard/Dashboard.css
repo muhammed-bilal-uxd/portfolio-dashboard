@@ -52,6 +52,12 @@ button {
   min-height: 100vh;
 }
 
+.dashboard-chart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
 .next-button-container {
   display: flex;
   margin-top: 15px;

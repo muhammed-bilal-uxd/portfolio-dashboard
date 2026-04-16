@@ -57,6 +57,13 @@ button {
   gap: 10px;
 }
 
+.source-input-row {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 5px;
+}
+
 .source-list-item {
   /* Style for div-as-list item */
   padding: 10px 15px;
@@ -101,6 +108,54 @@ button {
   font-weight: bold;
   margin-bottom: 5px;
   text-transform: capitalize;
+}
+
+.source-save-row {
+  display: flex;
+}
+
+.source-save-spacer {
+  flex: 1;
+}
+
+.modal-compact {
+  max-width: 400px;
+}
+
+.source-link-preview {
+  word-break: break-word;
+  color: blue;
+}
+
+.source-delete-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.source-item-main {
+  flex: 1;
+}
+
+.source-item-action,
+.source-item-delete {
+  color: red;
+}
+
+.chart-select-row {
+  align-items: center;
+  display: flex;
+  gap: 5px;
+}
+
+.chart-name-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.chart-name-input {
+  max-width: 200px;
 }
 
 /* .section-container {
