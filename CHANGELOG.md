@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.16.0...v1.17.0) (2026-04-16)
+
+
+### Features
+
+* css dark theme update ([958d435](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/958d435d584704299907181dadff2bd2940f0f47))
+
 # [1.16.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.15.1...v1.16.0) (2026-04-16)
 
 
