@@ -1,18 +1,18 @@
-.dashboard-root {
+.add-chart-root {
   min-height: 100vh;
   padding: 24px;
   transition: 0.3s;
   background: var(--dashboard-bg);
 }
 
-.dashboard-header {
+.add-chart-header {
   display: flex;
   /* justify-content: space-between; */
   align-items: center;
   margin-bottom: 20px;
 }
 
-.dashboard-title {
+.add-chart-title {
   color: var(--dashboard-text);
 }
 
@@ -162,7 +162,7 @@ button {
   min-height: 100vh;
 } */
 
-.next-button-container {
+.add-chart-next-button-container {
   display: flex;
   /* justify-content: flex-end; */
   margin-top: 15px;

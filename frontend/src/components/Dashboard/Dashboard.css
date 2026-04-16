@@ -1,11 +1,11 @@
-.dashboard-root {
+.dashboard-page-root {
   min-height: 100vh;
   padding: 24px;
   transition: 0.3s;
   background: var(--dashboard-bg);
 }
 
-.dashboard-header {
+.dashboard-page-header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -13,7 +13,7 @@
   gap: 10px;
 }
 
-.dashboard-title {
+.dashboard-page-title {
   color: var(--dashboard-text);
   margin: 0;
   flex: 1;
@@ -58,7 +58,7 @@ button {
   gap: 50px;
 }
 
-.next-button-container {
+.dashboard-page-next-button-container {
   display: flex;
   margin-top: 15px;
 }

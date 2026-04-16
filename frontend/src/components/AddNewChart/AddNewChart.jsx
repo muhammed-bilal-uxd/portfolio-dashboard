@@ -477,16 +477,16 @@ export default function AddNewChart() {
 
   // dev start
   return (
-    <div className="dashboard-root">
+    <div className="add-chart-root">
       {/* tittle */}
-      <div className="dashboard-header">
+      <div className="add-chart-header">
         <ArrowBackIcon
           className="arrow-back"
           onClick={() => {
             navigate(`/dashboard/${projectId}`);
           }}
         />
-        <h1 className="dashboard-title">
+        <h1 className="add-chart-title">
           Add New Chart - {projectDetail?.name || "<project name>"}
         </h1>
       </div>
@@ -642,7 +642,7 @@ export default function AddNewChart() {
                 )}
               </div>
 
-              <div className="next-button-container">
+              <div className="add-chart-next-button-container">
                 <button onClick={() => handleNavSection(2)}>
                   select chart type
                 </button>
@@ -686,7 +686,7 @@ export default function AddNewChart() {
                 </div>
               </div>
 
-              <div className="next-button-container">
+              <div className="add-chart-next-button-container">
                 <button
                   onClick={() => {
                     setShowConfirmPopup(true);
