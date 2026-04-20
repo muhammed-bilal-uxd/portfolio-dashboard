@@ -12,6 +12,10 @@
   --project-page-card-border: #ccc;
 }
 
+.project-name {
+  color: var(--common-page-title);
+}
+
 .project-name:hover {
   color: var(--project-page-hover-text);
 }

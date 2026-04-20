@@ -1,3 +1,15 @@
+# [1.19.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.18.0...v1.19.0) (2026-04-20)
+
+
+### Bug Fixes
+
+* vicky pc can't mongo not working ([508876c](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/508876c1d641b07c0d3d7ddc2707f3eeda52bd0b))
+
+
+### Features
+
+* style update ([a2dcdd8](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/a2dcdd888cfabed1c805e6b4b2501aee78b858ca))
+
 # [1.18.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.17.0...v1.18.0) (2026-04-16)
 
 

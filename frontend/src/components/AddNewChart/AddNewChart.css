@@ -13,7 +13,7 @@
 }
 
 .add-chart-title {
-  color: var(--dashboard-text);
+  color: var(--common-page-title);
 }
 
 :root {

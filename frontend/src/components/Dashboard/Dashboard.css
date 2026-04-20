@@ -14,7 +14,7 @@
 }
 
 .dashboard-page-title {
-  color: var(--dashboard-text);
+  color: var(--common-page-title);
   margin: 0;
   flex: 1;
 }
@@ -25,7 +25,6 @@
 
 :root {
   --dashboard-bg: #f8fafc;
-  --dashboard-text: #111827;
   --dashboard-card-bg: #ffffff;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   --dashboard-accent-text: blue;
@@ -34,7 +33,6 @@
 
 [data-theme="dark"] {
   --dashboard-bg: #0f172a;
-  --dashboard-text: #e9e9e9;
   --dashboard-card-bg: #1e293b;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   --dashboard-accent-text: blue;
