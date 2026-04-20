@@ -121,7 +121,7 @@ export default function ProjectPage() {
       {projects.map((project) => (
         <div key={project._id} className="project-card">
           <h3
-            className={"cursor-pointer project-name"}
+            className="cursor-pointer project-name"
             onClick={() => navigate(`/dashboard/${project._id}`)}
           >
             {project.name}
