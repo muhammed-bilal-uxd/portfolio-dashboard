@@ -61,9 +61,15 @@ import {
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import MappingData from "../MappingData/MappingData";
 
+import EditIcon from "@mui/icons-material/Edit";
+import StorageIcon from "@mui/icons-material/Storage";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+
 const menuItems = [
-  { label: "Edit Chart Name", key: "name" },
-  { label: "Edit Chart Data", key: "data" },
+  { label: "Edit Chart Name", key: "name", icon: <EditIcon fontSize="small" /> },
+  { label: "Edit Chart Data", key: "data", icon: <StorageIcon fontSize="small" /> },
 ];
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
@@ -437,6 +443,20 @@ export default function ChartModel({ configData, dataIndex }) {
                       vertical: "top",
                       horizontal: "right",
                     }}
+                    slotProps={{
+                      paper: {
+                        sx: {
+                          backgroundColor: "rgba(25, 26, 26, 0.8)",
+                          backdropFilter: "blur(20px)",
+                          borderRadius: "12px",
+                          border: "1px solid var(--color-outline-variant)",
+                          boxShadow: "0 10px 40px -10px rgba(0,0,0,0.5)",
+                          minWidth: '200px',
+                          mt: 1,
+                          padding: '4px'
+                        },
+                      },
+                    }}
                   >
                     {menuItems.map((menu, i) => {
                       return (
@@ -446,8 +466,28 @@ export default function ChartModel({ configData, dataIndex }) {
                             popupState.close();
                             handleMenuItem(menu?.key);
                           }}
+                          sx={{
+                            borderRadius: '8px',
+                            margin: '2px 0',
+                            padding: '8px 12px',
+                            transition: 'all 0.2s ease',
+                            '&:hover': {
+                              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                              transform: 'translateX(4px)'
+                            }
+                          }}
                         >
-                          {menu?.label}
+                          <ListItemIcon sx={{ color: 'var(--color-on-surface-variant)', minWidth: '36px !important' }}>
+                            {menu.icon}
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary={menu.label} 
+                            primaryTypographyProps={{ 
+                              fontSize: '14px', 
+                              fontWeight: 500,
+                              color: 'var(--color-on-surface)'
+                            }} 
+                          />
                         </MenuItem>
                       );
                     })}
@@ -648,7 +688,7 @@ export default function ChartModel({ configData, dataIndex }) {
         <DialogActions>
           <Stack direction="row" spacing={1}>
             <Button
-              color="primary"
+              color="inherit"
               onClick={() => {
                 setShowNamePopup(false);
               }}
@@ -697,7 +737,7 @@ export default function ChartModel({ configData, dataIndex }) {
         <DialogActions>
           <Stack direction="row" spacing={1}>
             <Button
-              color="primary"
+              color="inherit"
               onClick={() => {
                 setShowEditChartPopup(false);
               }}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Checkbox } from "@mui/material";
 import "./MappingData.css";
 
-import { checkTypeOfData } from "../../utils/common"
+import { checkTypeOfData } from "../../utils/common";
+import CustomDropdown from "../CustomDropdown/CustomDropdown";
 
 export default function MappingData({
   //input
@@ -96,19 +97,14 @@ export default function MappingData({
   const handleTableSelectItem = (index) => {
     let updatedItems;
 
-    if (mapSelectedChart === "card") {
-      updatedItems = [index];
+    // Disabled restriction: Always allow multi-select regardless of mapSelectedChart
+    const isExistItem = (mapTableItems || []).includes(index);
+
+    if (!isExistItem) {
+      updatedItems = [...(mapTableItems || []), index];
     } else {
-      const isExistItem = (mapTableItems || []).includes(index);
-
-      if (!isExistItem) {
-        updatedItems = [...(mapTableItems || []), index];
-      } else {
-        updatedItems = (mapTableItems || []).filter((j) => j !== index);
-      }
+      updatedItems = (mapTableItems || []).filter((j) => j !== index);
     }
-
-    console.log("updatedItems", updatedItems);
 
     setMapTableItems(updatedItems);
   };
@@ -129,95 +125,71 @@ export default function MappingData({
       {showMappingData && (
         <div>
           {Array.isArray(mapBaseDataKeys) && mapBaseDataKeys.length > 0 && (
-            <div className="d-flex f-col gap-15">
-              <section className="d-flex gap-10 align-center map-dropdown-section">
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              <section style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
                 {/* select label */}
-                <div className="flex-1">
-                  <h3>select type of label</h3>
-
-                  <select
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <CustomDropdown
+                    headerLabel="Select Type of Label"
                     value={mapSelectListItemOne}
-                    onChange={(e) => {
-                      setMapSelectListItemOne(e.target.value);
+                    onChange={(val) => {
+                      setMapSelectListItemOne(val);
                       setShowData(false);
                     }}
-                  >
-                    {
-                      mapBaseDataKeys
-                      .filter((name) => {
-                        if(mapSingleData[name] === "") return false
+                    options={mapBaseDataKeys.filter((name) => {
+                      if (mapSingleData[name] === "") return false;
+                      return !isFilterLabel || checkTypeOfData(mapSingleData[name], 'string');
+                    })}
+                    placeholder="Select Label"
+                  />
 
-                        return !isFilterLabel || checkTypeOfData(mapSingleData[name], 'string')
-                      }
-                      )
-                      .map((name) => (
-                        <option key={name} value={name}>
-                          {name}
-                        </option>
-                      ))
-                      }
-                  </select>
-
-                  <div className="cursor-pointer" onClick={() => setIsFilterLabel(!isFilterLabel)}>
-                    <input
-                      type="checkbox"
-                      readOnly
+                  <div className="cursor-pointer" onClick={() => setIsFilterLabel(!isFilterLabel)} style={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
+                    <Checkbox
                       checked={isFilterLabel}
+                      size="small"
+                      sx={{ padding: "4px", color: "var(--color-outline-variant)", "&.Mui-checked": { color: "var(--color-tertiary)" } }}
                     />
-                    <span>filter Label</span>
+                    <span style={{ fontSize: "0.875rem", color: "var(--color-on-surface-variant)" }}>Filter Label Properties</span>
                   </div>
                 </div>
 
-                <div>
-                  <span className="arrow-right">{"--->"}</span>
-                </div>
                 {/* select value */}
-                <div className="flex-1">
-                  <h3>select type of value</h3>
-                  <select
-                    className="mapping-select-full"
+                <div style={{ flex: 1 }}>
+                  <CustomDropdown
+                    headerLabel="Select Type of Value"
                     value={mapSelectListItemTwo}
-                    onChange={(e) => {
-                      setMapSelectListItemTwo(e.target.value);
+                    onChange={(val) => {
+                      setMapSelectListItemTwo(val);
                       setShowData(false);
                     }}
-                  >
-                    { 
-                      mapBaseDataKeys
-                      .filter((name) => {
-                          if(mapSingleData[name] === "") return false
-
-                          return !isFilterValue || checkTypeOfData(mapSingleData[name], 'number')
-                        }
-                      )
-                      .map((name) => (
-                        <option key={name} value={name}>
-                          {name}
-                        </option>
-                      ))
-                    }
-                  </select>
-                  <div className="cursor-pointer" onClick={() => setIsFilterValue(!isFilterValue)}>
-                    <input
-                      type="checkbox"
-                      readOnly
+                    options={mapBaseDataKeys.filter((name) => {
+                      if (mapSingleData[name] === "") return false;
+                      return !isFilterValue || checkTypeOfData(mapSingleData[name], 'number');
+                    })}
+                    placeholder="Select Value"
+                  />
+                  <div className="cursor-pointer" onClick={() => setIsFilterValue(!isFilterValue)} style={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
+                    <Checkbox
                       checked={isFilterValue}
+                      size="small"
+                      sx={{ padding: "4px", color: "var(--color-outline-variant)", "&.Mui-checked": { color: "var(--color-tertiary)" } }}
                     />
-                    <span>filter value</span>
+                    <span style={{ fontSize: "0.875rem", color: "var(--color-on-surface-variant)" }}>Filter Value Properties</span>
                   </div>
                 </div>
               </section>
 
-              <section className="d-flex justify-end">
+              <section style={{ display: "flex", justifyContent: "flex-end" }}>
                 <Button
                   color="primary"
-                  variant="contained"
+                  variant="outlined"
                   disabled={showData}
                   onClick={() => {
                     handleShowData();
                   }}
+                  sx={{ width: "fit-content", borderRadius: '8px' }}
                 >
-                  show data
+                  Preview Data Mapping
                 </Button>
               </section>
 
@@ -237,9 +209,35 @@ export default function MappingData({
                     <table className="data-table">
                       <thead>
                         <tr>
-                          <th></th>
-                          <th>Label - {mapApiAllData?.length || 0}</th>
-                          <th>Corresponding Values</th>
+                          <th style={{ width: "48px" }}>
+                            <Checkbox
+                              size="small"
+                              indeterminate={
+                                (mapTableItems || []).length > 0 &&
+                                (mapTableItems || []).length < mapApiAllData.length
+                              }
+                              checked={
+                                mapApiAllData.length > 0 &&
+                                (mapTableItems || []).length === mapApiAllData.length
+                              }
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setMapTableItems(mapApiAllData.map((_, i) => i));
+                                } else {
+                                  setMapTableItems([]);
+                                }
+                              }}
+                              sx={{
+                                padding: "4px",
+                                color: "var(--color-outline-variant)",
+                                "&.Mui-checked, &.MuiCheckbox-indeterminate": {
+                                  color: "var(--color-tertiary)",
+                                },
+                              }}
+                            />
+                          </th>
+                          <th style={{ minWidth: "150px" }}>Label - {mapApiAllData?.length || 0}</th>
+                          <th style={{ minWidth: "150px" }}>Corresponding Values</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -267,24 +265,11 @@ export default function MappingData({
                               ) && (
                                 <>
                                   <td className="mapping-selection-cell">
-                                    {mapSelectedChart === "card" && (
-                                      <input
-                                        type="radio"
-                                        readOnly
-                                        checked={(mapTableItems || []).includes(
-                                          index,
-                                        )}
-                                      />
-                                    )}
-                                    {mapSelectedChart !== "card" && (
-                                      <input
-                                        type="checkbox"
-                                        readOnly
-                                        checked={(mapTableItems || []).includes(
-                                          index,
-                                        )}
-                                      />
-                                    )}
+                                    <Checkbox
+                                      size="small"
+                                      checked={(mapTableItems || []).includes(index)}
+                                      sx={{ padding: "4px", color: "var(--color-outline-variant)", "&.Mui-checked": { color: "var(--color-tertiary)" } }}
+                                    />
                                   </td>
                                   <td>{String(previewLabel?.data)}</td>
                                   <td>{String(previewValue?.data)}</td>

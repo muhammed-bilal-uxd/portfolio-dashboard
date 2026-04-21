@@ -9,6 +9,7 @@ import ChartModel from "../ChartModel/ChartModel";
 import "./AddNewChart.css";
 import Modal from "../Modal/Modal";
 import MappingData from "../MappingData/MappingData";
+import CustomDropdown from "../CustomDropdown/CustomDropdown";
 import { useLoading } from "../../context/LoadingContext";
 
 import { checkTypeOfData } from "../../utils/common";
@@ -19,6 +20,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Stack } from "@mui/material";
 
 import {
@@ -27,6 +29,8 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  IconButton,
+  TextField,
 } from "@mui/material";
 
 // env
@@ -490,15 +494,14 @@ export default function AddNewChart() {
           Add New Chart - {projectDetail?.name || "<project name>"}
         </h1>
       </div>
-      {/* expand index = {expanded} */}
-      <Stack spacing={2}>
+      <Stack spacing={3}>
         <Accordion expanded={expanded === 1} disabled={false}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon className="expand-icon" />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <CustomTitle count={1}>Paste rest data Url</CustomTitle>
+            <CustomTitle count={1}>Data Source Configuration</CustomTitle>
           </AccordionSummary>
           <AccordionDetails>
             <section className="section-container" id="section-container-1">
@@ -506,19 +509,23 @@ export default function AddNewChart() {
 
               {/* <h3>Paste rest data Url:</h3> */}
               <div className="source-input-row">
-                <input
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  size="small"
                   className="input-source-url"
-                  type="text"
-                  onChange={(e) => setInputSource(e.target.value)}
                   placeholder="URL here..."
                   value={inputSource}
+                  onChange={(e) => setInputSource(e.target.value)}
+                  inputProps={{ "aria-label": "REST API URL Source" }}
                 />
                 <Button
                   color="primary"
                   variant="contained"
                   onClick={() => handleAddSource()}
+                  sx={{ px: 4, height: "46px" }}
                 >
-                  add
+                  Add
                 </Button>
               </div>
 
@@ -556,7 +563,7 @@ export default function AddNewChart() {
                               variant="contained"
                               onClick={() => handleSaveSource()}
                             >
-                              save link as source
+                              Save Link as Source
                             </Button>
                           </div>
                         </>
@@ -582,88 +589,96 @@ export default function AddNewChart() {
                   </h5>
                   <Stack direction="row" spacing={1} className="source-delete-actions">
                     <Button
-                      color="primary"
+                      color="inherit"
                       onClick={() => setShowDeleteSourcePopup(false)}
                     >
-                      cancel
+                      Cancel
                     </Button>
                     <Button
-                      color="primary"
+                      color="error"
                       variant="contained"
                       onClick={() => {
                         removeSource(selectedInputSource);
                         setShowDeleteSourcePopup(false);
                       }}
                     >
-                      confirm yes
+                      Confirm Yes
                     </Button>
                   </Stack>
                 </Modal>
               )}
 
-              <h3>select source</h3>
+              <h3 className="section-subtitle">Select Source</h3>
               <div className="source-list">
                 {Array.isArray(sourceList) && sourceList.length > 0 ? (
-                  sourceList.map((source, index) => (
-                    <div
-                      className={
-                        "source-list-item" +
-                        (source?.sourceLink === selectedInputSource?.sourceLink
-                          ? " active"
-                          : "")
-                      }
-                      key={index}
-                    >
-                      <div className="source-item-main">
-                        <span
+                  sourceList.map((source, index) => {
+                    const isActive = source?.sourceLink === selectedInputSource?.sourceLink;
+                    return (
+                      <div
+                        className={`source-list-item ${isActive ? "active" : ""}`}
+                        key={index}
+                      >
+                        <div
+                          className="source-item-left"
                           onClick={() => {
                             setSelectedInputSource(source);
                             setBaseDataKeys([]);
                           }}
                         >
-                          <input
-                            type="radio"
-                            readOnly
-                            checked={
-                              source?.sourceLink ===
-                              selectedInputSource?.sourceLink
-                            }
-                          />
-                          <span className="source-link-item">{getSourceShortLink(source?.sourceLink)} ...</span>
-                        </span>
-                        <span
-                          className="source-item-action"
-                          onClick={() => onClickViewSource(source?.sourceLink)}
-                        >
-                          {" "}
-                          - view data
-                        </span>
+                          <div className={`custom-radio ${isActive ? "active" : ""}`}>
+                            {isActive && <div className="custom-radio-inner" />}
+                          </div>
+                          <span className="source-link-item">
+                            {getSourceShortLink(source?.sourceLink)}
+                          </span>
+                        </div>
+                        <div className="source-item-right">
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onClickViewSource(source?.sourceLink);
+                            }}
+                            sx={{
+                              borderColor: "var(--color-outline-variant)",
+                              color: "var(--color-on-surface-variant)",
+                              "&:hover": { borderColor: "var(--color-tertiary)", color: "var(--color-tertiary)" }
+                            }}
+                          >
+                            View Data
+                          </Button>
+                          <IconButton
+                            color="error"
+                            size="small"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedInputSource(source);
+                              setBaseDataKeys([]);
+                              setShowDeleteSourcePopup(true);
+                            }}
+                            sx={{
+                              "&:hover": { backgroundColor: "rgba(236, 124, 138, 0.1)" }
+                            }}
+                          >
+                            <DeleteOutlineIcon fontSize="small" />
+                          </IconButton>
+                        </div>
                       </div>
-                      <div
-                        className="source-item-delete"
-                        onClick={() => {
-                          setSelectedInputSource(source);
-                          setBaseDataKeys([]);
-                          setShowDeleteSourcePopup(true);
-                          // removeSource(source);
-                        }}
-                      >
-                        X
-                      </div>
-                    </div>
-                  ))
+                    );
+                  })
                 ) : (
                   <div>No data</div>
                 )}
               </div>
 
-              <div className="add-chart-next-button-container">
+              <div className="add-chart-next-button-container" style={{ justifyContent: "flex-end" }}>
                 <Button
                   color="primary"
                   variant="contained"
                   onClick={() => handleNavSection(2)}
                 >
-                  select chart type
+                  Confirm Source & Proceed
                 </Button>
               </div>
             </section>
@@ -676,45 +691,36 @@ export default function AddNewChart() {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <CustomTitle count={2}>Select chart type</CustomTitle>
+            <CustomTitle count={2}>Select Chart Type</CustomTitle>
           </AccordionSummary>
           <AccordionDetails>
             {/* select chart type */}
             <section className="section-container" id="section-container-2">
-              <div className="chart-select-row">
-                <div className="chart-selector">
-                  <select
+              <div className="chart-select-row" style={{ paddingTop: '8px' }}>
+                <div className="chart-selector" style={{ width: '100%' }}>
+                  <CustomDropdown
+                    options={chartList.map(chart => ({
+                      value: chart.type,
+                      label: chart.label,
+                      disabled: !chart.active
+                    }))}
                     value={selectedChart}
-                    onChange={(e) => {
-                      handleChartOption(e.target.value);
-                    }}
-                  >
-                    <option value="" disabled>
-                      Select Option
-                    </option>
-                    {chartList.map((chart) => (
-                      <option
-                        key={chart.type}
-                        value={chart.type}
-                        disabled={!chart.active}
-                      >
-                        {chart.label}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => handleChartOption(val)}
+                    placeholder="Select Chart Type"
+                  />
                 </div>
               </div>
 
-              <div className="add-chart-next-button-container">
-                <Stack direction="row" spacing={1}>
+              <div className="add-chart-next-button-container" style={{ justifyContent: "flex-end" }}>
+                <Stack direction="row" spacing={2} justifyContent="flex-end">
                   <Button
-                    color="primary"
+                    color="inherit"
                     onClick={() => {
                       setShowConfirmPopup(true);
                       // goToBackwardFromStep(2, true);
                     }}
                   >
-                    back
+                    Back
                   </Button>
                   <Button
                     color="primary"
@@ -724,7 +730,7 @@ export default function AddNewChart() {
                       handleMapData();
                     }}
                   >
-                    map data
+                    Map Data
                   </Button>
                 </Stack>
               </div>
@@ -739,9 +745,9 @@ export default function AddNewChart() {
             id="panel1bh-header"
           >
             <CustomTitle count={3}>
-              map data for{" "}
+              Map Data for{" "}
               {selectedChart
-                ? `<${selectedChart} ${selectedChart === "card" ? "" : "chart"}>`
+                ? `<${selectedChart} ${selectedChart === "card" ? "" : "Chart"}>`
                 : "<Select Chart Type>"}
               {`<${getSourceEndPoint(selectedInputSource?.sourceLink) || "Select Source Url"}>`}
             </CustomTitle>
@@ -762,28 +768,25 @@ export default function AddNewChart() {
                 setMapSelectListItemTwo={setSelectListItemTwo}
                 setMapTableItems={setTableItems}
               />
-              <Stack direction="row" spacing={1}>
+              <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 3 }}>
                 <Button
-                  color="primary"
+                  color="inherit"
                   onClick={() => {
                     setShowConfirmPopup(true);
                     // goToBackwardFromStep(3, true);
                   }}
                 >
-                  back
+                  Back
                 </Button>
                 <Button
                   color="primary"
                   variant="contained"
+                  disabled={tableItems.length === 0 || (selectedChart !== "card" && tableItems.length < 2)}
                   onClick={() => {
-                    if (selectedChart !== "card" && tableItems.length < 2) {
-                      alert("In mapping data : At least select two option");
-                      return;
-                    }
                     handleNavSection(4);
                   }}
                 >
-                  Go to Enter new chart/card name
+                  Show Selected Data In New Chart
                 </Button>
               </Stack>
             </section>
@@ -796,21 +799,46 @@ export default function AddNewChart() {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <CustomTitle count={4}>Enter your new chart/card name:</CustomTitle>
+            <CustomTitle count={4}>Enter Chart/Card Name</CustomTitle>
           </AccordionSummary>
           <AccordionDetails>
-            <section className="section-container" id="section-container-4">
-              <div className="chart-name-form">
-                <input
+            <section className="section-container" id="section-container-4" style={{ paddingTop: '12px' }}>
+              <div className="chart-name-form" style={{ width: '100%', marginBottom: '24px' }}>
+                <Typography variant="caption" sx={{ color: 'var(--color-on-surface-variant)', mb: 1, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+                  Enter Chart/Card Display Name
+                </Typography>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
                   className="chart-name-input"
-                  type="text"
-                  placeholder="Enter name"
+                  placeholder="Type a name for your chart..."
                   value={newConfigName}
                   onChange={(e) => setNewConfigName(e.target.value)}
+                  inputProps={{ 
+                    "aria-label": "Chart Name",
+                    style: { fontSize: '1.1rem', padding: '16px' }
+                  }}
+                  sx={{ 
+                    backgroundColor: "var(--color-surface-container-highest)", 
+                    borderRadius: "12px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": { borderColor: "var(--color-outline-variant)", borderWidth: '1px' },
+                      "&:hover fieldset": { borderColor: "var(--color-on-surface-variant)" },
+                      "&.Mui-focused fieldset": { borderColor: "var(--color-tertiary)", borderWidth: '2px' },
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      color: 'var(--color-on-surface-variant)',
+                      opacity: 0.7
+                    }
+                  }}
                 />
+                <Typography variant="body2" sx={{ color: 'var(--color-on-surface-variant)', mt: 1.5, fontStyle: 'italic', opacity: 0.8 }}>
+                  This name will appear as the title of your card on the main dashboard.
+                </Typography>
               </div>
 
-              <Stack direction="row" spacing={1}>
+              <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 3 }}>
                 <Button
                   color="primary"
                   onClick={() => {
@@ -818,23 +846,20 @@ export default function AddNewChart() {
                     // goToBackwardFromStep(4, true);
                   }}
                 >
-                  back
+                  Back
                 </Button>
                 <Button
                   color="primary"
                   variant="contained"
+                  disabled={tableItems.length === 0 || (selectedChart !== "card" && tableItems.length < 2) || !newConfigName.trim()}
                   onClick={() => {
-                    if (selectedChart !== "card" && tableItems.length < 2) {
-                      alert("In mapping data : At least select two option");
-                      return;
-                    }
                     handleAddNewChart();
                   }}
                 >
-                  publish new{" "}
+                  Publish {" "}
                   {selectedChart === "card"
-                    ? "card"
-                    : `${selectedChart} chart to dashboard`}
+                    ? "Card"
+                    : `${selectedChart.charAt(0).toUpperCase() + selectedChart.slice(1)} Chart To Dashboard`}
                 </Button>
               </Stack>
               <br />

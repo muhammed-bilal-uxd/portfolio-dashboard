@@ -1,34 +1,118 @@
-:root {
-  --project-page-bg: #f8fafc;
-  --project-page-text: #111827;
-  --project-page-hover-text: red;
-  --project-page-card-border: #ccc;
-}
-
-[data-theme="dark"] {
-  --project-page-bg: #0f172a;
-  --project-page-text: #e9e9e9;
-  --project-page-hover-text: red;
-  --project-page-card-border: #ccc;
-}
-
-.project-name:hover {
-  color: var(--project-page-hover-text);
-}
-
+/* ── Page Container ── */
 .project-container {
-  padding: 20px;
-  color: var(--project-page-text);
-  background-color: var(--project-page-bg);
+  padding: 32px 28px;
+  background-color: var(--color-surface-container-low);
+  color: var(--color-on-surface);
+  min-height: 100%;
 }
 
-.project-form {
-  margin-bottom: 20px;
+/* ── Header: title left, CTA right ── */
+.project-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
 }
 
-.project-card {
-  border: 1px solid var(--project-page-card-border);
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+.project-heading {
+  margin: 0;
+  color: var(--color-on-surface);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-compact {
+  width: 220px;
+}
+
+/* ── Visually Hidden (for screen readers) ── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ── Empty state ── */
+.project-empty {
+  text-align: center;
+  color: var(--color-on-surface-variant);
+  margin-top: 60px;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+}
+
+/* ── List container ── */
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Separated by whitespace instead of divider lines */
+  width: 100%;
+}
+
+/* ── Row (Bento style line items) ── */
+.project-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 12px 0 20px;
+  min-height: 68px;
+  background-color: var(--color-surface-container);
+  border-radius: 12px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  /* Instead of borders, use a tonal difference on hover */
+}
+
+/* Tonal shift on hover instead of border color */
+.project-row:hover {
+  background-color: var(--color-surface-container-high);
+}
+
+/* ── Leading folder icon ── */
+.project-row-icon {
+  color: var(--color-on-surface-variant) !important;
+  flex-shrink: 0;
+  font-size: 1.25rem !important;
+}
+
+/* ── Name button — fills the row ── */
+.project-row-name {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 1rem;       /* 16px - body standard */
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-on-surface);
+  text-align: left;
+  padding: 18px 0;       /* tall tap target */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.project-row-name:hover {
+  color: var(--color-tertiary);
+}
+
+/* Focus rule from CSS covers focus-visible */
+
+/* ── Trailing ⋮ ── */
+.row-more-btn {
+  color: var(--color-on-surface-variant) !important;
+  flex-shrink: 0;
+  transition: color 0.15s ease, background-color 0.15s ease !important;
+}
+
+.row-more-btn:hover {
+  color: var(--color-on-surface) !important;
+  background-color: var(--color-surface-container-highest) !important;
 }
