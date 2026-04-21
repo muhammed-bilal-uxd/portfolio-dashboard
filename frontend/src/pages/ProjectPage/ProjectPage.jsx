@@ -20,8 +20,8 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import ArticleIcon from "@mui/icons-material/Article";
 import CloseIcon from "@mui/icons-material/Close";
+import AutoAwesomeMosaicIcon from "@mui/icons-material/AutoAwesomeMosaic";
 
 import "./ProjectPage.css";
 
@@ -289,7 +289,9 @@ export default function ProjectPage() {
         <div className="project-list" role="list" aria-label="Projects">
           {filteredProjects.map((project) => (
             <div key={project._id} className="project-row" role="listitem">
-              <ArticleIcon className="project-row-icon" />
+              <div className="project-row-icon-container">
+                <AutoAwesomeMosaicIcon className="project-modern-svg" sx={{ fontSize: 'inherit', color: 'var(--color-primary)' }} />
+              </div>
               <button
                 className="project-row-name"
                 onClick={() => navigate(`/dashboard/${project._id}`)}

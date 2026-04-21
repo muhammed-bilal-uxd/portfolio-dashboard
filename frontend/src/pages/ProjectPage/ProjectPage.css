@@ -70,9 +70,9 @@
 .project-row {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 0 16px 0 20px;
-  min-height: 100px; /* Accommodate 64px icon */
+  gap: 24px;
+  padding: 0 24px;
+  min-height: 92px; /* Balanced for 48px icon */
   background-color: var(--color-surface-container);
   border-radius: 20px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -81,9 +81,9 @@
 
 @media (max-width: 599px) {
   .project-row {
-    padding: 0 12px 0 12px;
+    padding: 0 16px;
     min-height: 80px;
-    gap: 12px;
+    gap: 16px;
   }
 }
 
@@ -94,30 +94,62 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ── Leading folder icon ── */
-.project-row-icon {
-  color: var(--color-primary) !important;
+/* ── Leading Modern Icon ── */
+.project-row-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--color-surface-container-highest);
+  border-radius: 16px;
   flex-shrink: 0;
-  opacity: 1;
-  font-size: 64px !important; /* Base size */
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-outline-variant);
 }
 
 @media (max-width: 599px) {
-  .project-row-icon {
-    font-size: 48px !important;
+  .project-row-icon-container {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
   }
+}
+
+.project-modern-svg {
+  width: 48px !important;
+  height: 48px !important;
+  font-size: 48px !important;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 599px) {
+  .project-modern-svg {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 36px !important;
+  }
+}
+
+.project-row:hover .project-modern-svg {
+  transform: scale(1.1);
+}
+
+.project-row:hover .project-row-icon-container {
+  background: var(--color-primary-container);
+  border-color: var(--color-primary);
 }
 
 /* ── Name button — fills the row ── */
 .project-row-name {
   flex: 1;
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
-  font-weight: 600;
-  line-height: 1.4;
+  font-family: var(--font-headline);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.2;
   color: var(--color-on-surface);
   text-align: left;
-  padding: 20px 0;
+  padding: 16px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -125,6 +157,13 @@
   background: none;
   border: none;
   cursor: pointer;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 599px) {
+  .project-row-name {
+    font-size: 1.125rem;
+  }
 }
 
 .project-row-name:hover {
