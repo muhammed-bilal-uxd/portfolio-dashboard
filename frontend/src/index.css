@@ -20,10 +20,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-<<<<<<< HEAD
 
   /* ── Accent & Semantic Tokens ── */
-  --color-tertiary: #679CFF; /* Primary interactive/active */
+  --color-tertiary: #679CFF;
+  /* Primary interactive/active */
   --color-error: #EC7C8A;
   --color-focus-ring: #679CFF;
 
@@ -37,12 +37,15 @@
 
   --color-on-surface: #1F1F1F;
   --color-on-surface-variant: #5F6368;
-  --color-primary: #C6C6C7; /* from specs, though mostly for dark mode text */
-  --color-outline-variant: #484848;
+  --color-primary: #1F1F1F;
+  --color-outline-variant: #DADCE0;
 
   --color-disabled-text: #767676;
   --color-disabled-bg: #E8EAED;
   --color-placeholder: #767676;
+
+  /* Legacy Compat */
+  --common-page-title: #1F1F1F;
 }
 
 [data-theme="dark"] {
@@ -54,47 +57,32 @@
   --color-surface-container-high: #1F2020;
   --color-surface-container-highest: #252626;
 
-  --color-on-surface: #C6C6C7;
-  --color-on-surface-variant: #B0B0B0; /* AA compliant variant */
-  --color-primary: #C6C6C7;
+  --color-on-surface: #E8EAED;
+  --color-on-surface-variant: #B0B0B0;
+  --color-primary: #FFFFFF;
 
   --color-disabled-text: #888888;
   --color-disabled-bg: #252626;
   --color-placeholder: #888888;
-=======
-  --common-dialog-paper-bg: #ffffff;
-  --common-dialog-paper-text: rgba(0,0,0,0.87);
-  --common-input-bg: #ffffff;
-  --common-input-text: #000000;
-  --common-button-bg: blue;
-  --common-button-text: white;
-  /* --common-button-disable-bg: rgba(0, 0, 0, 0.12);
-  --common-button-disable-text: rgba(0, 0, 0, 0.26); */
-  --common-button-disable-bg: #1565c0;
-  --common-button-disable-text: rgba(255, 255, 255,1);
-  --common-page-title: #111827;
-}
 
-[data-theme="dark"] {
-  --common-dialog-paper-bg: #1e293b;
-  --common-dialog-paper-text: #ffffff;
-  --common-input-bg: #42444e;
-  --common-input-text: #ffffff;
-  --common-button-bg: blue;
-  --common-button-text: white;
-  --common-button-disable-bg: #1565c0;
-  --common-button-disable-text: rgba(255, 255, 255,1);
-  --common-page-title: #e9e9e9;
->>>>>>> d220485a2c569dac90904c0557172cd744c6ee6b
+  --color-outline-variant: #3C4043;
+
+  /* Legacy Compat */
+  --common-page-title: #E8EAED;
 }
 
 /* ── Box model ── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 /* ── Focus System ── */
-*:focus { outline: none; }
+*:focus {
+  outline: none;
+}
+
 *:focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
@@ -108,47 +96,35 @@ body {
   min-height: 100vh;
   background-color: var(--color-surface-container-low);
   color: var(--color-on-surface);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ── Typography scale ── */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-headline);
   color: var(--color-on-surface);
   margin: 0 0 0.5em 0;
-  letter-spacing: -0.025em; /* tracking-tight */
+  letter-spacing: -0.025em;
 }
+
 h1 {
-  font-size: 1.875rem; /* text-3xl */
+  font-size: 2.25rem;
   font-weight: 800;
   line-height: 1.2;
-  letter-spacing: -0.05em; /* tracking-tighter */
+  letter-spacing: -0.04em;
 }
-h2 {
-  font-size: 1.5rem; /* text-2xl */
-  font-weight: 700;
-  line-height: 1.25;
-}
-h3 {
-  font-size: 1.25rem; /* text-xl */
-  font-weight: 600;
-  line-height: 1.3;
-}
-h4 {
-  font-size: 1.125rem; /* text-lg */
-  font-weight: 600;
-  line-height: 1.4;
-}
+
 p {
   font-family: var(--font-body);
-  font-size: 0.875rem; /* text-sm default */
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0 0 1em 0;
-}
-small {
-  font-family: var(--font-body);
-  font-size: 0.75rem;  /* text-xs */
-  line-height: 1.5;
 }
 
 /* ── Links ── */
@@ -158,6 +134,7 @@ a {
   font-weight: 500;
   transition: color 0.15s ease;
 }
+
 a:hover {
   opacity: 0.8;
 }
@@ -169,6 +146,7 @@ button {
   background: none;
   border: none;
 }
+
 button:disabled {
   cursor: not-allowed;
   color: var(--color-disabled-text) !important;
@@ -183,23 +161,12 @@ button.Mui-disabled {
 
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-}
-
-/* ── Touch tap targets ── */
-@media (pointer: coarse) {
-  button, [role="button"], a, input, select,
-  [role="option"], [role="menuitem"], .MuiButtonBase-root {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* Utility */
-.cursor-pointer {
-  cursor: pointer;
 }

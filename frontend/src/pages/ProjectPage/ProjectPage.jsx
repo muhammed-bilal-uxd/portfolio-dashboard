@@ -20,7 +20,7 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
+import ArticleIcon from "@mui/icons-material/Article";
 import CloseIcon from "@mui/icons-material/Close";
 
 import "./ProjectPage.css";
@@ -192,12 +192,10 @@ export default function ProjectPage() {
 
   return (
     <div className="project-container">
-
-<<<<<<< HEAD
       {/* ── Page header ── */}
       <div className="project-page-header">
         <h1 className="project-heading">Projects</h1>
-        
+
         <div className="header-actions">
           <TextField
             size="small"
@@ -220,28 +218,6 @@ export default function ProjectPage() {
             startIcon={<AddIcon />}
             onClick={handleNewProject}
             sx={{ fontWeight: 700, whiteSpace: "nowrap" }}
-=======
-      <form onSubmit={handleSubmit} className="project-form">
-      <Stack direction="row" spacing={1}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Project name"
-          value={form.name}
-          onChange={handleChange}
-        />
-          <Button color="primary" variant="contained" type="submit">
-            {editId ? "Update" : "Add"} Project
-          </Button>
-        </Stack>
-      </form>
-
-      {projects.map((project) => (
-        <div key={project._id} className="project-card">
-          <h3
-            className="cursor-pointer project-name"
-            onClick={() => navigate(`/dashboard/${project._id}`)}
->>>>>>> d220485a2c569dac90904c0557172cd744c6ee6b
           >
             New Project
           </Button>
@@ -257,7 +233,7 @@ export default function ProjectPage() {
         fullWidth
         PaperProps={{
           style: {
-            padding: "8px", // Gives some breathing room to the contents inside the radius
+            padding: "8px",
           }
         }}
       >
@@ -269,7 +245,7 @@ export default function ProjectPage() {
             <CloseIcon fontSize="small" aria-hidden="true" />
           </IconButton>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ pt: "8px !important" }}>
             <label htmlFor="project-name-input" className="visually-hidden">
@@ -313,11 +289,7 @@ export default function ProjectPage() {
         <div className="project-list" role="list" aria-label="Projects">
           {filteredProjects.map((project) => (
             <div key={project._id} className="project-row" role="listitem">
-
-              {/* Leading folder icon */}
-              <FolderOpenOutlinedIcon className="project-row-icon" />
-
-              {/* Name — full width, prominent */}
+              <ArticleIcon className="project-row-icon" />
               <button
                 className="project-row-name"
                 onClick={() => navigate(`/dashboard/${project._id}`)}
@@ -325,8 +297,6 @@ export default function ProjectPage() {
               >
                 {project.name}
               </button>
-
-              {/* ⋮ trailing menu — always visible */}
               <ProjectRowMenu
                 project={project}
                 onRename={handleEdit}

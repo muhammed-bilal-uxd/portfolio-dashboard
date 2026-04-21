@@ -9,6 +9,7 @@ import ChartModel from "../ChartModel/ChartModel";
 import "./Dashboard.css";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Button } from "@mui/material";
 
 // env
@@ -123,15 +124,26 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
-      <div className="dashboard-page-next-button-container">
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() => handleNavNextSection(5)}
-        >
-          back to top
-        </Button>
-      </div>
+      {configList.length > 0 && (
+        <div className="dashboard-page-next-button-container">
+          <Button
+            variant="text"
+            startIcon={<KeyboardArrowUpIcon />}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            sx={{
+              color: "var(--color-on-surface-variant)",
+              textTransform: "none",
+              fontWeight: 600,
+              "&:hover": {
+                backgroundColor: "transparent",
+                color: "var(--color-primary)"
+              }
+            }}
+          >
+            Back to Top
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

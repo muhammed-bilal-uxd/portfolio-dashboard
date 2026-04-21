@@ -1,75 +1,70 @@
 .dashboard-page-root {
   min-height: 100vh;
-  padding: 24px;
-  transition: 0.3s;
+  padding: 32px 24px;
   background: var(--dashboard-bg);
+  color: var(--color-on-surface);
+  border-radius: 24px;
 }
 
 .dashboard-page-header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 20px;
-  gap: 10px;
+  margin-bottom: 32px;
+  gap: 16px;
 }
 
 .dashboard-page-title {
-  color: var(--common-page-title);
+  color: var(--color-on-surface);
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   margin: 0;
   flex: 1;
 }
 
 .arrow-back {
-  color: var(--dashboard-accent-text);
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.arrow-back:hover {
+  color: var(--color-primary);
+  transform: translateX(-4px);
 }
 
 :root {
-  --dashboard-bg: #f8fafc;
-  --dashboard-card-bg: #ffffff;
-  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --dashboard-accent-text: blue;
-  --dashboard-button-disabled-bg: lightgray;
+  --dashboard-bg: var(--color-surface-container-low);
+  --dashboard-card-bg: var(--color-surface-container);
+  --dashboard-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --dashboard-accent-text: var(--color-primary);
+  --dashboard-button-disabled-bg: var(--color-surface-container-highest);
 }
 
 [data-theme="dark"] {
-<<<<<<< HEAD
-  --dashboard-bg: #111118;
-  --dashboard-text: #e9e9ee;
-  --dashboard-card-bg: #1c1c27;
-  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  --dashboard-accent-text: #818df8;
-  --dashboard-button-disabled-bg: #2a2a3a;
-=======
-  --dashboard-bg: #0f172a;
-  --dashboard-card-bg: #1e293b;
-  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --dashboard-accent-text: blue;
-  --dashboard-button-disabled-bg: lightgray;
->>>>>>> d220485a2c569dac90904c0557172cd744c6ee6b
+  --dashboard-bg: var(--color-surface-container-low);
+  --dashboard-card-bg: var(--color-surface-container);
+  --dashboard-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --dashboard-accent-text: var(--color-primary);
+  --dashboard-button-disabled-bg: var(--color-surface-container-highest);
 }
 
-/* NOTE: Do not add bare 'button {}' rules here — MUI handles button styles via the theme */
-
-
 .section-chart-container {
-  margin-bottom: 50px;
-  padding: 15px;
+  margin-bottom: 40px;
   box-sizing: border-box;
-  min-height: 100vh;
 }
 
 .dashboard-chart-list {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 40px;
 }
 
 .dashboard-page-next-button-container {
   display: flex;
-  margin-top: 15px;
-}
-
-button:disabled {
-  background-color: var(--dashboard-button-disabled-bg);
-  cursor: not-allowed;
+  justify-content: center;
+  margin-top: 40px;
+  padding-bottom: 40px;
 }
