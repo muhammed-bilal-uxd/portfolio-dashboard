@@ -193,6 +193,7 @@ export default function ProjectPage() {
   return (
     <div className="project-container">
 
+<<<<<<< HEAD
       {/* ── Page header ── */}
       <div className="project-page-header">
         <h1 className="project-heading">Projects</h1>
@@ -219,6 +220,28 @@ export default function ProjectPage() {
             startIcon={<AddIcon />}
             onClick={handleNewProject}
             sx={{ fontWeight: 700, whiteSpace: "nowrap" }}
+=======
+      <form onSubmit={handleSubmit} className="project-form">
+      <Stack direction="row" spacing={1}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Project name"
+          value={form.name}
+          onChange={handleChange}
+        />
+          <Button color="primary" variant="contained" type="submit">
+            {editId ? "Update" : "Add"} Project
+          </Button>
+        </Stack>
+      </form>
+
+      {projects.map((project) => (
+        <div key={project._id} className="project-card">
+          <h3
+            className="cursor-pointer project-name"
+            onClick={() => navigate(`/dashboard/${project._id}`)}
+>>>>>>> d220485a2c569dac90904c0557172cd744c6ee6b
           >
             New Project
           </Button>

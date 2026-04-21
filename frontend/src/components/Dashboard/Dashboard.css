@@ -14,7 +14,7 @@
 }
 
 .dashboard-page-title {
-  color: var(--dashboard-text);
+  color: var(--common-page-title);
   margin: 0;
   flex: 1;
 }
@@ -25,7 +25,6 @@
 
 :root {
   --dashboard-bg: #f8fafc;
-  --dashboard-text: #111827;
   --dashboard-card-bg: #ffffff;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   --dashboard-accent-text: blue;
@@ -33,12 +32,20 @@
 }
 
 [data-theme="dark"] {
+<<<<<<< HEAD
   --dashboard-bg: #111118;
   --dashboard-text: #e9e9ee;
   --dashboard-card-bg: #1c1c27;
   --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   --dashboard-accent-text: #818df8;
   --dashboard-button-disabled-bg: #2a2a3a;
+=======
+  --dashboard-bg: #0f172a;
+  --dashboard-card-bg: #1e293b;
+  --dashboard-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --dashboard-accent-text: blue;
+  --dashboard-button-disabled-bg: lightgray;
+>>>>>>> d220485a2c569dac90904c0557172cd744c6ee6b
 }
 
 /* NOTE: Do not add bare 'button {}' rules here — MUI handles button styles via the theme */

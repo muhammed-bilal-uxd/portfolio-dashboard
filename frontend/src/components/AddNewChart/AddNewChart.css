@@ -13,8 +13,12 @@
 }
 
 .add-chart-title {
+<<<<<<< HEAD
   color: var(--color-on-surface);
   line-height: 1.2;
+=======
+  color: var(--common-page-title);
+>>>>>>> d220485a2c569dac90904c0557172cd744c6ee6b
 }
 
 .arrow-back {

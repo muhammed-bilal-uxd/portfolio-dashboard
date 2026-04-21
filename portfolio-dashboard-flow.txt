@@ -142,6 +142,9 @@ differ = later
 
 > get name of chart as step 1 (v2)
 > save selected information in DB for each step (v2)
+> chart label text orientation (v2)
+	> left to right
+	> first word on top
 
 
 =======
