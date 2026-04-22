@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   Button,
   TextField,
-  InputAdornment,
   IconButton,
   Menu,
   MenuItem,
@@ -14,6 +13,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Tooltip,
+  Box,
+  Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
@@ -112,6 +114,8 @@ export default function ProjectPage() {
   const [editId, setEditId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [search, setSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef(null);
   const navigate = useNavigate();
 
   const getProjects = async () => {
@@ -196,33 +200,65 @@ export default function ProjectPage() {
       <div className="project-page-header">
         <h1 className="project-heading">Projects</h1>
 
-        <div className="header-actions">
-          <TextField
-            size="small"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search-compact"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" sx={{ color: "text.secondary" }} />
-                </InputAdornment>
-              ),
-            }}
-            inputProps={{ "aria-label": "Search projects" }}
-          />
+        {/* Desktop actions: Only visible on sm+ */}
+        <Box className="header-actions" sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center", gap: 2 }}>
+          <div className="search-prominent-wrap" style={{ padding: '6px 12px', margin: 0 }}>
+             <SearchIcon sx={{ fontSize: 18, color: 'var(--color-on-surface-variant)' }} />
+             <input
+                className="search-prominent-input"
+                style={{ fontSize: '0.875rem', width: '180px' }}
+                placeholder="Search…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+          </div>
           <Button
             color="primary"
             variant="contained"
             startIcon={<AddIcon />}
             onClick={handleNewProject}
-            sx={{ fontWeight: 700, whiteSpace: "nowrap" }}
+            sx={{
+              fontWeight: 600,
+              borderRadius: "10px",
+              textTransform: "none",
+              px: 2,
+              boxShadow: "none"
+            }}
           >
             New Project
           </Button>
-        </div>
+        </Box>
       </div>
+
+      {/* ── Mobile Actions row: Only visible on xs ── */}
+      <Box className="mobile-actions-row" sx={{ display: { xs: "flex", sm: "none" }, gap: 1.5, mb: 3 }}>
+        <div className="search-prominent-wrap" style={{ flex: 1, padding: '10px 16px' }}>
+          <SearchIcon className="search-icon-fixed" />
+          <input
+            className="search-prominent-input"
+            placeholder="Search Projects..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search projects"
+          />
+        </div>
+        <IconButton
+          onClick={handleNewProject}
+          sx={{
+            width: 52,
+            height: 44,
+            borderRadius: "12px",
+            bgcolor: "#ffffff",
+            color: "#000000",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            "&:hover": {
+              bgcolor: "#f0f0f0",
+            }
+          }}
+        >
+          <AddIcon sx={{ fontSize: 28 }} />
+        </IconButton>
+      </Box>
 
       {/* ── Add / Edit Modal ── */}
       <Dialog
@@ -232,47 +268,90 @@ export default function ProjectPage() {
         maxWidth="xs"
         fullWidth
         PaperProps={{
-          style: {
-            padding: "8px",
+          sx: {
+            borderRadius: "24px",
+            bgcolor: "var(--color-surface-container-high)",
+            backgroundImage: "none",
+            border: "1px solid var(--color-outline-variant)",
+            p: { xs: 0, sm: 1 },
+            boxShadow: "0 24px 48px rgba(0,0,0,0.4)",
           }
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingRight: "16px" }}>
-          <DialogTitle id="modal-title" sx={{ fontFamily: "var(--font-headline)", fontWeight: 700, pb: 1, letterSpacing: "-0.01em" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingRight: "8px" }}>
+          <DialogTitle id="modal-title" sx={{ 
+            fontFamily: "var(--font-headline)", 
+            fontWeight: 800, 
+            fontSize: { xs: "1.25rem", sm: "1.5rem" }, 
+            color: "var(--color-on-surface)", 
+            pb: { xs: 0.5, sm: 1 },
+            px: { xs: 2, sm: 3 },
+            pt: { xs: 2, sm: 3 }
+          }}>
             {editId ? "Rename Project" : "New Project"}
           </DialogTitle>
-          <IconButton aria-label="Close dialog" onClick={handleCancelEdit} size="small">
-            <CloseIcon fontSize="small" aria-hidden="true" />
+          <IconButton aria-label="Close" onClick={handleCancelEdit} sx={{ color: "var(--color-on-surface-variant)", mt: { xs: 1, sm: 0 } }}>
+            <CloseIcon />
           </IconButton>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <DialogContent sx={{ pt: "8px !important" }}>
-            <label htmlFor="project-name-input" className="visually-hidden">
-              Project Name
-            </label>
+          <DialogContent sx={{ px: { xs: 2, sm: 3 }, pt: { xs: 0.5, sm: 1 }, pb: { xs: 1, sm: 2 } }}>
+            <Typography sx={{ color: "var(--color-on-surface-variant)", fontSize: "0.875rem", mb: 1.5, fontWeight: 500 }}>
+              Give your project a name to get started.
+            </Typography>
             <TextField
               id="project-name-input"
               fullWidth
-              name="name"
-              placeholder={editId ? "Enter new name…" : "e.g. Sales Dashboard"}
+              autoFocus
+              placeholder="e.g. Marketing Dashboard"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              inputProps={{ "aria-label": "Project name" }}
-              autoFocus
-              autoComplete="off"
+              variant="outlined"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  bgcolor: "var(--color-surface-container)",
+                  borderRadius: "14px",
+                  "& fieldset": { borderColor: "var(--color-outline-variant)" },
+                  "&:hover fieldset": { borderColor: "var(--color-outline)" },
+                  "&.Mui-focused fieldset": { borderColor: "var(--color-primary)" },
+                },
+                "& .MuiInputBase-input": {
+                  color: "var(--color-on-surface)",
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 500,
+                }
+              }}
             />
           </DialogContent>
-          <DialogActions sx={{ px: 3, pb: 2 }}>
+          <DialogActions sx={{ px: { xs: 2, sm: 3 }, pb: { xs: 2, sm: 3 }, pt: 0 }}>
             <Button
-              color="inherit"
-              onClick={handleCancelEdit}
-              sx={{ color: "var(--color-on-surface-variant)" }}
+              variant="contained"
+              type="submit"
+              disabled={!form.name.trim()}
+              fullWidth
+              sx={{
+                bgcolor: "var(--color-tertiary)",
+                color: "#ffffff",
+                fontWeight: 700,
+                textTransform: "none",
+                borderRadius: "12px",
+                py: { xs: 1.25, sm: 1.5 },
+                fontSize: "1rem",
+                boxShadow: "0 4px 12px rgba(103, 156, 255, 0.3)",
+                whiteSpace: "nowrap",
+                "&:hover": {
+                  bgcolor: "var(--color-tertiary)",
+                  opacity: 0.9,
+                },
+                "&.Mui-disabled": {
+                  bgcolor: "var(--color-surface-container-highest)",
+                  color: "var(--color-on-surface-variant)",
+                  opacity: 0.5
+                }
+              }}
             >
-              Cancel
-            </Button>
-            <Button color="primary" variant="contained" type="submit" disabled={!form.name.trim()}>
-              {editId ? "Update" : "Add Project"}
+              Add Project
             </Button>
           </DialogActions>
         </form>

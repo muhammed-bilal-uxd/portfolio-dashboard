@@ -11,20 +11,23 @@ import { useTheme } from "../ThemeContext/ThemeContext";
 import version from "../../version";
 
 // icons
-import LanguageIcon from "@mui/icons-material/Language";
 import SearchIcon from "@mui/icons-material/Search";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import BusinessIcon from "@mui/icons-material/Business";
-import { Avatar, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button as MuiButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Avatar, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button as MuiButton, Box, Menu, MenuItem, Typography, Divider } from "@mui/material";
 
 // pages
 import ProjectPage from "../ProjectPage/ProjectPage";
 
-import "./OrbitLayout.css";
 import Dashboard from "../../components/Dashboard/Dashboard";
 import AddNewChart from "../../components/AddNewChart/AddNewChart";
 
@@ -57,6 +60,10 @@ export default function OrbitLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [appVersion, setAppVersion] = useState(version || "");
   const [showConfirmHome, setShowConfirmHome] = useState(false);
+  const [profileAnchor, setProfileAnchor] = useState(null);
+
+  const handleProfileOpen = (e) => setProfileAnchor(e.currentTarget);
+  const handleProfileClose = () => setProfileAnchor(null);
 
   const handleHomeClick = (e) => {
     e.preventDefault();
@@ -111,64 +118,119 @@ export default function OrbitLayout() {
         <header className="header">
           <div className="header-inner">
             <div className="topbar-left">
-              <div className="topbar-logo" style={{ cursor: 'pointer' }} onClick={handleHomeClick}>
+              <IconButton size="small" sx={{ color: 'var(--color-on-surface)', display: { xs: 'flex', md: 'none' } }}>
+                <MenuIcon />
+              </IconButton>
+
+              <Box className="topbar-logo" sx={{ cursor: 'pointer', display: { xs: 'none', md: 'flex' }, alignItems: 'center' }} onClick={handleHomeClick}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="3" y="3" width="8" height="8" rx="2" fill="var(--color-tertiary)" />
                   <rect x="13" y="3" width="8" height="8" rx="2" fill="var(--color-on-surface-variant)" opacity="0.6" />
                   <rect x="3" y="13" width="8" height="8" rx="2" fill="var(--color-on-surface-variant)" opacity="0.6" />
                   <rect x="13" y="13" width="8" height="8" rx="2" fill="var(--color-tertiary)" />
                 </svg>
-              </div>
-
-              <div className="version-tag">
-                GIT-MODERN-V{appVersion}
+              </Box>
+              
+              <div className="version-tag" style={{ display: 'flex' }}>
+                <AccountTreeIcon sx={{ fontSize: 14, mr: 0.5, opacity: 0.8 }} />
+                V{appVersion}
               </div>
             </div>
 
             <div className="topbar-right">
-              <div className="action-pill language-pill">
-                <LanguageIcon sx={{ fontSize: 18 }} />
-                <span>English</span>
-                <KeyboardArrowDownIcon sx={{ fontSize: 14 }} />
-              </div>
-
-              <div className="action-icons">
-                <Tooltip title="Search">
-                  <IconButton size="small" sx={{ color: 'var(--color-on-surface-variant)' }}>
-                    <SearchIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Support">
-                  <IconButton size="small" sx={{ color: 'var(--color-on-surface-variant)' }}>
-                    <HelpOutlineIcon />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Notifications">
-                  <IconButton size="small" sx={{ color: 'var(--color-on-surface-variant)' }}>
-                    <NotificationsNoneIcon />
-                  </IconButton>
-                </Tooltip>
-              </div>
-
-              <div className="theme-toggle-capsule" onClick={toggleTheme}>
-                <div className={`theme-thumb ${mode === 'dark' ? 'is-dark' : 'is-light'}`}>
-                  {mode === 'dark' ? <DarkModeIcon sx={{ fontSize: 14 }} /> : <WbSunnyIcon sx={{ fontSize: 14 }} />}
-                </div>
-                <WbSunnyIcon sx={{ fontSize: 16, opacity: mode === 'light' ? 1 : 0.4 }} />
-                <DarkModeIcon sx={{ fontSize: 16, opacity: mode === 'dark' ? 1 : 0.4 }} />
-              </div>
-
               <Avatar
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop"
+                onClick={handleProfileOpen}
                 sx={{
-                  width: 32,
-                  height: 32,
-                  border: '1px solid var(--color-outline-variant)',
-                  cursor: 'pointer'
+                  width: 38,
+                  height: 38,
+                  border: '1.5px solid var(--color-outline-variant)',
+                  cursor: 'pointer',
+                  ml: 1
                 }}
               />
             </div>
           </div>
         </header>
+
+        {/* Profile Menu */}
+        <Menu
+          anchorEl={profileAnchor}
+          open={Boolean(profileAnchor)}
+          onClose={handleProfileClose}
+          onClick={handleProfileClose}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          slotProps={{
+            paper: {
+              className: "profile-menu-paper",
+              sx: {
+                mt: 1.5,
+                width: 240,
+                overflow: 'visible',
+                filter: 'drop-shadow(0px 8px 16px rgba(0,0,0,0.15))',
+                borderRadius: '16px',
+                bgcolor: 'var(--color-surface-container-high)',
+                backgroundImage: 'none',
+                border: '1px solid var(--color-outline-variant)',
+                '& .MuiMenuItem-root': {
+                  px: 2,
+                  py: 1.5,
+                  fontSize: '0.9375rem',
+                  fontWeight: 500,
+                  color: 'var(--color-on-surface)',
+                  borderRadius: '10px',
+                  mx: 1,
+                  my: 0.5,
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    bgcolor: 'var(--color-surface-container-highest)',
+                  }
+                }
+              },
+            },
+          }}
+        >
+          <Box sx={{ px: 2, py: 2, display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+            <Typography sx={{ fontWeight: 700, fontSize: '1rem', color: 'var(--color-on-surface)' }}>Muhammed Bilal</Typography>
+            <Typography sx={{ fontSize: '0.8125rem', color: 'var(--color-on-surface-variant)' }}>uxdesigner@bento.com</Typography>
+          </Box>
+          
+          <Divider sx={{ my: 1, borderColor: 'var(--color-outline-variant)', opacity: 0.5 }} />
+          
+          <MenuItem sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} onClick={(e) => { e.stopPropagation(); toggleTheme(); }}>
+             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                {mode === 'dark' ? <DarkModeIcon fontSize="small" /> : <WbSunnyIcon fontSize="small" />}
+                <span>Theme</span>
+             </Box>
+             <div className="theme-toggle-mini">
+                <div className={`theme-thumb-mini ${mode === 'dark' ? 'is-dark' : 'is-light'}`} />
+             </div>
+          </MenuItem>
+
+          <MenuItem>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <PersonOutlineIcon fontSize="small" />
+              <span>My Profile</span>
+            </Box>
+          </MenuItem>
+
+          <MenuItem>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <SettingsIcon fontSize="small" />
+              <span>Settings</span>
+            </Box>
+          </MenuItem>
+
+          <Divider sx={{ my: 1, borderColor: 'var(--color-outline-variant)', opacity: 0.5 }} />
+
+          <MenuItem sx={{ color: 'var(--color-error) !important' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <LogoutIcon fontSize="small" />
+              <span>Log out</span>
+            </Box>
+          </MenuItem>
+        </Menu>
         <section className="ol-main-content">
           {/* <section className="ol-publish-content">
             <div className="ol-publish-content-inner">
@@ -189,21 +251,34 @@ export default function OrbitLayout() {
         onClose={() => setShowConfirmHome(false)}
         PaperProps={{
           sx: {
-            borderRadius: '16px',
-            backgroundColor: 'var(--color-surface-container)',
+            borderRadius: '24px',
+            backgroundColor: 'var(--color-surface-container-high)',
             backgroundImage: 'none',
-            border: '1px solid var(--color-outline-variant)'
+            border: '1px solid var(--color-outline-variant)',
+            p: 1,
+            boxShadow: '0 24px 48px rgba(0,0,0,0.4)',
           }
         }}
       >
-        <DialogTitle sx={{ fontWeight: 600 }}>Discard Progress?</DialogTitle>
+        <DialogTitle sx={{ fontFamily: 'var(--font-headline)', fontWeight: 800, fontSize: '1.5rem', pb: 1 }}>
+          Discard Progress?
+        </DialogTitle>
         <DialogContent>
-          Are you sure you want to leave? Your chart configuration progress will be lost.
+          <Typography sx={{ color: 'var(--color-on-surface-variant)', fontWeight: 500 }}>
+            Are you sure you want to leave? Your chart configuration progress will be lost.
+          </Typography>
         </DialogContent>
-        <DialogActions sx={{ p: 2, pt: 0 }}>
+        <DialogActions sx={{ p: 3, pt: 1, gap: 1 }}>
           <MuiButton
             onClick={() => setShowConfirmHome(false)}
-            sx={{ borderRadius: '8px', color: 'var(--color-on-surface-variant)' }}
+            sx={{
+              borderRadius: '12px',
+              color: 'var(--color-on-surface-variant)',
+              fontWeight: 600,
+              textTransform: 'none',
+              px: 2,
+              "&:hover": { bgcolor: 'var(--color-surface-container-highest)' }
+            }}
           >
             Stay Here
           </MuiButton>
@@ -211,7 +286,14 @@ export default function OrbitLayout() {
             onClick={confirmNavigateHome}
             variant="contained"
             color="error"
-            sx={{ borderRadius: '8px' }}
+            sx={{
+              borderRadius: '12px',
+              fontWeight: 700,
+              textTransform: 'none',
+              px: 3,
+              py: 1.25,
+              boxShadow: '0 4px 12px rgba(255, 0, 0, 0.2)',
+            }}
           >
             Discard & Go Home
           </MuiButton>

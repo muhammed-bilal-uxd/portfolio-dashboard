@@ -31,6 +31,7 @@ import {
   Button,
   IconButton,
   TextField,
+  Box,
 } from "@mui/material";
 
 // env
@@ -484,12 +485,16 @@ export default function AddNewChart() {
     <div className="add-chart-root">
       {/* tittle */}
       <div className="add-chart-header">
-        <ArrowBackIcon
-          className="arrow-back"
-          onClick={() => {
-            navigate(`/dashboard/${projectId}`);
+        <IconButton 
+          onClick={() => navigate(`/dashboard/${projectId}`)}
+          sx={{ 
+            color: "var(--color-on-surface)",
+            mr: 1,
+            "&:hover": { bgcolor: "rgba(255, 255, 255, 0.05)" }
           }}
-        />
+        >
+          <ArrowBackIcon sx={{ fontSize: 28 }} />
+        </IconButton>
         <h1 className="add-chart-title">
           Add New Chart - {projectDetail?.name || "<project name>"}
         </h1>
@@ -508,26 +513,43 @@ export default function AddNewChart() {
               {/* <b className="step-name">step : 1</b> */}
 
               {/* <h3>Paste rest data Url:</h3> */}
-              <div className="source-input-row">
+              <Box className="source-input-row" sx={{ 
+                flexDirection: { xs: "column", sm: "row" }, 
+                alignItems: "stretch",
+                gap: 1.5 
+              }}>
                 <TextField
                   fullWidth
                   variant="outlined"
                   size="small"
                   className="input-source-url"
-                  placeholder="URL here..."
+                  placeholder="Paste REST API URL here..."
                   value={inputSource}
                   onChange={(e) => setInputSource(e.target.value)}
                   inputProps={{ "aria-label": "REST API URL Source" }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "12px",
+                      bgcolor: "var(--color-surface-container-low)"
+                    }
+                  }}
                 />
                 <Button
-                  color="primary"
                   variant="contained"
+                  disabled={!inputSource.trim()}
                   onClick={() => handleAddSource()}
-                  sx={{ px: 4, height: "46px" }}
+                  className="btn-pill-primary"
+                  sx={{ 
+                    bgcolor: "var(--color-tertiary)",
+                    height: { xs: "48px", sm: "40px" },
+                    px: 4,
+                    flexShrink: 0,
+                    "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
+                  }}
                 >
-                  Add
+                  Add Source
                 </Button>
-              </div>
+              </Box>
 
               {showSourcePopup && (
                 <Modal
@@ -543,30 +565,42 @@ export default function AddNewChart() {
                   )}
                   {sourcePreview?.data != null && (
                     <>
-                      <div>
-                        <div className={"pop-title"}>source link </div>
-                        {sourceLinkPopupConfig?.sourceLink}
-                      </div>
+                      <Box sx={{ mb: 2 }}>
+                        <div className={"pop-title"}>Source Link </div>
+                        <Typography variant="body2" sx={{ 
+                          wordBreak: "break-all", 
+                          color: "var(--color-on-surface-variant)",
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "0.75rem",
+                          bgcolor: "var(--color-surface-container-lowest)",
+                          p: 1.5,
+                          borderRadius: "8px",
+                          border: "1px solid var(--color-outline-variant)"
+                        }}>
+                          {sourceLinkPopupConfig?.sourceLink}
+                        </Typography>
+                      </Box>
 
                       <div>
-                        <div className={"pop-title"}> preview source data </div>
+                        <div className={"pop-title"}> Preview Source Data </div>
                       </div>
                       <pre className="source-preview-json">
                         {JSON.stringify(sourcePreview.data, null, 4)}
                       </pre>
                       {!sourceLinkPopupConfig?.isView && (
-                        <>
-                          <div className="source-save-row">
-                            <span className="source-save-spacer"></span>
-                            <Button
-                              color="primary"
-                              variant="contained"
-                              onClick={() => handleSaveSource()}
-                            >
-                              Save Link as Source
-                            </Button>
-                          </div>
-                        </>
+                        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+                          <Button
+                            variant="contained"
+                            onClick={() => handleSaveSource()}
+                            className="btn-pill-primary"
+                            sx={{ 
+                              bgcolor: "var(--color-tertiary)",
+                              "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
+                            }}
+                          >
+                            Save Link as Source
+                          </Button>
+                        </Box>
                       )}
                     </>
                   )}
@@ -632,8 +666,7 @@ export default function AddNewChart() {
                             {getSourceShortLink(source?.sourceLink)}
                           </span>
                         </div>
-                        <div className="source-item-right">
-                          <Button
+                        <div className="source-item-right">                          <Button
                             size="small"
                             variant="outlined"
                             onClick={(e) => {
@@ -641,12 +674,24 @@ export default function AddNewChart() {
                               onClickViewSource(source?.sourceLink);
                             }}
                             sx={{
+                              borderRadius: "20px",
+                              px: 1.5,
+                              py: 0.5,
+                              minWidth: "auto",
+                              fontSize: "0.7rem",
+                              fontWeight: 700,
+                              textTransform: "none",
+                              whiteSpace: "nowrap",
                               borderColor: "var(--color-outline-variant)",
                               color: "var(--color-on-surface-variant)",
-                              "&:hover": { borderColor: "var(--color-tertiary)", color: "var(--color-tertiary)" }
+                              "&:hover": { 
+                                borderColor: "var(--color-tertiary)", 
+                                color: "var(--color-tertiary)",
+                                bgcolor: "transparent"
+                              }
                             }}
                           >
-                            View Data
+                            View
                           </Button>
                           <IconButton
                             color="error"
@@ -658,11 +703,12 @@ export default function AddNewChart() {
                               setShowDeleteSourcePopup(true);
                             }}
                             sx={{
+                              p: 0.5,
                               "&:hover": { backgroundColor: "rgba(236, 124, 138, 0.1)" }
                             }}
                           >
-                            <DeleteOutlineIcon fontSize="small" />
-                          </IconButton>
+                            <DeleteOutlineIcon sx={{ fontSize: 18 }} />
+                          </IconButton>n>
                         </div>
                       </div>
                     );
@@ -674,9 +720,14 @@ export default function AddNewChart() {
 
               <div className="add-chart-next-button-container" style={{ justifyContent: "flex-end" }}>
                 <Button
-                  color="primary"
                   variant="contained"
+                  disabled={!selectedInputSource?.sourceLink}
                   onClick={() => handleNavSection(2)}
+                  className="btn-pill-primary"
+                  sx={{ 
+                    bgcolor: "var(--color-tertiary)",
+                    "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
+                  }}
                 >
                   Confirm Source & Proceed
                 </Button>
@@ -723,11 +774,15 @@ export default function AddNewChart() {
                     Back
                   </Button>
                   <Button
-                    color="primary"
                     variant="contained"
                     disabled={selectedChart === ""}
                     onClick={() => {
                       handleMapData();
+                    }}
+                    className="btn-pill-primary"
+                    sx={{ 
+                      bgcolor: "var(--color-tertiary)",
+                      "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                     }}
                   >
                     Map Data
@@ -779,11 +834,15 @@ export default function AddNewChart() {
                   Back
                 </Button>
                 <Button
-                  color="primary"
                   variant="contained"
                   disabled={tableItems.length === 0 || (selectedChart !== "card" && tableItems.length < 2)}
                   onClick={() => {
                     handleNavSection(4);
+                  }}
+                  className="btn-pill-primary"
+                  sx={{ 
+                    bgcolor: "var(--color-tertiary)",
+                    "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                   }}
                 >
                   Show Selected Data In New Chart
@@ -802,22 +861,21 @@ export default function AddNewChart() {
             <CustomTitle count={4}>Enter Chart/Card Name</CustomTitle>
           </AccordionSummary>
           <AccordionDetails>
-            <section className="section-container" id="section-container-4" style={{ paddingTop: '12px' }}>
-              <div className="chart-name-form" style={{ width: '100%', marginBottom: '24px' }}>
-                <Typography variant="caption" sx={{ color: 'var(--color-on-surface-variant)', mb: 1, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
-                  Enter Chart/Card Display Name
+            <section className="section-container" id="section-container-4" style={{ paddingTop: '8px' }}>
+              <div className="chart-name-form" style={{ width: '100%', marginBottom: '16px' }}>
+                <Typography variant="caption" sx={{ color: 'var(--color-on-surface-variant)', mb: 0.5, display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600, fontSize: '0.7rem' }}>
+                  Display Name
                 </Typography>
                 <TextField
                   fullWidth
                   variant="outlined"
-                  size="medium"
+                  size="small"
                   className="chart-name-input"
-                  placeholder="Type a name for your chart..."
+                  placeholder="e.g. Monthly Revenue"
                   value={newConfigName}
                   onChange={(e) => setNewConfigName(e.target.value)}
                   inputProps={{ 
                     "aria-label": "Chart Name",
-                    style: { fontSize: '1.1rem', padding: '16px' }
                   }}
                   sx={{ 
                     backgroundColor: "var(--color-surface-container-highest)", 
@@ -829,16 +887,14 @@ export default function AddNewChart() {
                     },
                     "& .MuiInputBase-input::placeholder": {
                       color: 'var(--color-on-surface-variant)',
-                      opacity: 0.7
+                      opacity: 0.6,
+                      fontSize: '0.875rem'
                     }
                   }}
                 />
-                <Typography variant="body2" sx={{ color: 'var(--color-on-surface-variant)', mt: 1.5, fontStyle: 'italic', opacity: 0.8 }}>
-                  This name will appear as the title of your card on the main dashboard.
-                </Typography>
               </div>
 
-              <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 3 }}>
+              <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
                 <Button
                   color="primary"
                   onClick={() => {
@@ -849,11 +905,15 @@ export default function AddNewChart() {
                   Back
                 </Button>
                 <Button
-                  color="primary"
                   variant="contained"
                   disabled={tableItems.length === 0 || (selectedChart !== "card" && tableItems.length < 2) || !newConfigName.trim()}
                   onClick={() => {
                     handleAddNewChart();
+                  }}
+                  className="btn-pill-primary"
+                  sx={{ 
+                    bgcolor: "var(--color-tertiary)",
+                    "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                   }}
                 >
                   Publish {" "}
@@ -873,15 +933,37 @@ export default function AddNewChart() {
         onClose={() => {
           setShowConfirmPopup(false);
         }}
+        PaperProps={{
+          sx: {
+            padding: "24px",
+            borderRadius: '24px',
+            backgroundColor: 'var(--color-surface-container-high)',
+            backgroundImage: 'none',
+            border: '1px solid var(--color-outline-variant)',
+            p: 1,
+            maxHeight: "90vh",
+            overflowY: "auto"
+          }
+        }}
       >
-        <DialogTitle>Are You Sure?</DialogTitle>
+        <DialogTitle sx={{ fontFamily: 'var(--font-headline)', fontWeight: 800, fontSize: '1.25rem' }}>
+          Are You Sure?
+        </DialogTitle>
         <DialogContent>
-          Going backward may delete step ({expanded}) details
+          <Typography sx={{ color: 'var(--color-on-surface-variant)', fontWeight: 500 }}>
+            Going backward may delete step ({expanded}) details
+          </Typography>
         </DialogContent>
-        <DialogActions>
-          <Stack direction="row" spacing={1}>
+        <DialogActions sx={{ p: 3, pt: 1 }}>
+          <Stack direction="row" spacing={1} sx={{ width: '100%' }}>
             <Button
-              color="primary"
+              fullWidth
+              sx={{
+                borderRadius: '12px',
+                color: 'var(--color-on-surface-variant)',
+                fontWeight: 600,
+                textTransform: 'none',
+              }}
               onClick={() => {
                 setShowConfirmPopup(false);
               }}
@@ -889,12 +971,18 @@ export default function AddNewChart() {
               Cancel
             </Button>
             <Button
-              color="primary"
+              fullWidth
+              variant="contained"
+              color="error"
+              sx={{
+                borderRadius: '12px',
+                fontWeight: 700,
+                textTransform: 'none',
+              }}
               onClick={() => {
                 setShowConfirmPopup(false);
                 goToBackwardFromStep(expanded, true);
               }}
-              variant="contained"
             >
               Yes, Confirm
             </Button>
@@ -907,12 +995,16 @@ export default function AddNewChart() {
 
 function CustomTitle({ count, children }) {
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" spacing={1} alignItems="center">
       <div className="number-counter">{count}</div>
       <Typography
-        variant="h6"
-        component="h6"
-        sx={{ width: "100%", flexShrink: 0 }}
+        sx={{ 
+          fontFamily: "var(--font-headline)", 
+          fontWeight: 800, 
+          fontSize: { xs: "1.125rem", sm: "1.25rem" }, 
+          color: "var(--color-on-surface)",
+          letterSpacing: "-0.01em"
+        }}
       >
         {children}
       </Typography>

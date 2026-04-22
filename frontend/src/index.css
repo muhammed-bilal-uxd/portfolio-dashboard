@@ -170,3 +170,57 @@ button.Mui-disabled {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Shared Search UI (AntiGravity Pattern) ── */
+.mobile-actions-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-prominent-wrap {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface-container);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 12px;
+  padding: 10px 16px;
+  gap: 12px;
+  transition: all 0.2s ease;
+  min-width: 0;
+}
+
+.search-prominent-wrap:focus-within {
+  border-color: var(--color-tertiary);
+  background-color: var(--color-surface-container-high);
+  box-shadow: 0 0 0 4px rgba(103, 156, 255, 0.1);
+}
+
+.search-icon-fixed {
+  color: var(--color-on-surface-variant);
+  font-size: 22px !important;
+}
+
+.search-prominent-input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.search-prominent-input::placeholder {
+  color: var(--color-on-surface-variant);
+  opacity: 0.6;
+}
+
+@media (max-width: 599px) {
+  .search-prominent-wrap {
+    padding: 8px 12px;
+  }
+}

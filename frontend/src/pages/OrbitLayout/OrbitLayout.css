@@ -45,6 +45,12 @@
   margin-bottom: 32px;
 }
 
+@media (max-width: 599px) {
+  .header {
+    margin-bottom: 16px;
+  }
+}
+
 .header-inner {
   width: 100%;
   padding-left: 20px;
@@ -63,7 +69,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  /* Removed padding to avoid double-padding with page containers */
 }
 
 .ol-content {
@@ -86,13 +92,16 @@
 }
 
 .version-tag {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--color-on-surface-variant);
-  background: var(--color-surface-container-low);
-  padding: 2px 8px;
-  border-radius: 4px;
-  opacity: 0.6;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  background: var(--color-surface-container-high);
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-outline-variant);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .topbar-right {
@@ -160,6 +169,38 @@
 
 .theme-thumb.is-dark {
   left: 34px;
+}
+
+/* --- Profile Menu Mini Toggle --- */
+.theme-toggle-mini {
+  width: 36px;
+  height: 20px;
+  background: var(--color-surface-container-highest);
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.theme-thumb-mini {
+  position: absolute;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--color-tertiary);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.theme-thumb-mini.is-light {
+  left: 3px;
+}
+
+.theme-thumb-mini.is-dark {
+  left: 19px;
+}
+
+.MuiMenuItem-root span {
+  font-family: var(--font-body);
 }
 
 /* --- Sidebar (Legacy support / Drawer) --- */

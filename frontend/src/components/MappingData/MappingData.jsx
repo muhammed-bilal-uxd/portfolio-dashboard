@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Checkbox } from "@mui/material";
+import { Button, Checkbox, Box, Stack, Typography } from "@mui/material";
 import "./MappingData.css";
 
 import { checkTypeOfData } from "../../utils/common";
@@ -125,10 +125,14 @@ export default function MappingData({
       {showMappingData && (
         <div>
           {Array.isArray(mapBaseDataKeys) && mapBaseDataKeys.length > 0 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-              <section style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: { xs: 2, sm: 3 } }}>
+              <Stack 
+                direction={{ xs: "column", sm: "row" }} 
+                spacing={{ xs: 2, sm: 3 }} 
+                alignItems="flex-start"
+              >
                 {/* select label */}
-                <div style={{ flex: 1, minWidth: 0 }}>
+                <Box sx={{ flex: 1, width: "100%", minWidth: 0 }}>
                   <CustomDropdown
                     headerLabel="Select Type of Label"
                     value={mapSelectListItemOne}
@@ -143,18 +147,24 @@ export default function MappingData({
                     placeholder="Select Label"
                   />
 
-                  <div className="cursor-pointer" onClick={() => setIsFilterLabel(!isFilterLabel)} style={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
+                  <Box 
+                    className="cursor-pointer" 
+                    onClick={() => setIsFilterLabel(!isFilterLabel)} 
+                    sx={{ display: 'flex', alignItems: 'center', mt: 1 }}
+                  >
                     <Checkbox
                       checked={isFilterLabel}
                       size="small"
-                      sx={{ padding: "4px", color: "var(--color-outline-variant)", "&.Mui-checked": { color: "var(--color-tertiary)" } }}
+                      sx={{ p: 0.5, color: "var(--color-outline-variant)", "&.Mui-checked": { color: "var(--color-tertiary)" } }}
                     />
-                    <span style={{ fontSize: "0.875rem", color: "var(--color-on-surface-variant)" }}>Filter Label Properties</span>
-                  </div>
-                </div>
+                    <Typography sx={{ fontSize: "0.8125rem", color: "var(--color-on-surface-variant)", fontWeight: 500 }}>
+                      Filter Label Properties
+                    </Typography>
+                  </Box>
+                </Box>
 
                 {/* select value */}
-                <div style={{ flex: 1 }}>
+                <Box sx={{ flex: 1, width: "100%" }}>
                   <CustomDropdown
                     headerLabel="Select Type of Value"
                     value={mapSelectListItemTwo}
@@ -168,30 +178,48 @@ export default function MappingData({
                     })}
                     placeholder="Select Value"
                   />
-                  <div className="cursor-pointer" onClick={() => setIsFilterValue(!isFilterValue)} style={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
+                  <Box 
+                    className="cursor-pointer" 
+                    onClick={() => setIsFilterValue(!isFilterValue)} 
+                    sx={{ display: 'flex', alignItems: 'center', mt: 1 }}
+                  >
                     <Checkbox
                       checked={isFilterValue}
                       size="small"
-                      sx={{ padding: "4px", color: "var(--color-outline-variant)", "&.Mui-checked": { color: "var(--color-tertiary)" } }}
+                      sx={{ p: 0.5, color: "var(--color-outline-variant)", "&.Mui-checked": { color: "var(--color-tertiary)" } }}
                     />
-                    <span style={{ fontSize: "0.875rem", color: "var(--color-on-surface-variant)" }}>Filter Value Properties</span>
-                  </div>
-                </div>
-              </section>
+                    <Typography sx={{ fontSize: "0.8125rem", color: "var(--color-on-surface-variant)", fontWeight: 500 }}>
+                      Filter Value Properties
+                    </Typography>
+                  </Box>
+                </Box>
+              </Stack>
 
-              <section style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: "flex-end" } }}>
                 <Button
-                  color="primary"
                   variant="outlined"
                   disabled={showData}
                   onClick={() => {
                     handleShowData();
                   }}
-                  sx={{ width: "fit-content", borderRadius: '8px' }}
+                  className="btn-pill-primary"
+                  sx={{ 
+                    width: { xs: "100%", sm: "fit-content" },
+                    borderRadius: '24px',
+                    borderColor: "var(--color-tertiary)",
+                    color: "var(--color-tertiary)",
+                    textTransform: "none",
+                    fontWeight: 700,
+                    px: 4,
+                    "&:hover": {
+                      borderColor: "var(--color-tertiary)",
+                      bgcolor: "rgba(103, 156, 255, 0.05)"
+                    }
+                  }}
                 >
                   Preview Data Mapping
                 </Button>
-              </section>
+              </Box>
 
               {showData && (
                 <section className="d-flex">
@@ -283,7 +311,7 @@ export default function MappingData({
                   </div>
                 </section>
               )}
-            </div>
+            </Box>
           )}
           {Array.isArray(mapBaseDataKeys) && mapBaseDataKeys.length === 0 && (
             <>no data to preview</>

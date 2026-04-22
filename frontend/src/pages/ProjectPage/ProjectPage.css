@@ -10,31 +10,44 @@
   margin-bottom: 40px;
 }
 
-/* ── Header: title left, CTA right ── */
+@media (max-width: 599px) {
+  .project-container {
+    padding: 0 16px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+}
+
 .project-page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 599px) {
+  .project-page-header {
+    margin-bottom: 12px;
+  }
 }
 
 .project-heading {
   margin: 0;
   font-size: 2.25rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   color: var(--color-on-surface);
+  font-family: var(--font-headline);
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+@media (max-width: 599px) {
+  .project-heading {
+    font-size: 1.875rem;
+  }
 }
 
-.search-compact {
-  width: 260px;
-}
+/* ── Search UI moved to index.css ── */
+
 
 /* ── Visually Hidden (for screen readers) ── */
 .visually-hidden {
