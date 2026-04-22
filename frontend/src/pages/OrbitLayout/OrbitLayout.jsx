@@ -23,10 +23,19 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Avatar, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button as MuiButton, Box, Menu, MenuItem, Typography, Divider } from "@mui/material";
+import { Avatar, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button as MuiButton, Box, Menu, MenuItem, Typography, Divider, Stack } from "@mui/material";
+
+import LanguageIcon from "@mui/icons-material/Language";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // pages
 import ProjectPage from "../ProjectPage/ProjectPage";
+
+const getFormattedDate = () => {
+  const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
+  return new Date().toLocaleDateString('en-GB', options);
+};
+
 
 import Dashboard from "../../components/Dashboard/Dashboard";
 import AddNewChart from "../../components/AddNewChart/AddNewChart";
@@ -138,6 +147,50 @@ export default function OrbitLayout() {
             </div>
 
             <div className="topbar-right">
+              {/* Date Pill - PC Only */}
+              <Box className="header-date-pill" sx={{ display: { xs: 'none', md: 'flex' }, mr: 3 }}>
+                <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--color-on-surface)', opacity: 0.8 }}>
+                  {getFormattedDate()}
+                </Typography>
+              </Box>
+
+              {/* Language Selector - PC Only */}
+              <Box className="header-tool-item" sx={{ display: { xs: 'none', md: 'flex' }, mr: 2.5 }}>
+                <LanguageIcon sx={{ fontSize: 20, mr: 1, opacity: 0.8 }} />
+                <Typography sx={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--color-on-surface)' }}>
+                  English
+                </Typography>
+                <ExpandMoreIcon sx={{ fontSize: 18, ml: 0.5, opacity: 0.5 }} />
+              </Box>
+
+              {/* Action Icons - PC Only */}
+              <Stack direction="row" spacing={1} sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }}>
+                <IconButton size="small" sx={{ color: 'var(--color-on-surface)', opacity: 0.7 }}>
+                  <SearchIcon sx={{ fontSize: 22 }} />
+                </IconButton>
+                <IconButton size="small" sx={{ color: 'var(--color-on-surface)', opacity: 0.7 }}>
+                  <NotificationsNoneIcon sx={{ fontSize: 22 }} />
+                </IconButton>
+              </Stack>
+
+              {/* Theme Toggle Pill - PC Only */}
+              <Box 
+                className="header-theme-toggle" 
+                onClick={toggleTheme}
+                sx={{ 
+                  display: { xs: 'none', md: 'flex' }, 
+                  mr: 2.5,
+                  cursor: 'pointer'
+                }}
+              >
+                <WbSunnyIcon sx={{ fontSize: 16, mr: 1, color: mode === 'light' ? 'var(--color-tertiary)' : 'var(--color-on-surface-variant)' }} />
+                <div className={`theme-switch-track ${mode === 'dark' ? 'is-dark' : 'is-light'}`}>
+                   <div className="theme-switch-thumb">
+                      {mode === 'dark' ? <DarkModeIcon sx={{ fontSize: 12, color: '#fff' }} /> : null}
+                   </div>
+                </div>
+              </Box>
+
               <Avatar
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop"
                 onClick={handleProfileOpen}
