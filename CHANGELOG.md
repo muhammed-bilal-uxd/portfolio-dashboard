@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.19.0...v1.20.0) (2026-04-22)
+
+
+### Features
+
+* initialize dashboard application with core layout, project pages, and chart configuration stepper components ([cca308d](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/cca308d2124b419967a234f88e3814994a5d2fbb))
+
 # [1.19.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.18.0...v1.19.0) (2026-04-20)
 
 
