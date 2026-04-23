@@ -485,9 +485,9 @@ export default function AddNewChart() {
     <div className="add-chart-root">
       {/* tittle */}
       <div className="add-chart-header">
-        <IconButton 
+        <IconButton
           onClick={() => navigate(`/dashboard/${projectId}`)}
-          sx={{ 
+          sx={{
             color: "var(--color-on-surface)",
             mr: 1,
             "&:hover": { bgcolor: "rgba(255, 255, 255, 0.05)" }
@@ -513,10 +513,10 @@ export default function AddNewChart() {
               {/* <b className="step-name">step : 1</b> */}
 
               {/* <h3>Paste rest data Url:</h3> */}
-              <Box className="source-input-row" sx={{ 
-                flexDirection: { xs: "column", sm: "row" }, 
+              <Box className="source-input-row" sx={{
+                flexDirection: { xs: "column", sm: "row" },
                 alignItems: "stretch",
-                gap: 1.5 
+                gap: 1.5
               }}>
                 <TextField
                   fullWidth
@@ -539,7 +539,7 @@ export default function AddNewChart() {
                   disabled={!inputSource.trim()}
                   onClick={() => handleAddSource()}
                   className="btn-pill-primary"
-                  sx={{ 
+                  sx={{
                     bgcolor: "var(--color-tertiary)",
                     height: { xs: "48px", sm: "40px" },
                     px: 4,
@@ -567,8 +567,8 @@ export default function AddNewChart() {
                     <>
                       <Box sx={{ mb: 2 }}>
                         <div className={"pop-title"}>Source Link </div>
-                        <Typography variant="body2" sx={{ 
-                          wordBreak: "break-all", 
+                        <Typography variant="body2" sx={{
+                          wordBreak: "break-all",
                           color: "var(--color-on-surface-variant)",
                           fontFamily: "var(--font-mono)",
                           fontSize: "0.75rem",
@@ -593,7 +593,7 @@ export default function AddNewChart() {
                             variant="contained"
                             onClick={() => handleSaveSource()}
                             className="btn-pill-primary"
-                            sx={{ 
+                            sx={{
                               bgcolor: "var(--color-tertiary)",
                               "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                             }}
@@ -667,32 +667,32 @@ export default function AddNewChart() {
                           </span>
                         </div>
                         <div className="source-item-right">                          <Button
-                            size="small"
-                            variant="outlined"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onClickViewSource(source?.sourceLink);
-                            }}
-                            sx={{
-                              borderRadius: "20px",
-                              px: 1.5,
-                              py: 0.5,
-                              minWidth: "auto",
-                              fontSize: "0.7rem",
-                              fontWeight: 700,
-                              textTransform: "none",
-                              whiteSpace: "nowrap",
-                              borderColor: "var(--color-outline-variant)",
-                              color: "var(--color-on-surface-variant)",
-                              "&:hover": { 
-                                borderColor: "var(--color-tertiary)", 
-                                color: "var(--color-tertiary)",
-                                bgcolor: "transparent"
-                              }
-                            }}
-                          >
-                            View
-                          </Button>
+                          size="small"
+                          variant="outlined"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onClickViewSource(source?.sourceLink);
+                          }}
+                          sx={{
+                            borderRadius: "20px",
+                            px: 1.5,
+                            py: 0.5,
+                            minWidth: "auto",
+                            fontSize: "0.7rem",
+                            fontWeight: 700,
+                            textTransform: "none",
+                            whiteSpace: "nowrap",
+                            borderColor: "var(--color-outline-variant)",
+                            color: "var(--color-on-surface-variant)",
+                            "&:hover": {
+                              borderColor: "var(--color-tertiary)",
+                              color: "var(--color-tertiary)",
+                              bgcolor: "transparent"
+                            }
+                          }}
+                        >
+                          View
+                        </Button>
                           <IconButton
                             color="error"
                             size="small"
@@ -708,7 +708,7 @@ export default function AddNewChart() {
                             }}
                           >
                             <DeleteOutlineIcon sx={{ fontSize: 18 }} />
-                          </IconButton>n>
+                          </IconButton>
                         </div>
                       </div>
                     );
@@ -724,7 +724,7 @@ export default function AddNewChart() {
                   disabled={!selectedInputSource?.sourceLink}
                   onClick={() => handleNavSection(2)}
                   className="btn-pill-primary"
-                  sx={{ 
+                  sx={{
                     bgcolor: "var(--color-tertiary)",
                     "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                   }}
@@ -780,7 +780,7 @@ export default function AddNewChart() {
                       handleMapData();
                     }}
                     className="btn-pill-primary"
-                    sx={{ 
+                    sx={{
                       bgcolor: "var(--color-tertiary)",
                       "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                     }}
@@ -840,7 +840,7 @@ export default function AddNewChart() {
                     handleNavSection(4);
                   }}
                   className="btn-pill-primary"
-                  sx={{ 
+                  sx={{
                     bgcolor: "var(--color-tertiary)",
                     "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                   }}
@@ -874,11 +874,11 @@ export default function AddNewChart() {
                   placeholder="e.g. Monthly Revenue"
                   value={newConfigName}
                   onChange={(e) => setNewConfigName(e.target.value)}
-                  inputProps={{ 
+                  inputProps={{
                     "aria-label": "Chart Name",
                   }}
-                  sx={{ 
-                    backgroundColor: "var(--color-surface-container-highest)", 
+                  sx={{
+                    backgroundColor: "var(--color-surface-container-highest)",
                     borderRadius: "12px",
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": { borderColor: "var(--color-outline-variant)", borderWidth: '1px' },
@@ -911,7 +911,7 @@ export default function AddNewChart() {
                     handleAddNewChart();
                   }}
                   className="btn-pill-primary"
-                  sx={{ 
+                  sx={{
                     bgcolor: "var(--color-tertiary)",
                     "&:hover": { bgcolor: "var(--color-tertiary)", opacity: 0.9 }
                   }}
@@ -998,10 +998,10 @@ function CustomTitle({ count, children }) {
     <Stack direction="row" spacing={1} alignItems="center">
       <div className="number-counter">{count}</div>
       <Typography
-        sx={{ 
-          fontFamily: "var(--font-headline)", 
-          fontWeight: 800, 
-          fontSize: { xs: "1.125rem", sm: "1.25rem" }, 
+        sx={{
+          fontFamily: "var(--font-headline)",
+          fontWeight: 800,
+          fontSize: { xs: "1.125rem", sm: "1.25rem" },
           color: "var(--color-on-surface)",
           letterSpacing: "-0.01em"
         }}
