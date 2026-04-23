@@ -1,3 +1,24 @@
+## [1.21.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.21.0...v1.21.1) (2026-04-23)
+
+
+### Bug Fixes
+
+* build chunk size issue update ([23996b4](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/23996b4109297da84122d1c5235d55c8f17a81aa))
+
+# [1.21.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.20.0...v1.21.0) (2026-04-22)
+
+
+### Features
+
+* implement new OrbitLayout shell with custom dashboard styling and theme toggle ([8b7453f](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/8b7453ff791d1e23ef5b4391ec0d36acb156ca9c))
+
+# [1.20.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.19.0...v1.20.0) (2026-04-22)
+
+
+### Features
+
+* initialize dashboard application with core layout, project pages, and chart configuration stepper components ([cca308d](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/cca308d2124b419967a234f88e3814994a5d2fbb))
+
 # [1.19.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.18.0...v1.19.0) (2026-04-20)
 
 
