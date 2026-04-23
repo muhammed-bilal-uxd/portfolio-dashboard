@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.20.0...v1.21.0) (2026-04-22)
+
+
+### Features
+
+* implement new OrbitLayout shell with custom dashboard styling and theme toggle ([8b7453f](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/8b7453ff791d1e23ef5b4391ec0d36acb156ca9c))
+
 # [1.20.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.19.0...v1.20.0) (2026-04-22)
 
 
