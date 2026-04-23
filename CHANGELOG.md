@@ -1,3 +1,10 @@
+## [1.21.1](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.21.0...v1.21.1) (2026-04-23)
+
+
+### Bug Fixes
+
+* build chunk size issue update ([23996b4](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/commit/23996b4109297da84122d1c5235d55c8f17a81aa))
+
 # [1.21.0](https://github.com/muhammed-bilal-uxd/portfolio-dashboard/compare/v1.20.0...v1.21.0) (2026-04-22)
 
 
